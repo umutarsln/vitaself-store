@@ -39,9 +39,12 @@ export function SiteFooter() {
                 <p className="text-eyebrow text-background/50">{column.title}</p>
                 <ul className="mt-5 flex flex-col gap-3">
                   {column.links.map((link) => (
-                    <li key={link}>
-                      <a href="#top" className="hover:text-background text-[13px] transition-colors duration-300">
-                        {link}
+                    <li key={link.href + link.label}>
+                      <a
+                        href={link.href}
+                        className="hover:text-background text-[13px] transition-colors duration-300"
+                      >
+                        {link.label}
                       </a>
                     </li>
                   ))}
@@ -59,9 +62,12 @@ export function SiteFooter() {
           <p>© {new Date().getFullYear()} Vitaself İlaç A.Ş. {d.footer.rights}</p>
           <ul className="flex flex-wrap gap-x-6 gap-y-2">
             {d.footer.legal.map((item) => (
-              <li key={item}>
-                <a href="#top" className="hover:text-background transition-colors duration-300">
-                  {item}
+              <li key={item.href}>
+                <a
+                  href={item.href}
+                  className="hover:text-background transition-colors duration-300"
+                >
+                  {item.label}
                 </a>
               </li>
             ))}

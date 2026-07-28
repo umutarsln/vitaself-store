@@ -19,7 +19,7 @@ export function Ingredients() {
             </h2>
             <p className="text-muted-foreground mt-6 max-w-sm text-sm leading-relaxed">{d.ingredients.body}</p>
             <a
-              href="#product"
+              href="/science/ingredient-panel"
               className="group text-foreground mt-8 inline-flex items-center gap-2 text-sm tracking-wide"
             >
               {d.ingredients.cta}

@@ -1,10 +1,12 @@
 'use client'
 
 import Image from 'next/image'
+import Link from 'next/link'
 import { Check, Repeat, ShieldCheck, Star, Truck } from 'lucide-react'
 import { useState } from 'react'
 import { Eyebrow, Reveal, Section } from '@/components/reveal'
 import { useCart } from '@/lib/cart'
+import { useFeaturedVariant } from '@/lib/featured-variant'
 import { useLanguage } from '@/lib/i18n'
 import { dailyFoundation, perDayPrice } from '@/lib/products'
 
@@ -12,16 +14,27 @@ const trustIcons = [Truck, ShieldCheck, Repeat]
 
 export function FeaturedProduct() {
   const { d, price } = useLanguage()
-  const { add } = useCart()
-  const [selected, setSelected] = useState(dailyFoundation.variants[0].id)
+  const { add, openCart } = useCart()
+  const featured = useFeaturedVariant()
+  const [selected, setSelectedLocal] = useState(featured?.variantId ?? dailyFoundation.variants[0].id)
   const [added, setAdded] = useState(false)
 
-  const variant = dailyFoundation.variants.find((item) => item.id === selected) ?? dailyFoundation.variants[0]
+  const selectedId = featured?.variantId ?? selected
+  const variant =
+    dailyFoundation.variants.find((item) => item.id === selectedId) ?? dailyFoundation.variants[0]
   const daily = perDayPrice(variant.price, dailyFoundation.servingsPerContainer)
 
+  /** Featured varyant seçimini local + paylaşılan context’e yazar. */
+  function selectVariant(id: string) {
+    setSelectedLocal(id)
+    featured?.setVariantId(id)
+  }
+
+  /** Seçili varyantı sepete ekler ve drawer’ı açar. */
   function handleAdd() {
     add(variant.id)
     setAdded(true)
+    openCart()
     window.setTimeout(() => setAdded(false), 2000)
   }
 
@@ -59,7 +72,14 @@ export function FeaturedProduct() {
         <div className="order-2 flex flex-col">
           <Reveal>
             <Eyebrow>{d.featured.eyebrow}</Eyebrow>
-            <h2 className="text-display mt-5 text-[clamp(2.2rem,6vw,3.5rem)]">{d.featured.title}</h2>
+            <h2 className="text-display mt-5 text-[clamp(2.2rem,6vw,3.5rem)]">
+              <Link
+                href={`/products/${dailyFoundation.handle}`}
+                className="transition-opacity duration-300 hover:opacity-80"
+              >
+                {d.featured.title}
+              </Link>
+            </h2>
             <div className="mt-4 flex items-center gap-3">
               <div className="flex gap-0.5" aria-hidden>
                 {Array.from({ length: 5 }).map((_, index) => (
@@ -77,7 +97,7 @@ export function FeaturedProduct() {
             <p className="text-eyebrow text-muted-foreground">{d.featured.options.title}</p>
             <div role="radiogroup" aria-label={d.featured.options.title} className="mt-4 flex flex-col gap-3">
               {dailyFoundation.variants.map((item) => {
-                const isActive = item.id === selected
+                const isActive = item.id === selectedId
                 const isSubscription = item.sellingPlan === 'subscription'
                 return (
                   <button
@@ -85,7 +105,7 @@ export function FeaturedProduct() {
                     type="button"
                     role="radio"
                     aria-checked={isActive}
-                    onClick={() => setSelected(item.id)}
+                    onClick={() => selectVariant(item.id)}
                     className={`group flex w-full items-center justify-between gap-4 rounded-2xl border px-5 py-4 text-left transition-all duration-400 ${
                       isActive
                         ? 'border-primary/40 bg-card shadow-soft'

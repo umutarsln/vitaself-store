@@ -2,13 +2,14 @@
 
 import { AnimatePresence, motion, useMotionValueEvent, useScroll } from 'motion/react'
 import { Menu, Search, ShoppingBag, User, X } from 'lucide-react'
+import Link from 'next/link'
 import { useState } from 'react'
 import { useCart } from '@/lib/cart'
 import { useLanguage } from '@/lib/i18n'
 
 export function SiteHeader() {
   const { d, lang, setLang } = useLanguage()
-  const { count } = useCart()
+  const { count, openCart } = useCart()
   const [scrolled, setScrolled] = useState(false)
   const [open, setOpen] = useState(false)
   const { scrollY } = useScroll()
@@ -16,11 +17,11 @@ export function SiteHeader() {
   useMotionValueEvent(scrollY, 'change', (value) => setScrolled(value > 24))
 
   const links = [
-    { label: d.nav.shop, href: '#product' },
-    { label: d.nav.science, href: '#science' },
-    { label: d.nav.ingredients, href: '#ingredients' },
-    { label: d.nav.reviews, href: '#reviews' },
-    { label: d.nav.about, href: '#about' },
+    { label: d.nav.shop, href: '/products' },
+    { label: d.nav.science, href: '/#science' },
+    { label: d.nav.ingredients, href: '/#ingredients' },
+    { label: d.nav.reviews, href: '/#reviews' },
+    { label: d.nav.about, href: '/#about' },
   ]
 
   return (
@@ -35,12 +36,12 @@ export function SiteHeader() {
         }`}
       >
         <div className="mx-auto flex h-16 w-full max-w-6xl items-center justify-between gap-6 px-6 md:h-20 md:px-10">
-          <a href="#top" className="flex shrink-0 items-baseline gap-2">
+          <Link href="/" className="flex shrink-0 items-baseline gap-2">
             <span className="text-display text-xl md:text-2xl">Vitaself</span>
             <span className="text-[9px] tracking-[0.28em] text-muted-foreground hidden uppercase sm:block">
               Pharma
             </span>
-          </a>
+          </Link>
 
           <nav aria-label="Primary" className="hidden items-center gap-9 lg:flex">
             {links.map((link) => (
@@ -93,6 +94,7 @@ export function SiteHeader() {
             </button>
             <button
               type="button"
+              onClick={openCart}
               className="text-foreground/70 hover:text-foreground relative flex size-10 items-center justify-center rounded-full transition-colors"
             >
               <ShoppingBag className="size-[18px]" strokeWidth={1.4} />

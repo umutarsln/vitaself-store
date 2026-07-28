@@ -1,6 +1,14 @@
 'use client'
 
-import { createContext, useCallback, useContext, useMemo, useState } from 'react'
+import {
+  createContext,
+  useCallback,
+  useContext,
+  useEffect,
+  useMemo,
+  useState,
+  type ReactNode,
+} from 'react'
 
 export const en = {
   locale: 'en-US',
@@ -205,14 +213,195 @@ export const en = {
     success: 'Thank you. Please confirm the link in your inbox.',
     note: 'Unsubscribe in one click. We never share your address.',
   },
+  shop: {
+    eyebrow: 'The Collection',
+    title: 'Clinical formulas.',
+    titleAccent: 'Nothing hidden.',
+    body: 'Four considered products. Transparent doses. The same pharmaceutical discipline behind every capsule.',
+    browse: 'Browse formulas',
+    view: 'View formula',
+    from: 'From',
+    actives: 'actives',
+    reviews: 'reviews',
+    trust: ['Third-party tested', 'GMP pharmaceutical', '60-day guarantee'],
+  },
+  pdp: {
+    back: 'All formulas',
+    add: 'Add to cart',
+    added: 'Added to cart',
+    perDay: 'per day',
+    supply: '30-day supply',
+    options: {
+      title: 'Choose your rhythm',
+      subscribe: 'Subscribe & save',
+      subscribeNote: 'Delivered every 30 days. Pause or cancel anytime.',
+      once: 'One-time purchase',
+      onceNote: 'A single 30-day supply.',
+      save: 'Save 20%',
+    },
+    trust: ['Free shipping over $60', '60-day guarantee', 'Ships in 24h'],
+    highlights: 'Why this formula',
+    quantity: {
+      title: 'Stock your routine',
+      one: '1 bottle',
+      two: '2 bottles',
+      three: '3 bottles',
+      saveTwo: 'Save 8%',
+      saveThree: 'Save 12%',
+    },
+    upsell: {
+      eyebrow: 'Complete the protocol',
+      title: 'Frequently chosen together',
+      body: 'Stack the formulas most often purchased with this one — and keep the clinical coverage coherent.',
+      save: 'Stack save',
+      total: 'Stack total',
+      addStack: 'Add selected to cart',
+      included: 'This formula',
+    },
+    shipping: {
+      unlocked: 'Free shipping unlocked on this order',
+      remaining: 'away from free shipping',
+    },
+    related: {
+      eyebrow: 'Also in the line',
+      title: 'Continue the protocol.',
+      add: 'Quick add',
+      added: 'Added',
+    },
+    crossSell: {
+      eyebrow: 'Pair with',
+      title: 'Add alongside',
+      body: 'Optional companions most people add in the same order.',
+      pairSave: 'Pair save 5%',
+      promptEyebrow: 'One more step',
+      promptTitle: 'Complete what you started.',
+      promptBody: 'These formulas are frequently added after this one — before the cart goes cold.',
+      add: 'Add to order',
+      added: 'Added',
+      skip: 'No thanks',
+      view: 'View',
+    },
+    social: 'verified reviews',
+  },
+  cart: {
+    eyebrow: 'Your bag',
+    title: 'Cart',
+    close: 'Close cart',
+    loading: 'Loading cart…',
+    emptyTitle: 'Your bag is empty.',
+    emptyBody: 'Add a formula to begin checkout. Clinical doses, nothing hidden.',
+    browse: 'Browse formulas',
+    subscription: 'Subscribe & save',
+    onetime: 'One-time',
+    decrease: 'Decrease quantity',
+    increase: 'Increase quantity',
+    remove: 'Remove',
+    subtotal: 'Subtotal',
+    shipping: 'Shipping',
+    shippingFree: 'Free',
+    shippingUnlocked: 'Free shipping unlocked',
+    shippingRemaining: 'away from free shipping',
+    total: 'Total',
+    checkout: 'Checkout',
+    continue: 'Continue shopping',
+  },
+  checkout: {
+    eyebrow: 'Checkout',
+    title: 'Complete your order.',
+    body: 'Secure mock checkout for now. When Shopify credentials are connected, this flow hands off to hosted payment automatically.',
+    loading: 'Preparing checkout…',
+    emptyTitle: 'Nothing to check out.',
+    emptyBody: 'Your bag is empty. Add a formula, then return here.',
+    browse: 'Browse formulas',
+    openCart: 'Open bag',
+    contact: 'Contact',
+    shipping: 'Shipping address',
+    payment: 'Payment',
+    notes: 'Order notes',
+    notesPlaceholder: 'Delivery notes, building code, preferences…',
+    summary: 'Order summary',
+    payCard: 'Card',
+    payCardNote: 'Mock card capture — no real charge is made until Shopify is connected.',
+    payTransfer: 'Bank transfer',
+    payTransferNote: 'Order is marked pending. Payment instructions arrive by email.',
+    placeOrder: 'Place order',
+    submitting: 'Placing order…',
+    demoNote:
+      'Demo mode: orders are validated against the catalog and stored in this browser session. Connect SHOPIFY_STORE_DOMAIN + SHOPIFY_STOREFRONT_TOKEN for live checkout.',
+    fields: {
+      email: 'Email',
+      firstName: 'First name',
+      lastName: 'Last name',
+      phone: 'Phone',
+      line1: 'Address',
+      line2: 'Apartment, suite (optional)',
+      city: 'City',
+      state: 'State / province',
+      postalCode: 'Postal code',
+      country: 'Country',
+      cardNumber: 'Card number',
+      cardExpiry: 'Expiry',
+      cardCvc: 'CVC',
+    },
+    errors: {
+      card: 'Enter a valid card number, expiry, and CVC to continue.',
+      generic: 'Checkout failed. Please try again.',
+    },
+    success: {
+      eyebrow: 'Confirmed',
+      title: 'Thank you.',
+      body: 'Your order is in. A confirmation will appear below — and in production, in your inbox within minutes.',
+      orderId: 'Order',
+      status: 'Status',
+      statusPaid: 'Paid',
+      statusPending: 'Pending transfer',
+      email: 'Email',
+      missing: 'Order details are unavailable in this session.',
+      home: 'Back home',
+      mockNote: 'Mock checkout completed. No real payment was processed.',
+      shopifyNote: 'Paid through Shopify checkout.',
+    },
+  },
   footer: {
     tagline: 'Clinically formulated daily essentials. Istanbul, Türkiye.',
     columns: [
-      { title: 'Shop', links: ['Daily Foundation', 'Sleep', 'Omega-3', 'Bundles', 'Gift card'] },
-      { title: 'Learn', links: ['Science', 'Ingredient index', 'Batch results', 'Journal', 'FAQ'] },
-      { title: 'Company', links: ['About', 'Scientific board', 'Careers', 'Press', 'Contact'] },
+      {
+        title: 'Shop',
+        links: [
+          { label: 'Daily Foundation', href: '/products/daily-foundation' },
+          { label: 'Sleep Depth', href: '/products/sleep-depth' },
+          { label: 'Algal Omega', href: '/products/algal-omega' },
+          { label: 'Essentials Trio', href: '/products/essentials-trio' },
+          { label: 'All formulas', href: '/products' },
+        ],
+      },
+      {
+        title: 'Learn',
+        links: [
+          { label: 'Science', href: '/science/white-paper' },
+          { label: 'Ingredient index', href: '/science/ingredient-panel' },
+          { label: 'Batch results', href: '/science/batch-results' },
+          { label: 'Reviews', href: '/#reviews' },
+          { label: 'FAQ', href: '/#faq' },
+        ],
+      },
+      {
+        title: 'Company',
+        links: [
+          { label: 'About', href: '/company/about' },
+          { label: 'Scientific board', href: '/company/scientific-board' },
+          { label: 'Careers', href: '/company/careers' },
+          { label: 'Press', href: '/company/press' },
+          { label: 'Contact', href: '/company/contact' },
+        ],
+      },
     ],
-    legal: ['Privacy', 'Terms', 'Shipping & returns', 'Cookie preferences'],
+    legal: [
+      { label: 'Privacy', href: '/legal/privacy' },
+      { label: 'Terms', href: '/legal/terms' },
+      { label: 'Shipping & returns', href: '/legal/shipping' },
+      { label: 'Cookie preferences', href: '/legal/cookies' },
+    ],
     rights: 'All rights reserved.',
     disclaimer:
       'Food supplements are not a substitute for a balanced diet. Consult your physician before use if you are pregnant, nursing, or taking medication.',
@@ -422,14 +611,195 @@ export const tr: typeof en = {
     success: 'Teşekkürler. Lütfen e-postanızdaki bağlantıyı onaylayın.',
     note: 'Tek tıkla çıkabilirsiniz. Adresinizi asla paylaşmıyoruz.',
   },
+  shop: {
+    eyebrow: 'Koleksiyon',
+    title: 'Klinik formüller.',
+    titleAccent: 'Gizli hiçbir şey yok.',
+    body: 'Dört özenle seçilmiş ürün. Şeffaf dozlar. Her kapsülün arkasında aynı farmasötik disiplin.',
+    browse: 'Formülleri incele',
+    view: 'Formülü gör',
+    from: 'Başlangıç',
+    actives: 'aktif',
+    reviews: 'yorum',
+    trust: ['Bağımsız laboratuvar', 'GMP ilaç tesisi', '60 gün garanti'],
+  },
+  pdp: {
+    back: 'Tüm formüller',
+    add: 'Sepete ekle',
+    added: 'Sepete eklendi',
+    perDay: 'günlük',
+    supply: '30 günlük kullanım',
+    options: {
+      title: 'Ritminizi seçin',
+      subscribe: 'Abone ol ve kazan',
+      subscribeNote: '30 günde bir teslim. Dilediğiniz zaman durdurun.',
+      once: 'Tek seferlik alım',
+      onceNote: '30 günlük tek kutu.',
+      save: '%20 indirim',
+    },
+    trust: ['1.500 ₺ üzeri ücretsiz kargo', '60 gün garanti', '24 saatte kargo'],
+    highlights: 'Neden bu formül',
+    quantity: {
+      title: 'Rutininizi stoklayın',
+      one: '1 kutu',
+      two: '2 kutu',
+      three: '3 kutu',
+      saveTwo: '%8 kazanın',
+      saveThree: '%12 kazanın',
+    },
+    upsell: {
+      eyebrow: 'Protokolü tamamla',
+      title: 'Sıkça birlikte seçiliyor',
+      body: 'Bu formülle en sık alınanları bir araya getirin — klinik kapsamı tutarlı tutun.',
+      save: 'Set tasarrufu',
+      total: 'Set toplamı',
+      addStack: 'Seçilenleri sepete ekle',
+      included: 'Bu formül',
+    },
+    shipping: {
+      unlocked: 'Bu siparişte ücretsiz kargo açıldı',
+      remaining: 'ücretsiz kargoya kaldı',
+    },
+    related: {
+      eyebrow: 'Aynı çizgide',
+      title: 'Protokole devam edin.',
+      add: 'Hızlı ekle',
+      added: 'Eklendi',
+    },
+    crossSell: {
+      eyebrow: 'Birlikte alın',
+      title: 'Yanına ekleyin',
+      body: 'Aynı siparişte en sık eklenen isteğe bağlı tamamlayıcılar.',
+      pairSave: 'Çiftte %5 kazan',
+      promptEyebrow: 'Bir adım daha',
+      promptTitle: 'Başladığınızı tamamlayın.',
+      promptBody: 'Bu formülden sonra en sık eklenenler — sepet soğumadan.',
+      add: 'Siparişe ekle',
+      added: 'Eklendi',
+      skip: 'Teşekkürler, geç',
+      view: 'İncele',
+    },
+    social: 'doğrulanmış yorum',
+  },
+  cart: {
+    eyebrow: 'Çantanız',
+    title: 'Sepet',
+    close: 'Sepeti kapat',
+    loading: 'Sepet yükleniyor…',
+    emptyTitle: 'Çantanız boş.',
+    emptyBody: 'Ödemeye geçmek için bir formül ekleyin. Klinik dozlar, gizli hiçbir şey yok.',
+    browse: 'Formülleri incele',
+    subscription: 'Abone ol ve kazan',
+    onetime: 'Tek seferlik',
+    decrease: 'Miktarı azalt',
+    increase: 'Miktarı artır',
+    remove: 'Kaldır',
+    subtotal: 'Ara toplam',
+    shipping: 'Kargo',
+    shippingFree: 'Ücretsiz',
+    shippingUnlocked: 'Ücretsiz kargo açıldı',
+    shippingRemaining: 'ücretsiz kargoya kaldı',
+    total: 'Toplam',
+    checkout: 'Ödemeye geç',
+    continue: 'Alışverişe devam',
+  },
+  checkout: {
+    eyebrow: 'Ödeme',
+    title: 'Siparişinizi tamamlayın.',
+    body: 'Şimdilik güvenli mock ödeme. Shopify kimlik bilgileri bağlandığında bu akış otomatik olarak hosted ödemeye geçer.',
+    loading: 'Ödeme hazırlanıyor…',
+    emptyTitle: 'Ödenecek bir şey yok.',
+    emptyBody: 'Çantanız boş. Bir formül ekleyip buraya dönün.',
+    browse: 'Formülleri incele',
+    openCart: 'Çantayı aç',
+    contact: 'İletişim',
+    shipping: 'Teslimat adresi',
+    payment: 'Ödeme',
+    notes: 'Sipariş notu',
+    notesPlaceholder: 'Teslimat notu, kapı kodu, tercihler…',
+    summary: 'Sipariş özeti',
+    payCard: 'Kart',
+    payCardNote: 'Mock kart — Shopify bağlanana kadar gerçek tahsilat yapılmaz.',
+    payTransfer: 'Havale / EFT',
+    payTransferNote: 'Sipariş beklemede kalır. Ödeme talimatı e-posta ile gelir.',
+    placeOrder: 'Siparişi ver',
+    submitting: 'Sipariş oluşturuluyor…',
+    demoNote:
+      'Demo modu: siparişler kataloga göre doğrulanır ve bu tarayıcı oturumunda saklanır. Canlı ödeme için SHOPIFY_STORE_DOMAIN + SHOPIFY_STOREFRONT_TOKEN bağlayın.',
+    fields: {
+      email: 'E-posta',
+      firstName: 'Ad',
+      lastName: 'Soyad',
+      phone: 'Telefon',
+      line1: 'Adres',
+      line2: 'Daire, kat (opsiyonel)',
+      city: 'Şehir',
+      state: 'İlçe / eyalet',
+      postalCode: 'Posta kodu',
+      country: 'Ülke',
+      cardNumber: 'Kart numarası',
+      cardExpiry: 'Son kullanma',
+      cardCvc: 'CVC',
+    },
+    errors: {
+      card: 'Devam etmek için geçerli kart numarası, son kullanma ve CVC girin.',
+      generic: 'Ödeme başarısız. Lütfen yeniden deneyin.',
+    },
+    success: {
+      eyebrow: 'Onaylandı',
+      title: 'Teşekkürler.',
+      body: 'Siparişiniz alındı. Onay aşağıda görünecek — canlıda dakikalar içinde e-postanıza da düşer.',
+      orderId: 'Sipariş',
+      status: 'Durum',
+      statusPaid: 'Ödendi',
+      statusPending: 'Havale bekleniyor',
+      email: 'E-posta',
+      missing: 'Bu oturumda sipariş detayı bulunamadı.',
+      home: 'Ana sayfaya dön',
+      mockNote: 'Mock ödeme tamamlandı. Gerçek tahsilat yapılmadı.',
+      shopifyNote: 'Shopify checkout üzerinden ödendi.',
+    },
+  },
   footer: {
     tagline: 'Klinik formüllü günlük temel takviyeler. İstanbul, Türkiye.',
     columns: [
-      { title: 'Ürünler', links: ['Günlük Temel', 'Uyku', 'Omega-3', 'Setler', 'Hediye kartı'] },
-      { title: 'Öğren', links: ['Bilim', 'İçerik dizini', 'Parti sonuçları', 'Günlük', 'SSS'] },
-      { title: 'Kurumsal', links: ['Hakkımızda', 'Bilim kurulu', 'Kariyer', 'Basın', 'İletişim'] },
+      {
+        title: 'Ürünler',
+        links: [
+          { label: 'Günlük Temel', href: '/products/daily-foundation' },
+          { label: 'Uyku Derinliği', href: '/products/sleep-depth' },
+          { label: 'Algal Omega', href: '/products/algal-omega' },
+          { label: 'Temel Üçlü', href: '/products/essentials-trio' },
+          { label: 'Tüm formüller', href: '/products' },
+        ],
+      },
+      {
+        title: 'Öğren',
+        links: [
+          { label: 'Bilim', href: '/science/white-paper' },
+          { label: 'İçerik dizini', href: '/science/ingredient-panel' },
+          { label: 'Parti sonuçları', href: '/science/batch-results' },
+          { label: 'Yorumlar', href: '/#reviews' },
+          { label: 'SSS', href: '/#faq' },
+        ],
+      },
+      {
+        title: 'Kurumsal',
+        links: [
+          { label: 'Hakkımızda', href: '/company/about' },
+          { label: 'Bilim kurulu', href: '/company/scientific-board' },
+          { label: 'Kariyer', href: '/company/careers' },
+          { label: 'Basın', href: '/company/press' },
+          { label: 'İletişim', href: '/company/contact' },
+        ],
+      },
     ],
-    legal: ['Gizlilik', 'Koşullar', 'Kargo ve iade', 'Çerez tercihleri'],
+    legal: [
+      { label: 'Gizlilik', href: '/legal/privacy' },
+      { label: 'Koşullar', href: '/legal/terms' },
+      { label: 'Kargo ve iade', href: '/legal/shipping' },
+      { label: 'Çerez tercihleri', href: '/legal/cookies' },
+    ],
     rights: 'Tüm hakları saklıdır.',
     disclaimer:
       'Takviye edici gıdalar dengeli beslenmenin yerini tutmaz. Hamilelik, emzirme veya ilaç kullanımı durumunda hekiminize danışın.',
@@ -440,6 +810,8 @@ export type Lang = 'en' | 'tr'
 export type Dictionary = typeof en
 
 const dictionaries: Record<Lang, Dictionary> = { en, tr }
+const LANG_STORAGE_KEY = 'vitaself-lang'
+const LANG_COOKIE = 'vitaself-lang'
 
 type LanguageContextValue = {
   lang: Lang
@@ -447,12 +819,56 @@ type LanguageContextValue = {
   setLang: (lang: Lang) => void
   toggle: () => void
   price: (amount: { usd: number; try: number }) => string
+  hydrated: boolean
 }
 
 const LanguageContext = createContext<LanguageContextValue | null>(null)
 
-export function LanguageProvider({ children }: { children: React.ReactNode }) {
-  const [lang, setLang] = useState<Lang>('en')
+/** Cookie string’inden dil okur. */
+function readCookieLang(): Lang | null {
+  if (typeof document === 'undefined') return null
+  const match = document.cookie.match(/(?:^|; )vitaself-lang=(en|tr)(?:;|$)/)
+  return match ? (match[1] as Lang) : null
+}
+
+/** localStorage veya cookie’den dil tercihini okur. */
+function readStoredLang(): Lang {
+  if (typeof window === 'undefined') return 'en'
+  try {
+    const raw = window.localStorage.getItem(LANG_STORAGE_KEY)
+    if (raw === 'en' || raw === 'tr') return raw
+  } catch {
+    // ignore
+  }
+  return readCookieLang() ?? 'en'
+}
+
+/** Dil tercihini localStorage + cookie’ye yazar. */
+function writeStoredLang(lang: Lang) {
+  if (typeof window === 'undefined') return
+  try {
+    window.localStorage.setItem(LANG_STORAGE_KEY, lang)
+  } catch {
+    // ignore
+  }
+  document.cookie = `${LANG_COOKIE}=${lang}; path=/; max-age=31536000; samesite=lax`
+}
+
+/** Dil provider: persist + fiyat formatı. */
+export function LanguageProvider({ children }: { children: ReactNode }) {
+  const [lang, setLangState] = useState<Lang>('en')
+  const [hydrated, setHydrated] = useState(false)
+
+  useEffect(() => {
+    setLangState(readStoredLang())
+    setHydrated(true)
+  }, [])
+
+  /** Aktif dili günceller ve saklar. */
+  const setLang = useCallback((next: Lang) => {
+    setLangState(next)
+    writeStoredLang(next)
+  }, [])
 
   const price = useCallback(
     (amount: { usd: number; try: number }) => {
@@ -471,15 +887,17 @@ export function LanguageProvider({ children }: { children: React.ReactNode }) {
       lang,
       d: dictionaries[lang],
       setLang,
-      toggle: () => setLang((prev) => (prev === 'en' ? 'tr' : 'en')),
+      toggle: () => setLang(lang === 'en' ? 'tr' : 'en'),
       price,
+      hydrated,
     }),
-    [lang, price],
+    [lang, setLang, price, hydrated],
   )
 
   return <LanguageContext.Provider value={value}>{children}</LanguageContext.Provider>
 }
 
+/** Dil context hook’u. */
 export function useLanguage() {
   const context = useContext(LanguageContext)
   if (!context) {

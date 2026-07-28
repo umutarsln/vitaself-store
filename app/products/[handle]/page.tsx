@@ -1,0 +1,95 @@
+import type { Metadata } from 'next'
+import { notFound } from 'next/navigation'
+import { DocumentLang } from '@/components/document-lang'
+import { PdpBackLink } from '@/components/pdp/pdp-back-link'
+import { ProductGallery } from '@/components/pdp/product-gallery'
+import { ProductPurchase } from '@/components/pdp/product-purchase'
+import { RelatedProducts } from '@/components/pdp/related-products'
+import { UpsellStack } from '@/components/pdp/upsell-stack'
+import { ProductJsonLd } from '@/components/seo/json-ld'
+import { SiteFooter } from '@/components/site-footer'
+import { SiteHeader } from '@/components/site-header'
+import { getProduct, products } from '@/lib/products'
+import { absoluteUrl } from '@/lib/site'
+
+type ProductPageProps = {
+  params: Promise<{ handle: string }>
+}
+
+/** Statik PDP route parametrelerini üretir. */
+export function generateStaticParams() {
+  return products.map((product) => ({ handle: product.handle }))
+}
+
+/** Ürün detay metadata’sını handle’a göre üretir. */
+export async function generateMetadata({ params }: ProductPageProps): Promise<Metadata> {
+  const { handle } = await params
+  const product = getProduct(handle)
+  if (!product) {
+    return { title: 'Product not found' }
+  }
+
+  const title = product.title.en
+  const description = product.description.en
+  const image = absoluteUrl(product.featuredImage.url)
+  const url = absoluteUrl(`/products/${product.handle}`)
+
+  return {
+    title,
+    description,
+    alternates: {
+      canonical: `/products/${product.handle}`,
+    },
+    openGraph: {
+      type: 'website',
+      title: `${title} — Vitaself`,
+      description,
+      url,
+      images: [{ url: image, alt: product.featuredImage.altText }],
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: `${title} — Vitaself`,
+      description,
+      images: [image],
+    },
+  }
+}
+
+/** Ürün detay sayfası — galeri, satın alma, stack upsell, related. */
+export default async function ProductDetailPage({ params }: ProductPageProps) {
+  const { handle } = await params
+  const product = getProduct(handle)
+
+  if (!product) {
+    notFound()
+  }
+
+  return (
+    <>
+      <ProductJsonLd handle={product.handle} />
+      <DocumentLang
+        titleEn={`${product.title.en} — Vitaself`}
+        titleTr={`${product.title.tr} — Vitaself`}
+        descriptionEn={product.description.en}
+        descriptionTr={product.description.tr}
+      />
+      <SiteHeader />
+      <main>
+        <PdpBackLink />
+        <section
+          aria-label={product.title.en}
+          className="px-6 pt-8 pb-20 md:px-10 md:pt-10 md:pb-28"
+        >
+          <div className="mx-auto grid w-full max-w-6xl gap-14 lg:grid-cols-2 lg:items-start lg:gap-20">
+            <ProductGallery product={product} />
+            <ProductPurchase product={product} />
+          </div>
+        </section>
+        <UpsellStack product={product} />
+        <RelatedProducts product={product} />
+      </main>
+      <SiteFooter />
+    </>
+  )
+}

@@ -43,7 +43,7 @@ export function Science() {
           <Reveal delay={0.06}>
             <p className="text-muted-foreground max-w-md text-[15px] leading-relaxed">{d.science.body}</p>
             <a
-              href="#certificates"
+              href="/science/white-paper"
               className="group text-foreground mt-7 inline-flex items-center gap-2 text-sm tracking-wide"
             >
               {d.science.cta}
