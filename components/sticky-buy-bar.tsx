@@ -12,7 +12,11 @@ export function StickyBuyBar() {
   const [visible, setVisible] = useState(false)
   const { scrollY } = useScroll()
 
-  useMotionValueEvent(scrollY, 'change', (value) => setVisible(value > 1600))
+  useMotionValueEvent(scrollY, 'change', (value) => {
+    const footer = document.getElementById('site-footer')
+    const footerTop = footer ? footer.getBoundingClientRect().top + value : Number.POSITIVE_INFINITY
+    setVisible(value > 1600 && value + window.innerHeight < footerTop + 120)
+  })
 
   const variant = dailyFoundation.variants[0]
 

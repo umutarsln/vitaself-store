@@ -6,7 +6,7 @@ export function SiteFooter() {
   const { d, lang, setLang } = useLanguage()
 
   return (
-    <footer className="bg-foreground text-background/70 px-6 pt-20 pb-10 md:px-10 md:pt-28">
+    <footer id="site-footer" className="bg-foreground text-background/70 px-6 pt-20 pb-10 md:px-10 md:pt-28">
       <div className="mx-auto w-full max-w-6xl">
         <div className="grid gap-12 lg:grid-cols-[1.2fr_2fr]">
           <div>

@@ -112,7 +112,7 @@ export function Hero() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 1.2, delay: 0.6 }}
-            className="border-border/70 mt-14 grid grid-cols-2 gap-y-3 border-t pt-8 sm:grid-cols-4"
+            className="border-border/70 mt-14 flex flex-wrap gap-x-7 gap-y-3 border-t pt-8"
           >
             {d.hero.marks.map((mark) => (
               <li key={mark} className="text-muted-foreground text-[11px] tracking-[0.06em] uppercase">
