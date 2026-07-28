@@ -37,6 +37,8 @@ export type Product = {
   variants: ProductVariant[]
   /** PDP “frequently bought together” / stack önerileri. */
   stackWith: string[]
+  /** Tek tıkla eklenebilir cross-sell add-on’ları (neden metniyle). */
+  crossSells: { handle: string; reason: LocaleCopy }[]
   relatedHandles: string[]
 }
 
@@ -128,6 +130,22 @@ export const dailyFoundation: Product = {
     },
   ],
   stackWith: ['sleep-depth', 'algal-omega'],
+  crossSells: [
+    {
+      handle: 'sleep-depth',
+      reason: {
+        en: 'Close the day with non-melatonin recovery.',
+        tr: 'Günü melatonin olmadan toparlanma ile kapatın.',
+      },
+    },
+    {
+      handle: 'algal-omega',
+      reason: {
+        en: 'Add algal DHA/EPA for cognition and vision.',
+        tr: 'Biliş ve görme için algal DHA/EPA ekleyin.',
+      },
+    },
+  ],
   relatedHandles: ['sleep-depth', 'algal-omega', 'essentials-trio'],
 }
 
@@ -183,6 +201,22 @@ export const sleepDepth: Product = {
     },
   ],
   stackWith: ['daily-foundation', 'algal-omega'],
+  crossSells: [
+    {
+      handle: 'daily-foundation',
+      reason: {
+        en: 'Anchor the morning with the full daily formula.',
+        tr: 'Sabahı tam günlük formülle sabitleyin.',
+      },
+    },
+    {
+      handle: 'algal-omega',
+      reason: {
+        en: 'Support cellular recovery with clean omega-3.',
+        tr: 'Hücresel toparlanmayı temiz omega-3 ile destekleyin.',
+      },
+    },
+  ],
   relatedHandles: ['daily-foundation', 'algal-omega', 'essentials-trio'],
 }
 
@@ -237,6 +271,22 @@ export const algalOmega: Product = {
     },
   ],
   stackWith: ['daily-foundation', 'sleep-depth'],
+  crossSells: [
+    {
+      handle: 'daily-foundation',
+      reason: {
+        en: 'Cover micronutrient gaps the omega alone cannot.',
+        tr: 'Omega’nın tek başına kapatmadığı mikro besin boşluklarını doldurun.',
+      },
+    },
+    {
+      handle: 'sleep-depth',
+      reason: {
+        en: 'Protect overnight recovery alongside daytime focus.',
+        tr: 'Gündüz odakla birlikte gece toparlanmasını koruyun.',
+      },
+    },
+  ],
   relatedHandles: ['daily-foundation', 'sleep-depth', 'essentials-trio'],
 }
 
@@ -293,6 +343,15 @@ export const essentialsTrio: Product = {
     },
   ],
   stackWith: [],
+  crossSells: [
+    {
+      handle: 'daily-foundation',
+      reason: {
+        en: 'Prefer a single hero formula? Start with Daily Foundation alone.',
+        tr: 'Tek bir ana formül mü? Günlük Temel ile başlayın.',
+      },
+    },
+  ],
   relatedHandles: ['daily-foundation', 'sleep-depth', 'algal-omega'],
 }
 
@@ -316,6 +375,22 @@ export function getStackProducts(product: Product): Product[] {
   return product.stackWith
     .map((handle) => getProduct(handle))
     .filter((item): item is Product => Boolean(item))
+}
+
+export type CrossSellOffer = {
+  product: Product
+  reason: LocaleCopy
+}
+
+/** Cross-sell add-on listesini ürün + neden metniyle döner. */
+export function getCrossSellOffers(product: Product): CrossSellOffer[] {
+  return product.crossSells
+    .map((entry) => {
+      const offer = getProduct(entry.handle)
+      if (!offer) return null
+      return { product: offer, reason: entry.reason }
+    })
+    .filter((item): item is CrossSellOffer => Boolean(item))
 }
 
 /** Abonelik (veya ilk) varyantını seçer. */

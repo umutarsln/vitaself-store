@@ -1,14 +1,18 @@
 'use client'
 
 import { Check, Repeat, ShieldCheck, Star, Truck } from 'lucide-react'
-import { useMemo, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
+import { CrossSellOptions } from '@/components/pdp/cross-sell-options'
+import { CrossSellPrompt } from '@/components/pdp/cross-sell-prompt'
 import { Eyebrow, Reveal } from '@/components/reveal'
 import { useCart } from '@/lib/cart'
 import { useLanguage } from '@/lib/i18n'
 import {
   FREE_SHIPPING_THRESHOLD,
   copy,
+  defaultVariant,
   discountMoney,
+  getProduct,
   multiplyMoney,
   perDayPrice,
   type Product,
@@ -26,13 +30,24 @@ type ProductPurchaseProps = {
   product: Product
 }
 
-/** PDP satın alma paneli: varyant, miktar upsell, kargo eşiği, sepete ekle. */
+/** PDP satın alma paneli: varyant, miktar, cross-sell, kargo eşiği, sepete ekle. */
 export function ProductPurchase({ product }: ProductPurchaseProps) {
   const { d, lang, price } = useLanguage()
   const { add } = useCart()
   const [selected, setSelected] = useState(product.variants[0].id)
   const [quantity, setQuantity] = useState<(typeof quantityOptions)[number]>(1)
+  const [crossSellHandles, setCrossSellHandles] = useState<string[]>([])
   const [added, setAdded] = useState(false)
+  const [promptOpen, setPromptOpen] = useState(false)
+
+  /** Ürün değişince satın alma ve cross-sell seçimlerini sıfırlar. */
+  useEffect(() => {
+    setSelected(product.variants[0].id)
+    setQuantity(1)
+    setCrossSellHandles([])
+    setAdded(false)
+    setPromptOpen(false)
+  }, [product.id, product.variants])
 
   const variant = product.variants.find((item) => item.id === selected) ?? product.variants[0]
   const qtyDiscount = quantityDiscount[quantity]
@@ -50,11 +65,22 @@ export function ProductPurchase({ product }: ProductPurchaseProps) {
 
   const shippingUnlocked = lang === 'tr' ? shippingGap.try <= 0 : shippingGap.usd <= 0
 
-  /** Seçili varyant ve miktarı sepete ekler. */
+  /** Ana ürün + seçili cross-sell’leri sepete ekler ve prompt açar. */
   function handleAdd() {
     add(variant.id, quantity)
+    for (const handle of crossSellHandles) {
+      const offer = getProduct(handle)
+      if (!offer) continue
+      add(defaultVariant(offer).id, 1)
+    }
     setAdded(true)
+    setPromptOpen(true)
     window.setTimeout(() => setAdded(false), 2000)
+  }
+
+  /** Cross-sell prompt’unu kapatır. */
+  function handleClosePrompt() {
+    setPromptOpen(false)
   }
 
   return (
@@ -172,6 +198,12 @@ export function ProductPurchase({ product }: ProductPurchaseProps) {
         </div>
       </Reveal>
 
+      <CrossSellOptions
+        product={product}
+        selectedHandles={crossSellHandles}
+        onChange={setCrossSellHandles}
+      />
+
       <Reveal delay={0.16} className="mt-8">
         <div className="flex flex-wrap items-end justify-between gap-4">
           <div>
@@ -236,6 +268,13 @@ export function ProductPurchase({ product }: ProductPurchaseProps) {
           ))}
         </ul>
       </Reveal>
+
+      <CrossSellPrompt
+        product={product}
+        open={promptOpen}
+        excludeHandles={crossSellHandles}
+        onClose={handleClosePrompt}
+      />
     </div>
   )
 }

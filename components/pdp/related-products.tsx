@@ -2,8 +2,10 @@
 
 import Image from 'next/image'
 import Link from 'next/link'
-import { ArrowUpRight, Star } from 'lucide-react'
+import { ArrowUpRight, Check, Star } from 'lucide-react'
+import { useState } from 'react'
 import { Eyebrow, Reveal, Section } from '@/components/reveal'
+import { useCart } from '@/lib/cart'
 import { useLanguage } from '@/lib/i18n'
 import { copy, defaultVariant, getRelatedProducts, type Product } from '@/lib/products'
 
@@ -11,13 +13,21 @@ type RelatedProductsProps = {
   product: Product
 }
 
-/** PDP altı cross-sell / related ürün şeridi. */
+/** PDP altı cross-sell / related ürün şeridi — incele + hızlı ekle. */
 export function RelatedProducts({ product }: RelatedProductsProps) {
   const { d, lang, price } = useLanguage()
+  const { add } = useCart()
   const related = getRelatedProducts(product)
+  const [addedHandles, setAddedHandles] = useState<string[]>([])
 
   if (related.length === 0) {
     return null
+  }
+
+  /** Related üründen abonelik varyantını hızlıca sepete ekler. */
+  function handleQuickAdd(item: Product) {
+    add(defaultVariant(item).id, 1)
+    setAddedHandles((prev) => (prev.includes(item.handle) ? prev : [...prev, item.handle]))
   }
 
   return (
@@ -32,8 +42,9 @@ export function RelatedProducts({ product }: RelatedProductsProps) {
       <ul className="mt-14 grid gap-10 md:grid-cols-3">
         {related.map((item, index) => {
           const variant = defaultVariant(item)
+          const isAdded = addedHandles.includes(item.handle)
           return (
-            <Reveal as="li" key={item.id} delay={index * 0.06}>
+            <Reveal as="li" key={item.id} delay={index * 0.06} className="flex flex-col">
               <Link href={`/products/${item.handle}`} className="group flex flex-col outline-none">
                 <div className="bg-card shadow-soft relative aspect-4/5 overflow-hidden rounded-[1.75rem] transition-shadow duration-500 group-hover:shadow-float">
                   <Image
@@ -62,6 +73,21 @@ export function RelatedProducts({ product }: RelatedProductsProps) {
                   </span>
                 </div>
               </Link>
+              <button
+                type="button"
+                onClick={() => handleQuickAdd(item)}
+                disabled={isAdded}
+                className="border-border hover:border-foreground/30 mt-5 inline-flex h-11 items-center justify-center rounded-full border text-[13px] tracking-wide transition-all duration-400 hover:-translate-y-0.5 disabled:translate-y-0 disabled:opacity-70"
+              >
+                {isAdded ? (
+                  <span className="inline-flex items-center gap-2">
+                    <Check className="size-3.5" strokeWidth={2} />
+                    {d.pdp.related.added}
+                  </span>
+                ) : (
+                  d.pdp.related.add
+                )}
+              </button>
             </Reveal>
           )
         })}
