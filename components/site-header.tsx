@@ -16,11 +16,11 @@ export function SiteHeader() {
   useMotionValueEvent(scrollY, 'change', (value) => setScrolled(value > 24))
 
   const links = [
-    { label: d.nav.shop, href: '#product' },
-    { label: d.nav.science, href: '#science' },
-    { label: d.nav.ingredients, href: '#ingredients' },
-    { label: d.nav.reviews, href: '#reviews' },
-    { label: d.nav.about, href: '#about' },
+    { label: d.nav.shop, href: '/products' },
+    { label: d.nav.science, href: '/#science' },
+    { label: d.nav.ingredients, href: '/#ingredients' },
+    { label: d.nav.reviews, href: '/#reviews' },
+    { label: d.nav.about, href: '/#about' },
   ]
 
   return (
@@ -35,7 +35,7 @@ export function SiteHeader() {
         }`}
       >
         <div className="mx-auto flex h-16 w-full max-w-6xl items-center justify-between gap-6 px-6 md:h-20 md:px-10">
-          <a href="#top" className="flex shrink-0 items-baseline gap-2">
+          <a href="/" className="flex shrink-0 items-baseline gap-2">
             <span className="text-display text-xl md:text-2xl">Vitaself</span>
             <span className="text-[9px] tracking-[0.28em] text-muted-foreground hidden uppercase sm:block">
               Pharma

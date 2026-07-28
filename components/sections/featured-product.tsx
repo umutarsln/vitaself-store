@@ -1,6 +1,7 @@
 'use client'
 
 import Image from 'next/image'
+import Link from 'next/link'
 import { Check, Repeat, ShieldCheck, Star, Truck } from 'lucide-react'
 import { useState } from 'react'
 import { Eyebrow, Reveal, Section } from '@/components/reveal'
@@ -59,7 +60,14 @@ export function FeaturedProduct() {
         <div className="order-2 flex flex-col">
           <Reveal>
             <Eyebrow>{d.featured.eyebrow}</Eyebrow>
-            <h2 className="text-display mt-5 text-[clamp(2.2rem,6vw,3.5rem)]">{d.featured.title}</h2>
+            <h2 className="text-display mt-5 text-[clamp(2.2rem,6vw,3.5rem)]">
+              <Link
+                href={`/products/${dailyFoundation.handle}`}
+                className="transition-opacity duration-300 hover:opacity-80"
+              >
+                {d.featured.title}
+              </Link>
+            </h2>
             <div className="mt-4 flex items-center gap-3">
               <div className="flex gap-0.5" aria-hidden>
                 {Array.from({ length: 5 }).map((_, index) => (

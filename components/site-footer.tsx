@@ -39,9 +39,12 @@ export function SiteFooter() {
                 <p className="text-eyebrow text-background/50">{column.title}</p>
                 <ul className="mt-5 flex flex-col gap-3">
                   {column.links.map((link) => (
-                    <li key={link}>
-                      <a href="#top" className="hover:text-background text-[13px] transition-colors duration-300">
-                        {link}
+                    <li key={link.href + link.label}>
+                      <a
+                        href={link.href}
+                        className="hover:text-background text-[13px] transition-colors duration-300"
+                      >
+                        {link.label}
                       </a>
                     </li>
                   ))}
