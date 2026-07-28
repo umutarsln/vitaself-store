@@ -5,7 +5,6 @@ import { PdpBackLink } from '@/components/pdp/pdp-back-link'
 import { ProductGallery } from '@/components/pdp/product-gallery'
 import { ProductPurchase } from '@/components/pdp/product-purchase'
 import { RelatedProducts } from '@/components/pdp/related-products'
-import { UpsellStack } from '@/components/pdp/upsell-stack'
 import { ProductJsonLd } from '@/components/seo/json-ld'
 import { SiteFooter } from '@/components/site-footer'
 import { SiteHeader } from '@/components/site-header'
@@ -56,7 +55,7 @@ export async function generateMetadata({ params }: ProductPageProps): Promise<Me
   }
 }
 
-/** Ürün detay sayfası — galeri, satın alma, stack upsell, related. */
+/** Ürün detay sayfası — galeri, satın alma, related. */
 export default async function ProductDetailPage({ params }: ProductPageProps) {
   const { handle } = await params
   const product = getProduct(handle)
@@ -69,10 +68,18 @@ export default async function ProductDetailPage({ params }: ProductPageProps) {
     <>
       <ProductJsonLd handle={product.handle} />
       <DocumentLang
-        titleEn={`${product.title.en} — Vitaself`}
-        titleTr={`${product.title.tr} — Vitaself`}
-        descriptionEn={product.description.en}
-        descriptionTr={product.description.tr}
+        titles={{
+          en: `${product.title.en} — Vitaself`,
+          tr: `${product.title.tr} — Vitaself`,
+          de: `${product.title.de ?? product.title.en} — Vitaself`,
+          ru: `${product.title.ru ?? product.title.en} — Vitaself`,
+        }}
+        descriptions={{
+          en: product.description.en,
+          tr: product.description.tr,
+          de: product.description.de ?? product.description.en,
+          ru: product.description.ru ?? product.description.en,
+        }}
       />
       <SiteHeader />
       <main>
@@ -86,7 +93,6 @@ export default async function ProductDetailPage({ params }: ProductPageProps) {
             <ProductPurchase product={product} />
           </div>
         </section>
-        <UpsellStack product={product} />
         <RelatedProducts product={product} />
       </main>
       <SiteFooter />

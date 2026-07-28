@@ -33,7 +33,7 @@ export function HomeJsonLd() {
           '@type': 'WebSite',
           name: siteConfig.name,
           url: siteConfig.url,
-          inLanguage: ['en', 'tr'],
+          inLanguage: ['tr', 'en', 'de', 'ru'],
         },
       ]}
     />

@@ -1,12 +1,14 @@
 'use client'
 
 import { Check, Repeat, ShieldCheck, Star, Truck } from 'lucide-react'
+import { motion } from 'motion/react'
 import { useEffect, useMemo, useState } from 'react'
 import { CrossSellOptions } from '@/components/pdp/cross-sell-options'
 import { CrossSellPrompt } from '@/components/pdp/cross-sell-prompt'
 import { Eyebrow, Reveal } from '@/components/reveal'
 import { useCart } from '@/lib/cart'
 import { useLanguage } from '@/lib/i18n'
+import { LOCALE_BY_LANG } from '@/lib/i18n/config'
 import {
   FREE_SHIPPING_THRESHOLD,
   copy,
@@ -25,11 +27,11 @@ type ProductPurchaseProps = {
   product: Product
 }
 
-/** PDP satın alma paneli: varyant, miktar, cross-sell, kargo eşiği, sepete ekle. */
+/** PDP satın alma paneli: miktar, cross-sell, kargo eşiği, sepete ekle. */
 export function ProductPurchase({ product }: ProductPurchaseProps) {
   const { d, lang, price } = useLanguage()
   const { add } = useCart()
-  const [selected, setSelected] = useState(product.variants[0].id)
+  const variant = defaultVariant(product)
   const [quantity, setQuantity] = useState<(typeof quantityOptions)[number]>(1)
   const [crossSellHandles, setCrossSellHandles] = useState<string[]>([])
   const [added, setAdded] = useState(false)
@@ -37,14 +39,12 @@ export function ProductPurchase({ product }: ProductPurchaseProps) {
 
   /** Ürün değişince satın alma ve cross-sell seçimlerini sıfırlar. */
   useEffect(() => {
-    setSelected(product.variants[0].id)
     setQuantity(1)
     setCrossSellHandles([])
     setAdded(false)
     setPromptOpen(false)
-  }, [product.id, product.variants])
+  }, [product.id])
 
-  const variant = product.variants.find((item) => item.id === selected) ?? product.variants[0]
   const qtyDiscount = quantityDiscountPercent(quantity)
   const payable = lineTotal(variant.price, quantity)
   const linePrice = {
@@ -61,9 +61,9 @@ export function ProductPurchase({ product }: ProductPurchaseProps) {
     return { usd: remainingUsd, try: remainingTry }
   }, [payable])
 
-  const shippingUnlocked = lang === 'tr' ? shippingGap.try <= 0 : shippingGap.usd <= 0
+  const shippingUnlocked = d.currency === 'try' ? shippingGap.try <= 0 : shippingGap.usd <= 0
 
-  /** Ana ürün + seçili cross-sell’leri sepete ekler ve prompt açar. */
+  /** Ana ürün + seçili cross-sell'leri sepete ekler ve prompt açar. */
   function handleAdd() {
     add(variant.id, quantity)
     for (const handle of crossSellHandles) {
@@ -76,7 +76,7 @@ export function ProductPurchase({ product }: ProductPurchaseProps) {
     window.setTimeout(() => setAdded(false), 2000)
   }
 
-  /** Cross-sell prompt’unu kapatır. */
+  /** Cross-sell prompt'unu kapatır. */
   function handleClosePrompt() {
     setPromptOpen(false)
   }
@@ -99,7 +99,7 @@ export function ProductPurchase({ product }: ProductPurchaseProps) {
           </div>
           <p className="text-muted-foreground text-[13px]">
             {product.rating.value.toFixed(1)} ·{' '}
-            {product.rating.count.toLocaleString(lang === 'tr' ? 'tr-TR' : 'en-US')} {d.pdp.social}
+            {product.rating.count.toLocaleString(LOCALE_BY_LANG[lang])} {d.pdp.social}
           </p>
         </div>
         <p className="text-muted-foreground mt-6 max-w-md text-[15px] leading-relaxed">
@@ -108,61 +108,6 @@ export function ProductPurchase({ product }: ProductPurchaseProps) {
       </Reveal>
 
       <Reveal delay={0.08} className="mt-10">
-        <p className="text-eyebrow text-muted-foreground">{d.pdp.options.title}</p>
-        <div role="radiogroup" aria-label={d.pdp.options.title} className="mt-4 flex flex-col gap-3">
-          {product.variants.map((item) => {
-            const isActive = item.id === selected
-            const isSubscription = item.sellingPlan === 'subscription'
-            return (
-              <button
-                key={item.id}
-                type="button"
-                role="radio"
-                aria-checked={isActive}
-                onClick={() => setSelected(item.id)}
-                className={`flex w-full items-center justify-between gap-4 rounded-2xl border px-5 py-4 text-left transition-all duration-400 ${
-                  isActive
-                    ? 'border-primary/40 bg-card shadow-soft'
-                    : 'border-border bg-transparent hover:border-foreground/25'
-                }`}
-              >
-                <span className="flex items-start gap-3.5">
-                  <span
-                    className={`mt-0.5 flex size-4.5 shrink-0 items-center justify-center rounded-full border transition-colors ${
-                      isActive ? 'border-primary bg-primary' : 'border-border'
-                    }`}
-                  >
-                    {isActive && <Check className="text-primary-foreground size-3" strokeWidth={2.5} />}
-                  </span>
-                  <span>
-                    <span className="flex flex-wrap items-center gap-2 text-sm">
-                      {isSubscription ? d.pdp.options.subscribe : d.pdp.options.once}
-                      {isSubscription && (
-                        <span className="bg-positive text-positive-foreground rounded-full px-2 py-0.5 text-[10px] tracking-wide">
-                          {d.pdp.options.save}
-                        </span>
-                      )}
-                    </span>
-                    <span className="text-muted-foreground mt-1 block text-xs leading-relaxed">
-                      {isSubscription ? d.pdp.options.subscribeNote : d.pdp.options.onceNote}
-                    </span>
-                  </span>
-                </span>
-                <span className="text-right">
-                  <span className="block text-sm">{price(item.price)}</span>
-                  {item.compareAtPrice && (
-                    <span className="text-muted-foreground block text-xs line-through">
-                      {price(item.compareAtPrice)}
-                    </span>
-                  )}
-                </span>
-              </button>
-            )
-          })}
-        </div>
-      </Reveal>
-
-      <Reveal delay={0.12} className="mt-8">
         <p className="text-eyebrow text-muted-foreground">{d.pdp.quantity.title}</p>
         <div role="radiogroup" aria-label={d.pdp.quantity.title} className="mt-4 grid grid-cols-3 gap-3">
           {quantityOptions.map((option) => {
@@ -213,10 +158,16 @@ export function ProductPurchase({ product }: ProductPurchaseProps) {
               {price(daily)} {d.pdp.perDay} · {d.pdp.supply}
             </p>
           </div>
-          <button
+          <motion.button
             type="button"
             onClick={handleAdd}
-            className="bg-foreground text-background shadow-soft hover:shadow-float inline-flex h-13 min-w-40 items-center justify-center rounded-full px-9 text-sm tracking-wide transition-all duration-500 hover:-translate-y-0.5"
+            animate={
+              added
+                ? { scale: [1, 0.97, 1.02, 1], backgroundColor: 'var(--positive)' }
+                : { scale: 1, backgroundColor: 'var(--foreground)' }
+            }
+            transition={{ duration: 0.45, ease: [0.16, 1, 0.3, 1] }}
+            className="text-background shadow-soft hover:shadow-float inline-flex h-13 min-w-40 items-center justify-center rounded-full px-9 text-sm tracking-wide transition-shadow duration-500 hover:-translate-y-0.5"
           >
             {added ? (
               <span className="inline-flex items-center gap-2">
@@ -226,7 +177,7 @@ export function ProductPurchase({ product }: ProductPurchaseProps) {
             ) : (
               d.pdp.add
             )}
-          </button>
+          </motion.button>
         </div>
 
         <p

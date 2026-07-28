@@ -7,6 +7,7 @@ import { useMemo, useState, type FormEvent, type ReactNode } from 'react'
 import { buttonVariants } from '@/components/ui/button'
 import { useCart } from '@/lib/cart'
 import { useLanguage } from '@/lib/i18n'
+import type { Lang } from '@/lib/i18n/types'
 import { LAST_ORDER_KEY, type CheckoutOrder, type CheckoutPaymentMethod } from '@/lib/orders'
 import {
   addMoney,
@@ -16,6 +17,13 @@ import {
   shippingForSubtotal,
 } from '@/lib/products'
 import { cn } from '@/lib/utils'
+
+const DEFAULT_COUNTRY: Record<Lang, string> = {
+  tr: 'Türkiye',
+  en: 'United States',
+  de: 'Deutschland',
+  ru: 'Россия',
+}
 
 /** Checkout formu — müşteri, adres, ödeme, sipariş özeti. */
 export function CheckoutForm() {
@@ -32,7 +40,7 @@ export function CheckoutForm() {
   const [city, setCity] = useState('')
   const [state, setState] = useState('')
   const [postalCode, setPostalCode] = useState('')
-  const [country, setCountry] = useState(lang === 'tr' ? 'Türkiye' : 'United States')
+  const [country, setCountry] = useState(DEFAULT_COUNTRY[lang])
   const [paymentMethod, setPaymentMethod] = useState<CheckoutPaymentMethod>('card')
   const [cardNumber, setCardNumber] = useState('')
   const [cardExpiry, setCardExpiry] = useState('')

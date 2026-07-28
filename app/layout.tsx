@@ -3,9 +3,12 @@ import type { Metadata, Viewport } from 'next'
 import { Geist, Geist_Mono, Instrument_Serif } from 'next/font/google'
 import { cookies } from 'next/headers'
 import { CartDrawer } from '@/components/cart/cart-drawer'
+import { CartToast } from '@/components/cart/cart-toast'
 import { DocumentLang } from '@/components/document-lang'
+import { PageTransition } from '@/components/page-transition'
 import { CartProvider } from '@/lib/cart'
 import { LanguageProvider } from '@/lib/i18n'
+import { resolveLang } from '@/lib/i18n/config'
 import { absoluteUrl, siteConfig } from '@/lib/site'
 import './globals.css'
 
@@ -28,10 +31,10 @@ const instrumentSerif = Instrument_Serif({
 export const metadata: Metadata = {
   metadataBase: new URL(siteConfig.url),
   title: {
-    default: siteConfig.titles.en,
+    default: siteConfig.titles.tr,
     template: '%s — Vitaself',
   },
-  description: siteConfig.descriptions.en,
+  description: siteConfig.descriptions.tr,
   applicationName: siteConfig.name,
   authors: [{ name: siteConfig.name }],
   creator: siteConfig.name,
@@ -46,19 +49,21 @@ export const metadata: Metadata = {
   alternates: {
     canonical: '/',
     languages: {
-      en: '/en',
       tr: '/tr',
+      en: '/en',
+      de: '/de',
+      ru: '/ru',
       'x-default': '/',
     },
   },
   openGraph: {
     type: 'website',
-    locale: siteConfig.localeDefault,
-    alternateLocale: [siteConfig.localeTr],
+    locale: siteConfig.locales.tr,
+    alternateLocale: [siteConfig.locales.en, siteConfig.locales.de, siteConfig.locales.ru],
     url: absoluteUrl('/'),
     siteName: siteConfig.name,
-    title: siteConfig.titles.en,
-    description: siteConfig.descriptions.en,
+    title: siteConfig.titles.tr,
+    description: siteConfig.descriptions.tr,
     images: [
       {
         url: absoluteUrl('/images/hero-product.png'),
@@ -70,8 +75,8 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: siteConfig.titles.en,
-    description: siteConfig.descriptions.en,
+    title: siteConfig.titles.tr,
+    description: siteConfig.descriptions.tr,
     images: [absoluteUrl('/images/hero-product.png')],
   },
   robots: {
@@ -109,19 +114,20 @@ export default async function RootLayout({
   children: React.ReactNode
 }>) {
   const cookieStore = await cookies()
-  const lang = cookieStore.get('vitaself-lang')?.value === 'tr' ? 'tr' : 'en'
+  const initialLang = resolveLang(cookieStore.get('vitaself-lang')?.value)
 
   return (
     <html
-      lang={lang}
+      lang={initialLang}
       className={`light bg-background ${geistSans.variable} ${geistMono.variable} ${instrumentSerif.variable}`}
     >
       <body className="font-sans antialiased">
-        <LanguageProvider>
+        <LanguageProvider initialLang={initialLang}>
           <CartProvider>
             <DocumentLang />
-            {children}
+            <PageTransition>{children}</PageTransition>
             <CartDrawer />
+            <CartToast />
           </CartProvider>
         </LanguageProvider>
         {process.env.NODE_ENV === 'production' && <Analytics />}

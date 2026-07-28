@@ -17,16 +17,25 @@ import { cartSubtotal, type Money } from '@/lib/products'
  */
 export type CartLine = { variantId: string; quantity: number }
 
+export type AddToCartOptions = {
+  /** Sepet drawer'ını açar. */
+  openDrawer?: boolean
+}
+
 type CartContextValue = {
   lines: CartLine[]
   count: number
   subtotal: Money
   hydrated: boolean
   isOpen: boolean
+  /** Her sepete eklemede artar — header/toast animasyonu için. */
+  pulseKey: number
+  /** Son eklenen varyant id'si — drawer satır vurgusu için. */
+  lastAddedVariantId: string | null
   openCart: () => void
   closeCart: () => void
   toggleCart: () => void
-  add: (variantId: string, quantity?: number) => void
+  add: (variantId: string, quantity?: number, options?: AddToCartOptions) => void
   remove: (variantId: string) => void
   update: (variantId: string, quantity: number) => void
   clear: () => void
@@ -71,6 +80,8 @@ export function CartProvider({ children }: { children: ReactNode }) {
   const [lines, setLines] = useState<CartLine[]>([])
   const [hydrated, setHydrated] = useState(false)
   const [isOpen, setIsOpen] = useState(false)
+  const [pulseKey, setPulseKey] = useState(0)
+  const [lastAddedVariantId, setLastAddedVariantId] = useState<string | null>(null)
 
   useEffect(() => {
     setLines(readStoredLines())
@@ -89,8 +100,8 @@ export function CartProvider({ children }: { children: ReactNode }) {
   /** Sepet drawer açık/kapalı durumunu değiştirir. */
   const toggleCart = useCallback(() => setIsOpen((prev) => !prev), [])
 
-  /** Varyantı sepete ekler (veya miktarı artırır). */
-  const add = useCallback((variantId: string, quantity = 1) => {
+  /** Varyantı sepete ekler (veya miktarı artırır) ve geri bildirim tetikler. */
+  const add = useCallback((variantId: string, quantity = 1, options?: AddToCartOptions) => {
     const safeQty = Math.max(1, Math.floor(quantity))
     setLines((prev) => {
       const existing = prev.find((line) => line.variantId === variantId)
@@ -103,6 +114,11 @@ export function CartProvider({ children }: { children: ReactNode }) {
       }
       return [...prev, { variantId, quantity: safeQty }]
     })
+    setPulseKey((prev) => prev + 1)
+    setLastAddedVariantId(variantId)
+    if (options?.openDrawer) {
+      setIsOpen(true)
+    }
   }, [])
 
   /** Satırı sepetten kaldırır. */
@@ -133,6 +149,8 @@ export function CartProvider({ children }: { children: ReactNode }) {
       subtotal: cartSubtotal(lines),
       hydrated,
       isOpen,
+      pulseKey,
+      lastAddedVariantId,
       openCart,
       closeCart,
       toggleCart,
@@ -141,7 +159,7 @@ export function CartProvider({ children }: { children: ReactNode }) {
       update,
       clear,
     }),
-    [lines, hydrated, isOpen, openCart, closeCart, toggleCart, add, remove, update, clear],
+    [lines, hydrated, isOpen, pulseKey, lastAddedVariantId, openCart, closeCart, toggleCart, add, remove, update, clear],
   )
 
   return <CartContext.Provider value={value}>{children}</CartContext.Provider>

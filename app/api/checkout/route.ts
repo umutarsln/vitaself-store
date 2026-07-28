@@ -1,4 +1,5 @@
 import { NextResponse } from 'next/server'
+import { isLang } from '@/lib/i18n/config'
 import type { CheckoutOrder, CheckoutPayload } from '@/lib/orders'
 import {
   addMoney,
@@ -72,7 +73,7 @@ export async function POST(request: Request) {
       )
     }
     const quantity = Math.max(1, Math.floor(line.quantity))
-    const lang = body.lang === 'tr' ? 'tr' : 'en'
+    const lang = isLang(body.lang) ? body.lang : 'tr'
     resolvedLines.push({
       variantId: line.variantId,
       quantity,
@@ -86,7 +87,7 @@ export async function POST(request: Request) {
   const subtotal = cartSubtotal(body.lines)
   const shipping = shippingForSubtotal(subtotal)
   const total = addMoney(subtotal, shipping)
-  const lang = body.lang === 'tr' ? 'tr' : 'en'
+  const lang = isLang(body.lang) ? body.lang : 'tr'
 
   const order: CheckoutOrder = {
     id: createOrderId(),

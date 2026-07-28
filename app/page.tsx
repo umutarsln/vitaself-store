@@ -14,12 +14,11 @@ import { HomeJsonLd } from '@/components/seo/json-ld'
 import { SiteFooter } from '@/components/site-footer'
 import { SiteHeader } from '@/components/site-header'
 import { StickyBuyBar } from '@/components/sticky-buy-bar'
-import { FeaturedVariantProvider } from '@/lib/featured-variant'
 
-/** Ana sayfa — landing + featured varyant paylaşımı. */
+/** Ana sayfa — landing. */
 export default function HomePage() {
   return (
-    <FeaturedVariantProvider>
+    <>
       <HomeJsonLd />
       <SiteHeader />
       <main>
@@ -38,6 +37,6 @@ export default function HomePage() {
       </main>
       <SiteFooter />
       <StickyBuyBar />
-    </FeaturedVariantProvider>
+    </>
   )
 }

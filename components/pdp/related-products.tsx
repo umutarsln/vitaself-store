@@ -24,7 +24,7 @@ export function RelatedProducts({ product }: RelatedProductsProps) {
     return null
   }
 
-  /** Related üründen abonelik varyantını hızlıca sepete ekler. */
+  /** Related ürünü hızlıca sepete ekler. */
   function handleQuickAdd(item: Product) {
     add(defaultVariant(item).id, 1)
     setAddedHandles((prev) => (prev.includes(item.handle) ? prev : [...prev, item.handle]))
@@ -39,13 +39,13 @@ export function RelatedProducts({ product }: RelatedProductsProps) {
         </h2>
       </Reveal>
 
-      <ul className="mt-14 grid gap-10 md:grid-cols-3">
+      <ul className="mt-14 grid items-stretch gap-10 md:grid-cols-3">
         {related.map((item, index) => {
           const variant = defaultVariant(item)
           const isAdded = addedHandles.includes(item.handle)
           return (
-            <Reveal as="li" key={item.id} delay={index * 0.06} className="flex flex-col">
-              <Link href={`/products/${item.handle}`} className="group flex flex-col outline-none">
+            <Reveal as="li" key={item.id} delay={index * 0.06} className="flex h-full flex-col">
+              <Link href={`/products/${item.handle}`} className="group flex flex-1 flex-col outline-none">
                 <div className="bg-card shadow-soft relative aspect-4/5 overflow-hidden rounded-[1.75rem] transition-shadow duration-500 group-hover:shadow-float">
                   <Image
                     src={item.featuredImage.url}
@@ -58,26 +58,28 @@ export function RelatedProducts({ product }: RelatedProductsProps) {
                     <ArrowUpRight className="size-4" strokeWidth={1.5} />
                   </span>
                 </div>
-                <p className="text-eyebrow text-muted-foreground mt-5">{copy(item.category, lang)}</p>
-                <h3 className="text-display mt-2 text-2xl">{copy(item.title, lang)}</h3>
-                <p className="text-muted-foreground mt-2 line-clamp-2 text-sm leading-relaxed">
-                  {copy(item.subtitle, lang)}
-                </p>
-                <div className="text-muted-foreground mt-4 flex items-center gap-3 text-xs">
-                  <span className="flex items-center gap-1">
-                    <Star className="fill-gold text-gold size-3.5" strokeWidth={0} />
-                    {item.rating.value.toFixed(1)}
-                  </span>
-                  <span>
-                    {d.shop.from} {price(variant.price)}
-                  </span>
+                <div className="mt-5 flex flex-1 flex-col">
+                  <p className="text-eyebrow text-muted-foreground">{copy(item.category, lang)}</p>
+                  <h3 className="text-display mt-2 min-h-[2rem] text-2xl leading-tight">{copy(item.title, lang)}</h3>
+                  <p className="text-muted-foreground mt-2 min-h-[2.625rem] line-clamp-2 text-sm leading-relaxed">
+                    {copy(item.subtitle, lang)}
+                  </p>
+                  <div className="text-muted-foreground mt-4 flex items-center gap-3 text-xs">
+                    <span className="flex items-center gap-1">
+                      <Star className="fill-gold text-gold size-3.5" strokeWidth={0} />
+                      {item.rating.value.toFixed(1)}
+                    </span>
+                    <span>
+                      {d.shop.from} {price(variant.price)}
+                    </span>
+                  </div>
                 </div>
               </Link>
               <button
                 type="button"
                 onClick={() => handleQuickAdd(item)}
                 disabled={isAdded}
-                className="border-border hover:border-foreground/30 mt-5 inline-flex h-11 items-center justify-center rounded-full border text-[13px] tracking-wide transition-all duration-400 hover:-translate-y-0.5 disabled:translate-y-0 disabled:opacity-70"
+                className="border-border hover:border-foreground/30 mt-5 inline-flex h-11 w-full shrink-0 items-center justify-center rounded-full border text-[13px] tracking-wide transition-all duration-400 hover:-translate-y-0.5 disabled:translate-y-0 disabled:opacity-70"
               >
                 {isAdded ? (
                   <span className="inline-flex items-center gap-2">

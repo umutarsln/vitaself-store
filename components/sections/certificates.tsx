@@ -16,7 +16,7 @@ const certificateHrefs = [
 
 /** Sertifika grid’i — her madde ilgili COA / batch sayfasına bağlanır. */
 export function Certificates() {
-  const { d, lang } = useLanguage()
+  const { d } = useLanguage()
 
   return (
     <Section id="certificates" label={d.certificates.title}>
@@ -44,7 +44,7 @@ export function Certificates() {
         <p className="text-muted-foreground mt-6 max-w-md text-xs leading-relaxed">
           {d.certificates.note}{' '}
           <Link href="/science/batch-results" className="text-foreground underline-offset-4 hover:underline">
-            {lang === 'tr' ? 'Parti sonuçları' : 'Batch results'}
+            {d.common.batchResults}
           </Link>
         </p>
       </Reveal>

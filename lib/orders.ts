@@ -5,6 +5,7 @@
 
 import type { CartLine } from '@/lib/cart'
 import type { Money } from '@/lib/products'
+import type { Lang } from '@/lib/i18n/types'
 
 export type CheckoutCustomer = {
   email: string
@@ -29,7 +30,7 @@ export type CheckoutPayload = {
   customer: CheckoutCustomer
   shippingAddress: CheckoutAddress
   paymentMethod: CheckoutPaymentMethod
-  lang: 'en' | 'tr'
+  lang: Lang
   notes?: string
 }
 

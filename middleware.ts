@@ -1,30 +1,41 @@
 import { NextResponse, type NextRequest } from 'next/server'
+import { DEFAULT_LANG, LANG_COOKIE, isLang } from '@/lib/i18n/config'
 
-const LANG_COOKIE = 'vitaself-lang'
-
-/** /tr|/en prefix’ini rewrite eder ve dil çerezini yazar. */
+/** /tr|/en|/de|/ru prefix rewrite + varsayılan dil çerezi. */
 export function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl
-  const match = pathname.match(/^\/(tr|en)(\/.*)?$/)
+  const prefixMatch = pathname.match(/^\/(tr|en|de|ru)(\/.*)?$/)
 
-  if (!match) {
-    return NextResponse.next()
+  let response: NextResponse
+
+  if (prefixMatch) {
+    const lang = prefixMatch[1]
+    const rest = prefixMatch[2] && prefixMatch[2].length > 0 ? prefixMatch[2] : '/'
+    const url = request.nextUrl.clone()
+    url.pathname = rest
+    response = NextResponse.rewrite(url)
+    response.cookies.set(LANG_COOKIE, lang, {
+      path: '/',
+      maxAge: 60 * 60 * 24 * 365,
+      sameSite: 'lax',
+    })
+    return response
   }
 
-  const lang = match[1] as 'en' | 'tr'
-  const rest = match[2] && match[2].length > 0 ? match[2] : '/'
-  const url = request.nextUrl.clone()
-  url.pathname = rest
+  response = NextResponse.next()
 
-  const response = NextResponse.rewrite(url)
-  response.cookies.set(LANG_COOKIE, lang, {
-    path: '/',
-    maxAge: 60 * 60 * 24 * 365,
-    sameSite: 'lax',
-  })
+  const existing = request.cookies.get(LANG_COOKIE)?.value
+  if (!isLang(existing)) {
+    response.cookies.set(LANG_COOKIE, DEFAULT_LANG, {
+      path: '/',
+      maxAge: 60 * 60 * 24 * 365,
+      sameSite: 'lax',
+    })
+  }
+
   return response
 }
 
 export const config = {
-  matcher: ['/tr', '/tr/:path*', '/en', '/en/:path*'],
+  matcher: ['/((?!_next/static|_next/image|favicon.ico|.*\\..*).*)'],
 }

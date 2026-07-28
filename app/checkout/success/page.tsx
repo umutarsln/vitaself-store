@@ -16,10 +16,18 @@ export default function CheckoutSuccessPage() {
   return (
     <>
       <DocumentLang
-        titleEn="Order confirmed — Vitaself"
-        titleTr="Sipariş onaylandı — Vitaself"
-        descriptionEn="Your Vitaself order has been received."
-        descriptionTr="Vitaself siparişiniz alındı."
+        titles={{
+          en: 'Order confirmed — Vitaself',
+          tr: 'Sipariş onaylandı — Vitaself',
+          de: 'Bestellung bestätigt — Vitaself',
+          ru: 'Заказ подтверждён — Vitaself',
+        }}
+        descriptions={{
+          en: 'Your Vitaself order has been received.',
+          tr: 'Vitaself siparişiniz alındı.',
+          de: 'Ihre Vitaself-Bestellung ist eingegangen.',
+          ru: 'Ваш заказ Vitaself получен.',
+        }}
       />
       <SiteHeader />
       <main>

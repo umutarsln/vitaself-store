@@ -11,14 +11,14 @@ import { absoluteUrl, siteConfig } from '@/lib/site'
 export const metadata: Metadata = {
   title: 'Shop clinical formulas',
   description:
-    'Browse Vitaself Daily Foundation, Sleep Depth, Algal Omega, and the Essentials Trio. Clinically formulated, third-party tested.',
+    'Browse the full Vitaself line: Daily Foundation, Sleep Depth, Algal Omega, Magnesium, Omega-3, Multivitamin for Men & Women, Glucosamine Complex, and the Essentials Trio. Clinically formulated, third-party tested.',
   alternates: {
     canonical: '/products',
   },
   openGraph: {
     title: 'Shop — Vitaself clinical formulas',
     description:
-      'Browse Vitaself Daily Foundation, Sleep Depth, Algal Omega, and the Essentials Trio.',
+      'Browse the full Vitaself line of clinically dosed, third-party tested formulas.',
     url: absoluteUrl('/products'),
     images: [{ url: absoluteUrl('/images/hero-product.png'), alt: 'Vitaself collection' }],
   },
@@ -36,10 +36,18 @@ export default function ProductsPage() {
     <>
       <CollectionJsonLd />
       <DocumentLang
-        titleEn="Shop clinical formulas — Vitaself"
-        titleTr="Klinik formüller — Vitaself"
-        descriptionEn="Browse Vitaself Daily Foundation, Sleep Depth, Algal Omega, and the Essentials Trio. Clinically formulated, third-party tested."
-        descriptionTr="Vitaself Günlük Temel, Uyku Derinliği, Algal Omega ve Temel Üçlü’yü inceleyin. Klinik formül, bağımsız test."
+        titles={{
+          en: 'Shop clinical formulas — Vitaself',
+          tr: 'Klinik formüller — Vitaself',
+          de: 'Klinische Formeln — Vitaself',
+          ru: 'Клинические формулы — Vitaself',
+        }}
+        descriptions={{
+          en: 'Browse the full Vitaself line of clinically dosed, third-party tested formulas.',
+          tr: 'Vitaself’in tam ürün hattını inceleyin — klinik dozlu, bağımsız test edilmiş formüller.',
+          de: 'Entdecken Sie die gesamte Vitaself-Produktlinie — klinisch dosiert, unabhängig getestet.',
+          ru: 'Полная линейка Vitaself — клинические дозы, независимое тестирование.',
+        }}
       />
       <SiteHeader />
       <main>

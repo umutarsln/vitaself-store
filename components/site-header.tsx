@@ -1,23 +1,23 @@
 'use client'
 
 import { AnimatePresence, motion, useMotionValueEvent, useScroll } from 'motion/react'
-import { Menu, Search, ShoppingBag, User, X } from 'lucide-react'
+import { Menu, Search, User, X } from 'lucide-react'
 import Link from 'next/link'
 import { useState } from 'react'
-import { useCart } from '@/lib/cart'
+import { CartTrigger } from '@/components/cart/cart-trigger'
+import { LanguageSwitcher } from '@/components/language-switcher'
+import { ShopNavLink, ShopNavMenu } from '@/components/shop/shop-nav-menu'
 import { useLanguage } from '@/lib/i18n'
 
 export function SiteHeader() {
-  const { d, lang, setLang } = useLanguage()
-  const { count, openCart } = useCart()
+  const { d } = useLanguage()
   const [scrolled, setScrolled] = useState(false)
   const [open, setOpen] = useState(false)
   const { scrollY } = useScroll()
 
   useMotionValueEvent(scrollY, 'change', (value) => setScrolled(value > 24))
 
-  const links = [
-    { label: d.nav.shop, href: '/products' },
+  const secondaryLinks = [
     { label: d.nav.science, href: '/#science' },
     { label: d.nav.ingredients, href: '/#ingredients' },
     { label: d.nav.reviews, href: '/#reviews' },
@@ -44,7 +44,8 @@ export function SiteHeader() {
           </Link>
 
           <nav aria-label="Primary" className="hidden items-center gap-9 lg:flex">
-            {links.map((link) => (
+            <ShopNavMenu />
+            {secondaryLinks.map((link) => (
               <a
                 key={link.href}
                 href={link.href}
@@ -56,27 +57,7 @@ export function SiteHeader() {
           </nav>
 
           <div className="flex items-center gap-1 md:gap-2">
-            <div
-              role="group"
-              aria-label="Language"
-              className="border-border/70 mr-1 hidden items-center rounded-full border p-0.5 sm:flex"
-            >
-              {(['en', 'tr'] as const).map((code) => (
-                <button
-                  key={code}
-                  type="button"
-                  onClick={() => setLang(code)}
-                  aria-pressed={lang === code}
-                  className={`rounded-full px-2.5 py-1 text-[11px] tracking-[0.1em] uppercase transition-colors duration-300 ${
-                    lang === code
-                      ? 'bg-foreground text-background'
-                      : 'text-muted-foreground hover:text-foreground'
-                  }`}
-                >
-                  {code}
-                </button>
-              ))}
-            </div>
+            <LanguageSwitcher className="mr-1 hidden sm:block" />
 
             <button
               type="button"
@@ -92,29 +73,7 @@ export function SiteHeader() {
               <User className="size-[18px]" strokeWidth={1.4} />
               <span className="sr-only">{d.nav.account}</span>
             </button>
-            <button
-              type="button"
-              onClick={openCart}
-              className="text-foreground/70 hover:text-foreground relative flex size-10 items-center justify-center rounded-full transition-colors"
-            >
-              <ShoppingBag className="size-[18px]" strokeWidth={1.4} />
-              <AnimatePresence>
-                {count > 0 && (
-                  <motion.span
-                    initial={{ scale: 0.4, opacity: 0 }}
-                    animate={{ scale: 1, opacity: 1 }}
-                    exit={{ scale: 0.4, opacity: 0 }}
-                    transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
-                    className="bg-primary text-primary-foreground absolute top-1 right-1 flex size-4 items-center justify-center rounded-full text-[10px] font-medium"
-                  >
-                    {count}
-                  </motion.span>
-                )}
-              </AnimatePresence>
-              <span className="sr-only">
-                {d.nav.cart} ({count})
-              </span>
-            </button>
+            <CartTrigger />
             <button
               type="button"
               onClick={() => setOpen((prev) => !prev)}
@@ -138,7 +97,8 @@ export function SiteHeader() {
               className="bg-background/95 border-border/60 overflow-hidden border-t backdrop-blur-xl lg:hidden"
             >
               <ul className="mx-auto flex max-w-6xl flex-col px-6 py-4 md:px-10">
-                {links.map((link) => (
+                <ShopNavLink onNavigate={() => setOpen(false)} />
+                {secondaryLinks.map((link) => (
                   <li key={link.href}>
                     <a
                       href={link.href}
@@ -149,20 +109,9 @@ export function SiteHeader() {
                     </a>
                   </li>
                 ))}
-                <li className="mt-3 flex gap-2 pt-3 border-t border-border/60">
-                  {(['en', 'tr'] as const).map((code) => (
-                    <button
-                      key={code}
-                      type="button"
-                      onClick={() => setLang(code)}
-                      aria-pressed={lang === code}
-                      className={`rounded-full px-4 py-1.5 text-[11px] tracking-[0.12em] uppercase ${
-                        lang === code ? 'bg-foreground text-background' : 'border-border border text-muted-foreground'
-                      }`}
-                    >
-                      {code}
-                    </button>
-                  ))}
+                <li className="mt-3 border-t border-border/60 pt-3">
+                  <p className="text-eyebrow text-muted-foreground mb-2 px-1">{d.nav.language}</p>
+                  <LanguageSwitcher variant="list" />
                 </li>
               </ul>
             </motion.nav>

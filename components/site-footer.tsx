@@ -3,7 +3,7 @@
 import { useLanguage } from '@/lib/i18n'
 
 export function SiteFooter() {
-  const { d, lang, setLang } = useLanguage()
+  const { d } = useLanguage()
 
   return (
     <footer id="site-footer" className="bg-foreground text-background/70 px-6 pt-20 pb-10 md:px-10 md:pt-28">
@@ -12,25 +12,6 @@ export function SiteFooter() {
           <div>
             <p className="text-display text-background text-3xl">Vitaself</p>
             <p className="mt-4 max-w-xs text-sm leading-relaxed">{d.footer.tagline}</p>
-            <div
-              role="group"
-              aria-label="Language"
-              className="border-background/20 mt-8 inline-flex items-center rounded-full border p-0.5"
-            >
-              {(['en', 'tr'] as const).map((code) => (
-                <button
-                  key={code}
-                  type="button"
-                  onClick={() => setLang(code)}
-                  aria-pressed={lang === code}
-                  className={`rounded-full px-3 py-1 text-[11px] tracking-[0.12em] uppercase transition-colors duration-300 ${
-                    lang === code ? 'bg-background text-foreground' : 'hover:text-background'
-                  }`}
-                >
-                  {code}
-                </button>
-              ))}
-            </div>
           </div>
 
           <div className="grid gap-10 sm:grid-cols-3">

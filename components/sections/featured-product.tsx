@@ -3,38 +3,27 @@
 import Image from 'next/image'
 import Link from 'next/link'
 import { Check, Repeat, ShieldCheck, Star, Truck } from 'lucide-react'
+import { motion } from 'motion/react'
 import { useState } from 'react'
 import { Eyebrow, Reveal, Section } from '@/components/reveal'
 import { useCart } from '@/lib/cart'
-import { useFeaturedVariant } from '@/lib/featured-variant'
 import { useLanguage } from '@/lib/i18n'
-import { dailyFoundation, perDayPrice } from '@/lib/products'
+import { dailyFoundation, defaultVariant, perDayPrice } from '@/lib/products'
 
 const trustIcons = [Truck, ShieldCheck, Repeat]
 
 export function FeaturedProduct() {
   const { d, price } = useLanguage()
-  const { add, openCart } = useCart()
-  const featured = useFeaturedVariant()
-  const [selected, setSelectedLocal] = useState(featured?.variantId ?? dailyFoundation.variants[0].id)
+  const { add } = useCart()
   const [added, setAdded] = useState(false)
 
-  const selectedId = featured?.variantId ?? selected
-  const variant =
-    dailyFoundation.variants.find((item) => item.id === selectedId) ?? dailyFoundation.variants[0]
+  const variant = defaultVariant(dailyFoundation)
   const daily = perDayPrice(variant.price, dailyFoundation.servingsPerContainer)
 
-  /** Featured varyant seçimini local + paylaşılan context’e yazar. */
-  function selectVariant(id: string) {
-    setSelectedLocal(id)
-    featured?.setVariantId(id)
-  }
-
-  /** Seçili varyantı sepete ekler ve drawer’ı açar. */
+  /** Featured ürünü sepete ekler ve drawer'ı açar. */
   function handleAdd() {
-    add(variant.id)
+    add(variant.id, 1, { openDrawer: true })
     setAdded(true)
-    openCart()
     window.setTimeout(() => setAdded(false), 2000)
   }
 
@@ -94,61 +83,6 @@ export function FeaturedProduct() {
           </Reveal>
 
           <Reveal delay={0.1} className="mt-10">
-            <p className="text-eyebrow text-muted-foreground">{d.featured.options.title}</p>
-            <div role="radiogroup" aria-label={d.featured.options.title} className="mt-4 flex flex-col gap-3">
-              {dailyFoundation.variants.map((item) => {
-                const isActive = item.id === selectedId
-                const isSubscription = item.sellingPlan === 'subscription'
-                return (
-                  <button
-                    key={item.id}
-                    type="button"
-                    role="radio"
-                    aria-checked={isActive}
-                    onClick={() => selectVariant(item.id)}
-                    className={`group flex w-full items-center justify-between gap-4 rounded-2xl border px-5 py-4 text-left transition-all duration-400 ${
-                      isActive
-                        ? 'border-primary/40 bg-card shadow-soft'
-                        : 'border-border bg-transparent hover:border-foreground/25'
-                    }`}
-                  >
-                    <span className="flex items-start gap-3.5">
-                      <span
-                        className={`mt-0.5 flex size-4.5 shrink-0 items-center justify-center rounded-full border transition-colors duration-300 ${
-                          isActive ? 'border-primary bg-primary' : 'border-border'
-                        }`}
-                      >
-                        {isActive && <Check className="text-primary-foreground size-3" strokeWidth={2.5} />}
-                      </span>
-                      <span>
-                        <span className="flex flex-wrap items-center gap-2 text-sm">
-                          {isSubscription ? d.featured.options.subscribe : d.featured.options.once}
-                          {isSubscription && (
-                            <span className="bg-positive text-positive-foreground rounded-full px-2 py-0.5 text-[10px] tracking-wide">
-                              {d.featured.options.save}
-                            </span>
-                          )}
-                        </span>
-                        <span className="text-muted-foreground mt-1 block text-xs leading-relaxed">
-                          {isSubscription ? d.featured.options.subscribeNote : d.featured.options.onceNote}
-                        </span>
-                      </span>
-                    </span>
-                    <span className="text-right">
-                      <span className="block text-sm">{price(item.price)}</span>
-                      {item.compareAtPrice && (
-                        <span className="text-muted-foreground block text-xs line-through">
-                          {price(item.compareAtPrice)}
-                        </span>
-                      )}
-                    </span>
-                  </button>
-                )
-              })}
-            </div>
-          </Reveal>
-
-          <Reveal delay={0.15} className="mt-8">
             <div className="flex flex-wrap items-end justify-between gap-4">
               <div>
                 <p className="text-display text-3xl">{price(variant.price)}</p>
@@ -156,13 +90,15 @@ export function FeaturedProduct() {
                   {price(daily)} {d.featured.perDay} · {d.featured.supply}
                 </p>
               </div>
-              <button
+              <motion.button
                 type="button"
                 onClick={handleAdd}
-                className="bg-foreground text-background shadow-soft hover:shadow-float inline-flex h-13 items-center justify-center rounded-full px-9 text-sm tracking-wide transition-all duration-500 hover:-translate-y-0.5"
+                animate={added ? { scale: [1, 0.94, 1.04, 1] } : { scale: 1 }}
+                transition={{ duration: 0.45, ease: [0.16, 1, 0.3, 1] }}
+                className="bg-foreground text-background shadow-soft hover:shadow-float inline-flex h-13 items-center justify-center rounded-full px-9 text-sm tracking-wide transition-shadow duration-500 hover:-translate-y-0.5"
               >
                 {added ? <Check className="size-4" strokeWidth={1.8} /> : d.featured.add}
-              </button>
+              </motion.button>
             </div>
 
             <ul className="border-border/70 mt-8 flex flex-wrap gap-x-8 gap-y-3 border-t pt-6">

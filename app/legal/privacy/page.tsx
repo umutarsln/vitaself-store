@@ -16,15 +16,15 @@ export default function PrivacyPage() {
       titleTr="Gizlilik politikası"
     >
       <p>
-        Vitaself processes account, order, and support data only to fulfil purchases, subscriptions,
-        and regulatory obligations. We do not sell personal data.
+        Vitaself processes account, order, and support data only to fulfil purchases and
+        regulatory obligations. We do not sell personal data.
       </p>
       <p>
         Controllers: Vitaself İlaç A.Ş., Istanbul. Contact: privacy@vitaself.com. Retention follows
         tax and pharmacovigilance requirements, then secure deletion.
       </p>
       <p>
-        Vitaself; hesap, sipariş ve destek verilerini yalnızca sipariş, abonelik ve yasal
+        Vitaself; hesap, sipariş ve destek verilerini yalnızca sipariş ve yasal
         yükümlülükler için işler. Kişisel verileri satmayız. İletişim: privacy@vitaself.com.
       </p>
     </ContentPageShell>

@@ -2,33 +2,39 @@
 
 import { useEffect } from 'react'
 import { useLanguage } from '@/lib/i18n'
-import { siteConfig } from '@/lib/site'
+import { siteConfig, siteDescription, siteTitle } from '@/lib/site'
+import type { Lang } from '@/lib/i18n/types'
 
 type DocumentLangProps = {
-  /** Route bazlı varsayılan başlık (opsiyonel). */
-  titleEn?: string
-  titleTr?: string
-  descriptionEn?: string
-  descriptionTr?: string
+  /** Route bazlı başlık (dile göre). */
+  titles?: Partial<Record<Lang, string>> & { en: string; tr: string }
+  /** Route bazlı açıklama (dile göre). */
+  descriptions?: Partial<Record<Lang, string>> & { en: string; tr: string }
+}
+
+/** Verilen dil için yerelleştirilmiş metni döndürür (eksikse EN). */
+function localized(
+  values: Partial<Record<Lang, string>> & { en: string; tr: string },
+  lang: Lang,
+): string {
+  if (lang === 'tr') return values.tr
+  return values[lang] ?? values.en
 }
 
 /**
- * html lang + document title/description’ı seçili dile göre günceller.
- * SSR metadata İngilizce kalır; client tercih persist edilen dili yansıtır.
+ * html lang + document title/description'ı seçili dile göre günceller.
  */
-export function DocumentLang({
-  titleEn = siteConfig.titles.en,
-  titleTr = siteConfig.titles.tr,
-  descriptionEn = siteConfig.descriptions.en,
-  descriptionTr = siteConfig.descriptions.tr,
-}: DocumentLangProps) {
+export function DocumentLang({ titles, descriptions }: DocumentLangProps = {}) {
   const { lang } = useLanguage()
+
+  const titleMap = titles ?? siteConfig.titles
+  const descriptionMap = descriptions ?? siteConfig.descriptions
 
   useEffect(() => {
     document.documentElement.lang = lang
-    document.title = lang === 'tr' ? titleTr : titleEn
+    document.title = localized(titleMap, lang)
+    const description = localized(descriptionMap, lang)
 
-    const description = lang === 'tr' ? descriptionTr : descriptionEn
     let meta = document.querySelector('meta[name="description"]')
     if (!meta) {
       meta = document.createElement('meta')
@@ -39,9 +45,12 @@ export function DocumentLang({
 
     const ogLocale = document.querySelector('meta[property="og:locale"]')
     if (ogLocale) {
-      ogLocale.setAttribute('content', lang === 'tr' ? siteConfig.localeTr : siteConfig.localeDefault)
+      ogLocale.setAttribute('content', siteConfig.locales[lang])
     }
-  }, [lang, titleEn, titleTr, descriptionEn, descriptionTr])
+  }, [lang, titleMap, descriptionMap])
 
   return null
 }
+
+/** Route sayfaları için kısa yardımcılar. */
+export { siteTitle, siteDescription }

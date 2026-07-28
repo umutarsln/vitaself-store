@@ -4,7 +4,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { AnimatePresence, motion } from 'motion/react'
 import { Minus, Plus, ShoppingBag, Trash2, X } from 'lucide-react'
-import { useEffect, useRef } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { useCart } from '@/lib/cart'
 import { useLanguage } from '@/lib/i18n'
 import { useFocusTrap } from '@/lib/use-focus-trap'
@@ -20,9 +20,19 @@ import {
 /** Global sepet drawer’ı — satır düzenleme, kargo eşiği, checkout CTA. */
 export function CartDrawer() {
   const { d, lang, price } = useLanguage()
-  const { lines, count, subtotal, isOpen, closeCart, update, remove, hydrated } = useCart()
+  const { lines, count, subtotal, isOpen, closeCart, update, remove, hydrated, lastAddedVariantId } =
+    useCart()
   const panelRef = useRef<HTMLElement>(null)
+  const [highlightVariantId, setHighlightVariantId] = useState<string | null>(null)
   useFocusTrap(isOpen, panelRef)
+
+  /** Yeni eklenen satırı kısa süre vurgular. */
+  useEffect(() => {
+    if (!lastAddedVariantId) return
+    setHighlightVariantId(lastAddedVariantId)
+    const timer = window.setTimeout(() => setHighlightVariantId(null), 1800)
+    return () => window.clearTimeout(timer)
+  }, [lastAddedVariantId])
 
   const shipping = shippingForSubtotal(subtotal)
   const total = addMoney(subtotal, shipping)
@@ -30,7 +40,7 @@ export function CartDrawer() {
     usd: Math.max(0, FREE_SHIPPING_THRESHOLD.usd - subtotal.usd),
     try: Math.max(0, FREE_SHIPPING_THRESHOLD.try - subtotal.try),
   }
-  const freeUnlocked = lang === 'tr' ? remaining.try <= 0 : remaining.usd <= 0
+  const freeUnlocked = d.currency === 'try' ? remaining.try <= 0 : remaining.usd <= 0
 
   useEffect(() => {
     if (!isOpen) return
@@ -117,7 +127,26 @@ export function CartDrawer() {
                     if (!resolved) return null
                     const { product, variant } = resolved
                     return (
-                      <li key={line.variantId} className="flex gap-4">
+                      <motion.li
+                        key={line.variantId}
+                        layout
+                        initial={{ opacity: 0, x: 24 }}
+                        animate={{
+                          opacity: 1,
+                          x: 0,
+                          backgroundColor:
+                            highlightVariantId === line.variantId
+                              ? 'color-mix(in oklab, var(--primary) 8%, transparent)'
+                              : 'transparent',
+                        }}
+                        transition={{
+                          layout: { duration: 0.35, ease: [0.16, 1, 0.3, 1] },
+                          opacity: { duration: 0.35 },
+                          x: { duration: 0.4, ease: [0.16, 1, 0.3, 1] },
+                          backgroundColor: { duration: 0.45 },
+                        }}
+                        className="flex gap-4 rounded-2xl px-1 py-1"
+                      >
                         <Link
                           href={`/products/${product.handle}`}
                           onClick={closeCart}
@@ -141,11 +170,6 @@ export function CartDrawer() {
                               >
                                 {copy(product.title, lang)}
                               </Link>
-                              <p className="text-muted-foreground mt-0.5 text-xs">
-                                {variant.sellingPlan === 'subscription'
-                                  ? d.cart.subscription
-                                  : d.cart.onetime}
-                              </p>
                             </div>
                             <p className="shrink-0 text-sm">
                               {price(lineTotal(variant.price, line.quantity))}
@@ -182,7 +206,7 @@ export function CartDrawer() {
                             </button>
                           </div>
                         </div>
-                      </li>
+                      </motion.li>
                     )
                   })}
                 </ul>

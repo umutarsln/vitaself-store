@@ -3,15 +3,13 @@
 import { AnimatePresence, motion, useMotionValueEvent, useScroll } from 'motion/react'
 import { useState } from 'react'
 import { useCart } from '@/lib/cart'
-import { useFeaturedVariant } from '@/lib/featured-variant'
 import { useLanguage } from '@/lib/i18n'
-import { dailyFoundation } from '@/lib/products'
+import { dailyFoundation, defaultVariant } from '@/lib/products'
 
-/** Ana sayfa sticky satın alma çubuğu — featured’daki seçili varyantı kullanır. */
+/** Ana sayfa sticky satın alma çubuğu. */
 export function StickyBuyBar() {
   const { d, price } = useLanguage()
-  const { add, openCart } = useCart()
-  const featured = useFeaturedVariant()
+  const { add } = useCart()
   const [visible, setVisible] = useState(false)
   const { scrollY } = useScroll()
 
@@ -21,15 +19,11 @@ export function StickyBuyBar() {
     setVisible(value > 1600 && value + window.innerHeight < footerTop + 120)
   })
 
-  const variantId = featured?.variantId ?? dailyFoundation.variants[0].id
-  const variant =
-    dailyFoundation.variants.find((item) => item.id === variantId) ?? dailyFoundation.variants[0]
-  const isSubscription = variant.sellingPlan === 'subscription'
+  const variant = defaultVariant(dailyFoundation)
 
-  /** Seçili featured varyantı sepete ekler ve drawer’ı açar. */
+  /** Featured ürünü sepete ekler ve drawer'ı açar. */
   function handleAdd() {
-    add(variant.id)
-    openCart()
+    add(variant.id, 1, { openDrawer: true })
   }
 
   return (
@@ -45,10 +39,7 @@ export function StickyBuyBar() {
           <div className="bg-card/85 shadow-float border-border/60 mx-auto flex w-full max-w-2xl items-center justify-between gap-4 rounded-full border py-3 pr-3 pl-6 backdrop-blur-xl">
             <div className="min-w-0">
               <p className="truncate text-sm tracking-tight">{d.featured.title}</p>
-              <p className="text-muted-foreground text-xs">
-                {price(variant.price)}
-                {isSubscription ? ` · ${d.featured.options.save}` : ` · ${d.featured.options.once}`}
-              </p>
+              <p className="text-muted-foreground text-xs">{price(variant.price)}</p>
             </div>
             <button
               type="button"

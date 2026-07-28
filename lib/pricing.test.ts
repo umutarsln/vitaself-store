@@ -28,18 +28,18 @@ describe('lineTotal', () => {
 describe('cartSubtotal + shipping', () => {
   it('sums discounted lines and unlocks free shipping over threshold', () => {
     const subtotal = cartSubtotal([
-      { variantId: 'gid://shopify/ProductVariant/11', quantity: 2 },
+      { variantId: 'gid://shopify/ProductVariant/12', quantity: 2 },
     ])
-    // 54 * 2 = 108, 8% off => 99.36
-    assert.equal(subtotal.usd, 99.36)
+    // 68 * 2 = 136, 8% off => 125.12
+    assert.equal(subtotal.usd, 125.12)
     assert.deepEqual(shippingForSubtotal(subtotal), { usd: 0, try: 0 })
   })
 
   it('charges flat shipping under threshold', () => {
     const subtotal = cartSubtotal([
-      { variantId: 'gid://shopify/ProductVariant/31', quantity: 1 },
+      { variantId: 'gid://shopify/ProductVariant/32', quantity: 1 },
     ])
-    assert.equal(subtotal.usd, 38)
+    assert.equal(subtotal.usd, 48)
     assert.deepEqual(shippingForSubtotal(subtotal), { usd: 8, try: 149 })
   })
 })

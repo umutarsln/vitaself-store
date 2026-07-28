@@ -5,6 +5,7 @@ import Link from 'next/link'
 import { ArrowUpRight, Star } from 'lucide-react'
 import { Reveal } from '@/components/reveal'
 import { useLanguage } from '@/lib/i18n'
+import { LOCALE_BY_LANG } from '@/lib/i18n/config'
 import { copy, defaultVariant, type Product } from '@/lib/products'
 
 type ProductCardProps = {
@@ -56,7 +57,7 @@ export function ProductCard({ product, index }: ProductCardProps) {
           <div className="text-muted-foreground mt-5 flex flex-wrap items-center gap-x-4 gap-y-2 text-xs">
             <span className="flex items-center gap-1.5">
               <Star className="fill-gold text-gold size-3.5" strokeWidth={0} />
-              {product.rating.value.toFixed(1)} · {product.rating.count.toLocaleString(lang === 'tr' ? 'tr-TR' : 'en-US')}{' '}
+              {product.rating.value.toFixed(1)} · {product.rating.count.toLocaleString(LOCALE_BY_LANG[lang])}{' '}
               {d.shop.reviews}
             </span>
             <span>

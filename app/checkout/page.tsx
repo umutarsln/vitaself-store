@@ -21,10 +21,18 @@ export default function CheckoutPage() {
   return (
     <>
       <DocumentLang
-        titleEn="Checkout — Vitaself"
-        titleTr="Ödeme — Vitaself"
-        descriptionEn="Complete your Vitaself order."
-        descriptionTr="Vitaself siparişinizi tamamlayın."
+        titles={{
+          en: 'Checkout — Vitaself',
+          tr: 'Ödeme — Vitaself',
+          de: 'Kasse — Vitaself',
+          ru: 'Оформление — Vitaself',
+        }}
+        descriptions={{
+          en: 'Complete your Vitaself order.',
+          tr: 'Vitaself siparişinizi tamamlayın.',
+          de: 'Schließen Sie Ihre Vitaself-Bestellung ab.',
+          ru: 'Завершите заказ Vitaself.',
+        }}
       />
       <SiteHeader />
       <main>
