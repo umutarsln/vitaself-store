@@ -10,13 +10,17 @@ import { Lifestyle } from '@/components/sections/lifestyle'
 import { Newsletter } from '@/components/sections/newsletter'
 import { Reviews } from '@/components/sections/reviews'
 import { Science } from '@/components/sections/science'
+import { HomeJsonLd } from '@/components/seo/json-ld'
 import { SiteFooter } from '@/components/site-footer'
 import { SiteHeader } from '@/components/site-header'
 import { StickyBuyBar } from '@/components/sticky-buy-bar'
+import { FeaturedVariantProvider } from '@/lib/featured-variant'
 
+/** Ana sayfa — landing + featured varyant paylaşımı. */
 export default function HomePage() {
   return (
-    <>
+    <FeaturedVariantProvider>
+      <HomeJsonLd />
       <SiteHeader />
       <main>
         <Hero />
@@ -34,6 +38,6 @@ export default function HomePage() {
       </main>
       <SiteFooter />
       <StickyBuyBar />
-    </>
+    </FeaturedVariantProvider>
   )
 }

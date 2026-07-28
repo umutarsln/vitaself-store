@@ -3,13 +3,15 @@
 import { AnimatePresence, motion, useMotionValueEvent, useScroll } from 'motion/react'
 import { useState } from 'react'
 import { useCart } from '@/lib/cart'
+import { useFeaturedVariant } from '@/lib/featured-variant'
 import { useLanguage } from '@/lib/i18n'
 import { dailyFoundation } from '@/lib/products'
 
-/** Ana sayfa sticky satın alma çubuğu — ekle ve sepeti aç. */
+/** Ana sayfa sticky satın alma çubuğu — featured’daki seçili varyantı kullanır. */
 export function StickyBuyBar() {
   const { d, price } = useLanguage()
   const { add, openCart } = useCart()
+  const featured = useFeaturedVariant()
   const [visible, setVisible] = useState(false)
   const { scrollY } = useScroll()
 
@@ -19,9 +21,12 @@ export function StickyBuyBar() {
     setVisible(value > 1600 && value + window.innerHeight < footerTop + 120)
   })
 
-  const variant = dailyFoundation.variants[0]
+  const variantId = featured?.variantId ?? dailyFoundation.variants[0].id
+  const variant =
+    dailyFoundation.variants.find((item) => item.id === variantId) ?? dailyFoundation.variants[0]
+  const isSubscription = variant.sellingPlan === 'subscription'
 
-  /** Abonelik varyantını sepete ekler ve drawer’ı açar. */
+  /** Seçili featured varyantı sepete ekler ve drawer’ı açar. */
   function handleAdd() {
     add(variant.id)
     openCart()
@@ -41,7 +46,8 @@ export function StickyBuyBar() {
             <div className="min-w-0">
               <p className="truncate text-sm tracking-tight">{d.featured.title}</p>
               <p className="text-muted-foreground text-xs">
-                {price(variant.price)} · {d.featured.options.save}
+                {price(variant.price)}
+                {isSubscription ? ` · ${d.featured.options.save}` : ` · ${d.featured.options.once}`}
               </p>
             </div>
             <button

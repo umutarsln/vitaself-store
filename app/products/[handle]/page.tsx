@@ -1,13 +1,16 @@
 import type { Metadata } from 'next'
 import { notFound } from 'next/navigation'
+import { DocumentLang } from '@/components/document-lang'
 import { PdpBackLink } from '@/components/pdp/pdp-back-link'
 import { ProductGallery } from '@/components/pdp/product-gallery'
 import { ProductPurchase } from '@/components/pdp/product-purchase'
 import { RelatedProducts } from '@/components/pdp/related-products'
 import { UpsellStack } from '@/components/pdp/upsell-stack'
+import { ProductJsonLd } from '@/components/seo/json-ld'
 import { SiteFooter } from '@/components/site-footer'
 import { SiteHeader } from '@/components/site-header'
 import { getProduct, products } from '@/lib/products'
+import { absoluteUrl } from '@/lib/site'
 
 type ProductPageProps = {
   params: Promise<{ handle: string }>
@@ -23,11 +26,33 @@ export async function generateMetadata({ params }: ProductPageProps): Promise<Me
   const { handle } = await params
   const product = getProduct(handle)
   if (!product) {
-    return { title: 'Product not found — Vitaself' }
+    return { title: 'Product not found' }
   }
+
+  const title = product.title.en
+  const description = product.description.en
+  const image = absoluteUrl(product.featuredImage.url)
+  const url = absoluteUrl(`/products/${product.handle}`)
+
   return {
-    title: `${product.title.en} — Vitaself`,
-    description: product.description.en,
+    title,
+    description,
+    alternates: {
+      canonical: `/products/${product.handle}`,
+    },
+    openGraph: {
+      type: 'website',
+      title: `${title} — Vitaself`,
+      description,
+      url,
+      images: [{ url: image, alt: product.featuredImage.altText }],
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: `${title} — Vitaself`,
+      description,
+      images: [image],
+    },
   }
 }
 
@@ -42,6 +67,13 @@ export default async function ProductDetailPage({ params }: ProductPageProps) {
 
   return (
     <>
+      <ProductJsonLd handle={product.handle} />
+      <DocumentLang
+        titleEn={`${product.title.en} — Vitaself`}
+        titleTr={`${product.title.tr} — Vitaself`}
+        descriptionEn={product.description.en}
+        descriptionTr={product.description.tr}
+      />
       <SiteHeader />
       <main>
         <PdpBackLink />

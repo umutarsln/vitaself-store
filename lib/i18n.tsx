@@ -1,6 +1,14 @@
 'use client'
 
-import { createContext, useCallback, useContext, useMemo, useState } from 'react'
+import {
+  createContext,
+  useCallback,
+  useContext,
+  useEffect,
+  useMemo,
+  useState,
+  type ReactNode,
+} from 'react'
 
 export const en = {
   locale: 'en-US',
@@ -792,6 +800,7 @@ export type Lang = 'en' | 'tr'
 export type Dictionary = typeof en
 
 const dictionaries: Record<Lang, Dictionary> = { en, tr }
+const LANG_STORAGE_KEY = 'vitaself-lang'
 
 type LanguageContextValue = {
   lang: Lang
@@ -799,12 +808,48 @@ type LanguageContextValue = {
   setLang: (lang: Lang) => void
   toggle: () => void
   price: (amount: { usd: number; try: number }) => string
+  hydrated: boolean
 }
 
 const LanguageContext = createContext<LanguageContextValue | null>(null)
 
-export function LanguageProvider({ children }: { children: React.ReactNode }) {
-  const [lang, setLang] = useState<Lang>('en')
+/** localStorage’dan dil tercihini okur. */
+function readStoredLang(): Lang {
+  if (typeof window === 'undefined') return 'en'
+  try {
+    const raw = window.localStorage.getItem(LANG_STORAGE_KEY)
+    if (raw === 'en' || raw === 'tr') return raw
+  } catch {
+    // ignore
+  }
+  return 'en'
+}
+
+/** Dil tercihini localStorage’a yazar. */
+function writeStoredLang(lang: Lang) {
+  if (typeof window === 'undefined') return
+  try {
+    window.localStorage.setItem(LANG_STORAGE_KEY, lang)
+  } catch {
+    // ignore
+  }
+}
+
+/** Dil provider: persist + fiyat formatı. */
+export function LanguageProvider({ children }: { children: ReactNode }) {
+  const [lang, setLangState] = useState<Lang>('en')
+  const [hydrated, setHydrated] = useState(false)
+
+  useEffect(() => {
+    setLangState(readStoredLang())
+    setHydrated(true)
+  }, [])
+
+  /** Aktif dili günceller ve saklar. */
+  const setLang = useCallback((next: Lang) => {
+    setLangState(next)
+    writeStoredLang(next)
+  }, [])
 
   const price = useCallback(
     (amount: { usd: number; try: number }) => {
@@ -823,15 +868,17 @@ export function LanguageProvider({ children }: { children: React.ReactNode }) {
       lang,
       d: dictionaries[lang],
       setLang,
-      toggle: () => setLang((prev) => (prev === 'en' ? 'tr' : 'en')),
+      toggle: () => setLang(lang === 'en' ? 'tr' : 'en'),
       price,
+      hydrated,
     }),
-    [lang, price],
+    [lang, setLang, price, hydrated],
   )
 
   return <LanguageContext.Provider value={value}>{children}</LanguageContext.Provider>
 }
 
+/** Dil context hook’u. */
 export function useLanguage() {
   const context = useContext(LanguageContext)
   if (!context) {

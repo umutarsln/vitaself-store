@@ -1,18 +1,26 @@
 import type { Metadata } from 'next'
 import { Suspense } from 'react'
 import { CheckoutSuccess } from '@/components/checkout/checkout-success'
+import { DocumentLang } from '@/components/document-lang'
 import { SiteFooter } from '@/components/site-footer'
 import { SiteHeader } from '@/components/site-header'
 
 export const metadata: Metadata = {
-  title: 'Order confirmed — Vitaself',
+  title: 'Order confirmed',
   description: 'Your Vitaself order has been received.',
+  robots: { index: false, follow: false },
 }
 
 /** Sipariş başarı sayfası. */
 export default function CheckoutSuccessPage() {
   return (
     <>
+      <DocumentLang
+        titleEn="Order confirmed — Vitaself"
+        titleTr="Sipariş onaylandı — Vitaself"
+        descriptionEn="Your Vitaself order has been received."
+        descriptionTr="Vitaself siparişiniz alındı."
+      />
       <SiteHeader />
       <main>
         <Suspense
