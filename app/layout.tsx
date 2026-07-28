@@ -1,6 +1,7 @@
 import { Analytics } from '@vercel/analytics/next'
 import type { Metadata, Viewport } from 'next'
 import { Geist, Geist_Mono, Instrument_Serif } from 'next/font/google'
+import { cookies } from 'next/headers'
 import { CartDrawer } from '@/components/cart/cart-drawer'
 import { DocumentLang } from '@/components/document-lang'
 import { CartProvider } from '@/lib/cart'
@@ -45,8 +46,8 @@ export const metadata: Metadata = {
   alternates: {
     canonical: '/',
     languages: {
-      en: '/',
-      tr: '/',
+      en: '/en',
+      tr: '/tr',
       'x-default': '/',
     },
   },
@@ -101,14 +102,18 @@ export const viewport: Viewport = {
   themeColor: '#faf9f7',
 }
 
-export default function RootLayout({
+/** Root layout — cookie’den SSR html lang. */
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode
 }>) {
+  const cookieStore = await cookies()
+  const lang = cookieStore.get('vitaself-lang')?.value === 'tr' ? 'tr' : 'en'
+
   return (
     <html
-      lang="en"
+      lang={lang}
       className={`light bg-background ${geistSans.variable} ${geistMono.variable} ${instrumentSerif.variable}`}
     >
       <body className="font-sans antialiased">

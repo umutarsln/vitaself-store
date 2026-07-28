@@ -4,9 +4,10 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { AnimatePresence, motion } from 'motion/react'
 import { Check, X } from 'lucide-react'
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { useCart } from '@/lib/cart'
 import { useLanguage } from '@/lib/i18n'
+import { useFocusTrap } from '@/lib/use-focus-trap'
 import {
   copy,
   defaultVariant,
@@ -26,6 +27,8 @@ export function CrossSellPrompt({ product, open, excludeHandles, onClose }: Cros
   const { d, lang, price } = useLanguage()
   const { add } = useCart()
   const [addedHandles, setAddedHandles] = useState<string[]>([])
+  const dialogRef = useRef<HTMLDivElement>(null)
+  useFocusTrap(open, dialogRef)
 
   const offers = getCrossSellOffers(product).filter(
     (offer) => !excludeHandles.includes(offer.product.handle),
@@ -74,6 +77,7 @@ export function CrossSellPrompt({ product, open, excludeHandles, onClose }: Cros
             onClick={onClose}
           />
           <motion.div
+            ref={dialogRef}
             role="dialog"
             aria-modal="true"
             aria-labelledby="cross-sell-prompt-title"

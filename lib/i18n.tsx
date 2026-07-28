@@ -378,25 +378,30 @@ export const en = {
       {
         title: 'Learn',
         links: [
-          { label: 'Science', href: '/#science' },
-          { label: 'Ingredient index', href: '/#ingredients' },
-          { label: 'Batch results', href: '/#certificates' },
+          { label: 'Science', href: '/science/white-paper' },
+          { label: 'Ingredient index', href: '/science/ingredient-panel' },
+          { label: 'Batch results', href: '/science/batch-results' },
           { label: 'Reviews', href: '/#reviews' },
-          { label: 'FAQ', href: '/#top' },
+          { label: 'FAQ', href: '/#faq' },
         ],
       },
       {
         title: 'Company',
         links: [
-          { label: 'About', href: '/#about' },
-          { label: 'Scientific board', href: '/#top' },
-          { label: 'Careers', href: '/#top' },
-          { label: 'Press', href: '/#top' },
-          { label: 'Contact', href: '/#top' },
+          { label: 'About', href: '/company/about' },
+          { label: 'Scientific board', href: '/company/scientific-board' },
+          { label: 'Careers', href: '/company/careers' },
+          { label: 'Press', href: '/company/press' },
+          { label: 'Contact', href: '/company/contact' },
         ],
       },
     ],
-    legal: ['Privacy', 'Terms', 'Shipping & returns', 'Cookie preferences'],
+    legal: [
+      { label: 'Privacy', href: '/legal/privacy' },
+      { label: 'Terms', href: '/legal/terms' },
+      { label: 'Shipping & returns', href: '/legal/shipping' },
+      { label: 'Cookie preferences', href: '/legal/cookies' },
+    ],
     rights: 'All rights reserved.',
     disclaimer:
       'Food supplements are not a substitute for a balanced diet. Consult your physician before use if you are pregnant, nursing, or taking medication.',
@@ -771,25 +776,30 @@ export const tr: typeof en = {
       {
         title: 'Öğren',
         links: [
-          { label: 'Bilim', href: '/#science' },
-          { label: 'İçerik dizini', href: '/#ingredients' },
-          { label: 'Parti sonuçları', href: '/#certificates' },
+          { label: 'Bilim', href: '/science/white-paper' },
+          { label: 'İçerik dizini', href: '/science/ingredient-panel' },
+          { label: 'Parti sonuçları', href: '/science/batch-results' },
           { label: 'Yorumlar', href: '/#reviews' },
-          { label: 'SSS', href: '/#top' },
+          { label: 'SSS', href: '/#faq' },
         ],
       },
       {
         title: 'Kurumsal',
         links: [
-          { label: 'Hakkımızda', href: '/#about' },
-          { label: 'Bilim kurulu', href: '/#top' },
-          { label: 'Kariyer', href: '/#top' },
-          { label: 'Basın', href: '/#top' },
-          { label: 'İletişim', href: '/#top' },
+          { label: 'Hakkımızda', href: '/company/about' },
+          { label: 'Bilim kurulu', href: '/company/scientific-board' },
+          { label: 'Kariyer', href: '/company/careers' },
+          { label: 'Basın', href: '/company/press' },
+          { label: 'İletişim', href: '/company/contact' },
         ],
       },
     ],
-    legal: ['Gizlilik', 'Koşullar', 'Kargo ve iade', 'Çerez tercihleri'],
+    legal: [
+      { label: 'Gizlilik', href: '/legal/privacy' },
+      { label: 'Koşullar', href: '/legal/terms' },
+      { label: 'Kargo ve iade', href: '/legal/shipping' },
+      { label: 'Çerez tercihleri', href: '/legal/cookies' },
+    ],
     rights: 'Tüm hakları saklıdır.',
     disclaimer:
       'Takviye edici gıdalar dengeli beslenmenin yerini tutmaz. Hamilelik, emzirme veya ilaç kullanımı durumunda hekiminize danışın.',
@@ -801,6 +811,7 @@ export type Dictionary = typeof en
 
 const dictionaries: Record<Lang, Dictionary> = { en, tr }
 const LANG_STORAGE_KEY = 'vitaself-lang'
+const LANG_COOKIE = 'vitaself-lang'
 
 type LanguageContextValue = {
   lang: Lang
@@ -813,7 +824,14 @@ type LanguageContextValue = {
 
 const LanguageContext = createContext<LanguageContextValue | null>(null)
 
-/** localStorage’dan dil tercihini okur. */
+/** Cookie string’inden dil okur. */
+function readCookieLang(): Lang | null {
+  if (typeof document === 'undefined') return null
+  const match = document.cookie.match(/(?:^|; )vitaself-lang=(en|tr)(?:;|$)/)
+  return match ? (match[1] as Lang) : null
+}
+
+/** localStorage veya cookie’den dil tercihini okur. */
 function readStoredLang(): Lang {
   if (typeof window === 'undefined') return 'en'
   try {
@@ -822,10 +840,10 @@ function readStoredLang(): Lang {
   } catch {
     // ignore
   }
-  return 'en'
+  return readCookieLang() ?? 'en'
 }
 
-/** Dil tercihini localStorage’a yazar. */
+/** Dil tercihini localStorage + cookie’ye yazar. */
 function writeStoredLang(lang: Lang) {
   if (typeof window === 'undefined') return
   try {
@@ -833,6 +851,7 @@ function writeStoredLang(lang: Lang) {
   } catch {
     // ignore
   }
+  document.cookie = `${LANG_COOKIE}=${lang}; path=/; max-age=31536000; samesite=lax`
 }
 
 /** Dil provider: persist + fiyat formatı. */

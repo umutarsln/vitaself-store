@@ -4,6 +4,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { useMemo, useState, type FormEvent, type ReactNode } from 'react'
+import { buttonVariants } from '@/components/ui/button'
 import { useCart } from '@/lib/cart'
 import { useLanguage } from '@/lib/i18n'
 import { LAST_ORDER_KEY, type CheckoutOrder, type CheckoutPaymentMethod } from '@/lib/orders'
@@ -11,8 +12,10 @@ import {
   addMoney,
   copy,
   findVariantById,
+  lineTotal,
   shippingForSubtotal,
 } from '@/lib/products'
+import { cn } from '@/lib/utils'
 
 /** Checkout formu — müşteri, adres, ödeme, sipariş özeti. */
 export function CheckoutForm() {
@@ -333,7 +336,10 @@ export function CheckoutForm() {
         <button
           type="submit"
           disabled={submitting}
-          className="bg-primary text-primary-foreground shadow-soft hover:shadow-float mt-8 inline-flex h-13 min-w-52 items-center justify-center rounded-full px-8 text-sm tracking-wide transition-all duration-500 hover:-translate-y-0.5 disabled:pointer-events-none disabled:opacity-60"
+          className={cn(
+            buttonVariants({ variant: 'default', size: 'lg' }),
+            'bg-primary text-primary-foreground shadow-soft hover:shadow-float mt-8 h-13 min-w-52 rounded-full px-8 text-sm tracking-wide transition-all duration-500 hover:-translate-y-0.5',
+          )}
         >
           {submitting ? d.checkout.submitting : `${d.checkout.placeOrder} · ${price(total)}`}
         </button>
@@ -367,10 +373,7 @@ export function CheckoutForm() {
                     </p>
                   </div>
                   <p className="shrink-0 text-sm">
-                    {price({
-                      usd: variant.price.usd * line.quantity,
-                      try: variant.price.try * line.quantity,
-                    })}
+                    {price(lineTotal(variant.price, line.quantity))}
                   </p>
                 </li>
               )

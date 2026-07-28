@@ -5,7 +5,7 @@ import {
   cartSubtotal,
   copy,
   findVariantById,
-  multiplyMoney,
+  lineTotal,
   shippingForSubtotal,
 } from '@/lib/products'
 
@@ -79,7 +79,7 @@ export async function POST(request: Request) {
       title: copy(resolved.product.title, lang),
       variantTitle: resolved.variant.title,
       unitPrice: resolved.variant.price,
-      lineTotal: multiplyMoney(resolved.variant.price, quantity),
+      lineTotal: lineTotal(resolved.variant.price, quantity),
     })
   }
 

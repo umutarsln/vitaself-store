@@ -11,20 +11,15 @@ import {
   FREE_SHIPPING_THRESHOLD,
   copy,
   defaultVariant,
-  discountMoney,
   getProduct,
-  multiplyMoney,
+  lineTotal,
   perDayPrice,
+  quantityDiscountPercent,
   type Product,
 } from '@/lib/products'
 
 const trustIcons = [Truck, ShieldCheck, Repeat]
 const quantityOptions = [1, 2, 3] as const
-const quantityDiscount: Record<(typeof quantityOptions)[number], number> = {
-  1: 0,
-  2: 8,
-  3: 12,
-}
 
 type ProductPurchaseProps = {
   product: Product
@@ -50,9 +45,12 @@ export function ProductPurchase({ product }: ProductPurchaseProps) {
   }, [product.id, product.variants])
 
   const variant = product.variants.find((item) => item.id === selected) ?? product.variants[0]
-  const qtyDiscount = quantityDiscount[quantity]
-  const linePrice = multiplyMoney(variant.price, quantity)
-  const payable = qtyDiscount > 0 ? discountMoney(linePrice, qtyDiscount) : linePrice
+  const qtyDiscount = quantityDiscountPercent(quantity)
+  const payable = lineTotal(variant.price, quantity)
+  const linePrice = {
+    usd: variant.price.usd * quantity,
+    try: variant.price.try * quantity,
+  }
   const daily = perDayPrice(variant.price, product.servingsPerContainer)
 
   const shippingGap = useMemo(() => {

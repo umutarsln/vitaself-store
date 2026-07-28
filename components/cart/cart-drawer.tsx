@@ -4,14 +4,16 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { AnimatePresence, motion } from 'motion/react'
 import { Minus, Plus, ShoppingBag, Trash2, X } from 'lucide-react'
-import { useEffect } from 'react'
+import { useEffect, useRef } from 'react'
 import { useCart } from '@/lib/cart'
 import { useLanguage } from '@/lib/i18n'
+import { useFocusTrap } from '@/lib/use-focus-trap'
 import {
   FREE_SHIPPING_THRESHOLD,
   addMoney,
   copy,
   findVariantById,
+  lineTotal,
   shippingForSubtotal,
 } from '@/lib/products'
 
@@ -19,6 +21,8 @@ import {
 export function CartDrawer() {
   const { d, lang, price } = useLanguage()
   const { lines, count, subtotal, isOpen, closeCart, update, remove, hydrated } = useCart()
+  const panelRef = useRef<HTMLElement>(null)
+  useFocusTrap(isOpen, panelRef)
 
   const shipping = shippingForSubtotal(subtotal)
   const total = addMoney(subtotal, shipping)
@@ -61,6 +65,7 @@ export function CartDrawer() {
           />
 
           <motion.aside
+            ref={panelRef}
             role="dialog"
             aria-modal="true"
             aria-labelledby="cart-drawer-title"
@@ -143,10 +148,7 @@ export function CartDrawer() {
                               </p>
                             </div>
                             <p className="shrink-0 text-sm">
-                              {price({
-                                usd: variant.price.usd * line.quantity,
-                                try: variant.price.try * line.quantity,
-                              })}
+                              {price(lineTotal(variant.price, line.quantity))}
                             </p>
                           </div>
 

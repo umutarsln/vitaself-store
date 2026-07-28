@@ -423,13 +423,27 @@ export const FREE_SHIPPING_THRESHOLD: Money = { usd: 60, try: 1500 }
 /** Stack için varsayılan indirim yüzdesi. */
 export const STACK_DISCOUNT_PERCENT = 12
 
-/** Sepet satırlarından ara toplam hesaplar. */
+/** Miktar bazlı indirim yüzdesi (PDP ve sepet ortak). */
+export function quantityDiscountPercent(quantity: number): number {
+  if (quantity >= 3) return 12
+  if (quantity >= 2) return 8
+  return 0
+}
+
+/** Satır toplamını miktar indirimiyle hesaplar. */
+export function lineTotal(price: Money, quantity: number): Money {
+  const raw = multiplyMoney(price, quantity)
+  const percent = quantityDiscountPercent(quantity)
+  return percent > 0 ? discountMoney(raw, percent) : raw
+}
+
+/** Sepet satırlarından ara toplam hesaplar (miktar indirimli). */
 export function cartSubtotal(lines: { variantId: string; quantity: number }[]): Money {
   return lines.reduce(
     (sum, line) => {
       const resolved = findVariantById(line.variantId)
       if (!resolved) return sum
-      return addMoney(sum, multiplyMoney(resolved.variant.price, line.quantity))
+      return addMoney(sum, lineTotal(resolved.variant.price, line.quantity))
     },
     { usd: 0, try: 0 },
   )

@@ -2,6 +2,7 @@
 
 import { AnimatePresence, motion, useMotionValueEvent, useScroll } from 'motion/react'
 import { Menu, Search, ShoppingBag, User, X } from 'lucide-react'
+import Link from 'next/link'
 import { useState } from 'react'
 import { useCart } from '@/lib/cart'
 import { useLanguage } from '@/lib/i18n'
@@ -35,12 +36,12 @@ export function SiteHeader() {
         }`}
       >
         <div className="mx-auto flex h-16 w-full max-w-6xl items-center justify-between gap-6 px-6 md:h-20 md:px-10">
-          <a href="/" className="flex shrink-0 items-baseline gap-2">
+          <Link href="/" className="flex shrink-0 items-baseline gap-2">
             <span className="text-display text-xl md:text-2xl">Vitaself</span>
             <span className="text-[9px] tracking-[0.28em] text-muted-foreground hidden uppercase sm:block">
               Pharma
             </span>
-          </a>
+          </Link>
 
           <nav aria-label="Primary" className="hidden items-center gap-9 lg:flex">
             {links.map((link) => (
