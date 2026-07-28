@@ -13,16 +13,18 @@ const trustIcons = [Truck, ShieldCheck, Repeat]
 
 export function FeaturedProduct() {
   const { d, price } = useLanguage()
-  const { add } = useCart()
+  const { add, openCart } = useCart()
   const [selected, setSelected] = useState(dailyFoundation.variants[0].id)
   const [added, setAdded] = useState(false)
 
   const variant = dailyFoundation.variants.find((item) => item.id === selected) ?? dailyFoundation.variants[0]
   const daily = perDayPrice(variant.price, dailyFoundation.servingsPerContainer)
 
+  /** Seçili varyantı sepete ekler ve drawer’ı açar. */
   function handleAdd() {
     add(variant.id)
     setAdded(true)
+    openCart()
     window.setTimeout(() => setAdded(false), 2000)
   }
 

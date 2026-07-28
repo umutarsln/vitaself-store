@@ -6,9 +6,10 @@ import { useCart } from '@/lib/cart'
 import { useLanguage } from '@/lib/i18n'
 import { dailyFoundation } from '@/lib/products'
 
+/** Ana sayfa sticky satın alma çubuğu — ekle ve sepeti aç. */
 export function StickyBuyBar() {
   const { d, price } = useLanguage()
-  const { add } = useCart()
+  const { add, openCart } = useCart()
   const [visible, setVisible] = useState(false)
   const { scrollY } = useScroll()
 
@@ -19,6 +20,12 @@ export function StickyBuyBar() {
   })
 
   const variant = dailyFoundation.variants[0]
+
+  /** Abonelik varyantını sepete ekler ve drawer’ı açar. */
+  function handleAdd() {
+    add(variant.id)
+    openCart()
+  }
 
   return (
     <AnimatePresence>
@@ -39,7 +46,7 @@ export function StickyBuyBar() {
             </div>
             <button
               type="button"
-              onClick={() => add(variant.id)}
+              onClick={handleAdd}
               className="bg-primary text-primary-foreground inline-flex h-11 shrink-0 items-center rounded-full px-6 text-[13px] tracking-wide transition-transform duration-500 hover:-translate-y-0.5"
             >
               {d.featured.add}

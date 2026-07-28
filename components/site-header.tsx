@@ -8,7 +8,7 @@ import { useLanguage } from '@/lib/i18n'
 
 export function SiteHeader() {
   const { d, lang, setLang } = useLanguage()
-  const { count } = useCart()
+  const { count, openCart } = useCart()
   const [scrolled, setScrolled] = useState(false)
   const [open, setOpen] = useState(false)
   const { scrollY } = useScroll()
@@ -93,6 +93,7 @@ export function SiteHeader() {
             </button>
             <button
               type="button"
+              onClick={openCart}
               className="text-foreground/70 hover:text-foreground relative flex size-10 items-center justify-center rounded-full transition-colors"
             >
               <ShoppingBag className="size-[18px]" strokeWidth={1.4} />

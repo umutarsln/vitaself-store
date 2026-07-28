@@ -398,8 +398,47 @@ export function defaultVariant(product: Product): ProductVariant {
   return product.variants.find((variant) => variant.sellingPlan === 'subscription') ?? product.variants[0]
 }
 
+export type ResolvedVariant = {
+  product: Product
+  variant: ProductVariant
+}
+
+/** Variant GID ile ürün + varyant çözümler. */
+export function findVariantById(variantId: string): ResolvedVariant | null {
+  for (const product of products) {
+    const variant = product.variants.find((item) => item.id === variantId)
+    if (variant) {
+      return { product, variant }
+    }
+  }
+  return null
+}
+
+/** Flat shipping ücreti (eşik altı). */
+export const FLAT_SHIPPING: Money = { usd: 8, try: 149 }
+
 /** Ücretsiz kargo eşiği (dil bağımsız Money). */
 export const FREE_SHIPPING_THRESHOLD: Money = { usd: 60, try: 1500 }
 
 /** Stack için varsayılan indirim yüzdesi. */
 export const STACK_DISCOUNT_PERCENT = 12
+
+/** Sepet satırlarından ara toplam hesaplar. */
+export function cartSubtotal(lines: { variantId: string; quantity: number }[]): Money {
+  return lines.reduce(
+    (sum, line) => {
+      const resolved = findVariantById(line.variantId)
+      if (!resolved) return sum
+      return addMoney(sum, multiplyMoney(resolved.variant.price, line.quantity))
+    },
+    { usd: 0, try: 0 },
+  )
+}
+
+/** Ara toplama göre kargo tutarını hesaplar. */
+export function shippingForSubtotal(subtotal: Money): Money {
+  if (subtotal.usd >= FREE_SHIPPING_THRESHOLD.usd || subtotal.try >= FREE_SHIPPING_THRESHOLD.try) {
+    return { usd: 0, try: 0 }
+  }
+  return FLAT_SHIPPING
+}
