@@ -5,11 +5,11 @@ import { Check, ShoppingBag } from 'lucide-react'
 import { useEffect, useState } from 'react'
 import { useCart } from '@/lib/cart'
 import { useLanguage } from '@/lib/i18n'
-import { copy, findVariantById } from '@/lib/products'
+import { copy, resolveCartLine } from '@/lib/products'
 
 /** Sepete ekleme sonrası kısa süreli toast bildirimi. */
 export function CartToast() {
-  const { pulseKey, lastAddedVariantId, openCart } = useCart()
+  const { pulseKey, lastAddedVariantId, lines, openCart } = useCart()
   const { d, lang } = useLanguage()
   const [visible, setVisible] = useState(false)
   const [label, setLabel] = useState('')
@@ -18,13 +18,18 @@ export function CartToast() {
   useEffect(() => {
     if (pulseKey === 0) return
 
-    const resolved = lastAddedVariantId ? findVariantById(lastAddedVariantId) : null
+    const line = lines.find((item) => item.variantId === lastAddedVariantId)
+    const resolved = line
+      ? resolveCartLine(line)
+      : lastAddedVariantId
+        ? resolveCartLine({ variantId: lastAddedVariantId })
+        : null
     setLabel(resolved ? copy(resolved.product.title, lang) : d.cart.addedToast)
     setVisible(true)
 
     const timer = window.setTimeout(() => setVisible(false), 2800)
     return () => window.clearTimeout(timer)
-  }, [pulseKey, lastAddedVariantId, lang, d.cart.addedToast])
+  }, [pulseKey, lastAddedVariantId, lines, lang, d.cart.addedToast])
 
   /** Toast tıklanınca sepet drawer'ını açar. */
   function handleOpenCart() {

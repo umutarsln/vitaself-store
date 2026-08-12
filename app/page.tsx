@@ -3,7 +3,6 @@ import { Certificates } from '@/components/sections/certificates'
 import { Comparison } from '@/components/sections/comparison'
 import { Doctor } from '@/components/sections/doctor'
 import { Faq } from '@/components/sections/faq'
-import { FeaturedProduct } from '@/components/sections/featured-product'
 import { Hero } from '@/components/sections/hero'
 import { Ingredients } from '@/components/sections/ingredients'
 import { Lifestyle } from '@/components/sections/lifestyle'
@@ -13,7 +12,6 @@ import { Science } from '@/components/sections/science'
 import { HomeJsonLd } from '@/components/seo/json-ld'
 import { SiteFooter } from '@/components/site-footer'
 import { SiteHeader } from '@/components/site-header'
-import { StickyBuyBar } from '@/components/sticky-buy-bar'
 
 /** Ana sayfa — landing. */
 export default function HomePage() {
@@ -23,7 +21,6 @@ export default function HomePage() {
       <SiteHeader />
       <main>
         <Hero />
-        <FeaturedProduct />
         <Benefits />
         <Ingredients />
         <Science />
@@ -36,7 +33,6 @@ export default function HomePage() {
         <Newsletter />
       </main>
       <SiteFooter />
-      <StickyBuyBar />
     </>
   )
 }

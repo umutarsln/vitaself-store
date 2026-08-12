@@ -440,39 +440,44 @@ export const magnesium: Product = {
   id: 'gid://shopify/Product/5',
   handle: 'magnesium',
   vendor: 'Vitaself',
-  title: { en: 'Magnesium', tr: 'Magnezyum', de: 'Magnesium', ru: 'Магний' },
+  title: {
+    en: 'Magnesium Complex',
+    tr: 'Magnezyum Kompleks',
+    de: 'Magnesium Komplex',
+    ru: 'Магний Комплекс',
+  },
   subtitle: {
-    en: '300 mg magnesium bisglycinate. High absorption, no bloating.',
-    tr: '300 mg magnezyum bisglisinat. Yüksek emilim, şişkinlik yapmaz.',
-    de: '300 mg Magnesiumbisglycinat. Hohe Bioverfügbarkeit, ohne Blähungen.',
-    ru: '300 мг бисглицината магния. Высокая усвояемость, без вздутия.',
+    en: '200 mg elemental magnesium — citrate, malate, bisglycinate + Vitamin B6 (P5P).',
+    tr: '200 mg elemental magnezyum — sitrat, malat, bisglisinat + Vitamin B6 (P5P).',
+    de: '200 mg elementares Magnesium — Citrat, Malat, Bisglycinat + Vitamin B6 (P5P).',
+    ru: '200 мг элементарного магния — цитрат, малат, бисглицинат + витамин B6 (P5P).',
   },
   description: {
-    en: 'A fully chelated magnesium bisglycinate formula dosed at levels shown to support muscle relaxation, nerve function, and sleep quality — without the digestive upset common to cheaper magnesium oxide.',
-    tr: 'Kas gevşemesi, sinir fonksiyonu ve uyku kalitesini desteklediği gösterilen dozlarda, tam şelatlı magnezyum bisglisinat formülü — daha ucuz magnezyum oksitte sık görülen sindirim rahatsızlığı olmadan.',
-    de: 'Eine vollständig chelatierte Magnesiumbisglycinat-Formel in Dosierungen, die Muskelentspannung, Nervenfunktion und Schlafqualität unterstützen — ohne die Verdauungsbeschwerden, die bei günstigerem Magnesiumoxid häufig auftreten.',
-    ru: 'Полностью хелатированная формула бисглицината магния в дозировках, поддерживающих расслабление мышц, работу нервной системы и качество сна — без расстройства пищеварения, характерного для более дешёвого оксида магния.',
+    en: 'A triple-form magnesium complex (citrate, malate, bisglycinate) providing 200 mg elemental magnesium, with bioactive Vitamin B6 (P5P) for absorption and nerve support — without the digestive upset common to cheaper magnesium oxide.',
+    tr: 'Sitrat, malat ve bisglisinat formlarını bir araya getiren magnezyum kompleksi; 200 mg elemental magnezyum ve emilimi destekleyen aktif Vitamin B6 (P5P) ile. Ucuz magnezyum oksitte sık görülen sindirim rahatsızlığı olmadan kas, sinir ve uyku desteği.',
+    de: 'Ein Magnesiumkomplex aus Citrat, Malat und Bisglycinat mit 200 mg elementarem Magnesium sowie bioaktivem Vitamin B6 (P5P) — ohne die Verdauungsbeschwerden günstigeren Magnesiumoxids.',
+    ru: 'Комплекс магния из цитрата, малата и бисглицината: 200 мг элементарного магния и биоактивный витамин B6 (P5P) — без расстройства пищеварения, характерного для оксида магния.',
   },
   badge: { en: 'New', tr: 'Yeni', de: 'Neu', ru: 'Новинка' },
   category: { en: 'Minerals', tr: 'Mineraller', de: 'Mineralstoffe', ru: 'Минералы' },
   highlights: [
     {
-      en: '300 mg elemental magnesium bisglycinate',
-      tr: '300 mg elemental magnezyum bisglisinat',
-      de: '300 mg elementares Magnesiumbisglycinat',
-      ru: '300 мг элементарного магния в форме бисглицината',
+      en: '200 mg elemental magnesium per serving',
+      tr: 'Serviste 200 mg elemental magnezyum',
+      de: '200 mg elementares Magnesium pro Portion',
+      ru: '200 мг элементарного магния на порцию',
     },
     {
-      en: 'Chelated for maximum absorption',
-      tr: 'Maksimum emilim için şelatlı',
-      de: 'Chelatiert für maximale Aufnahme',
-      ru: 'Хелатная форма для максимального усвоения',
+      en: 'Citrate · Malate · Bisglycinate forms',
+      tr: 'Sitrat · Malat · Bisglisinat formları',
+      de: 'Citrat · Malat · Bisglycinat',
+      ru: 'Цитрат · Малат · Бисглицинат',
     },
     {
-      en: 'Gentle on digestion, no laxative effect',
-      tr: 'Mideye nazik, laksatif etkisi yok',
-      de: 'Magenschonend, keine abführende Wirkung',
-      ru: 'Мягкое действие на пищеварение, без слабительного эффекта',
+      en: 'With Vitamin B6 (P5P)',
+      tr: 'Vitamin B6 (P5P) ile',
+      de: 'Mit Vitamin B6 (P5P)',
+      ru: 'С витамином B6 (P5P)',
     },
     {
       en: 'Supports muscle, nerve, and sleep quality',
@@ -481,18 +486,27 @@ export const magnesium: Product = {
       ru: 'Поддерживает мышцы, нервную систему и качество сна',
     },
   ],
-  activesCount: 1,
+  activesCount: 4,
   featuredImage: {
-    url: '/images/packshot-magnesium.png',
-    altText: 'Vitaself Magnesium bottle with a sage-green cap on an ivory background',
+    url: '/images/magnesium-hero.png',
+    altText: 'Vitaself Magnezyum Kompleks kutusu — 200 mg elemental magnezyum',
   },
   images: [
-    { url: '/images/packshot-magnesium.png', altText: 'Vitaself Magnesium bottle' },
-    { url: '/images/capsules-macro.png', altText: 'Magnesium capsules photographed in macro' },
-    { url: '/images/ingredient-macro.png', altText: 'Raw magnesium ingredients in glass dishes' },
+    {
+      url: '/images/magnesium-hero.png',
+      altText: 'Vitaself Magnezyum Kompleks ürün görseli',
+    },
+    {
+      url: '/images/magnesium-packshot.jpg',
+      altText: 'Vitaself Magnezyum Kompleks kutu — yüksek emilim, B6 ve B12',
+    },
+    {
+      url: '/images/magnesium-lifestyle.jpg',
+      altText: 'Vitaself Magnezyum Kompleks lifestyle çekimi',
+    },
   ],
   rating: { value: 4.8, count: 612 },
-  servingsPerContainer: 30,
+  servingsPerContainer: 60,
   variants: [
     {
       id: 'gid://shopify/ProductVariant/52',
@@ -530,39 +544,39 @@ export const omega3: Product = {
   id: 'gid://shopify/Product/6',
   handle: 'omega-3',
   vendor: 'Vitaself',
-  title: { en: 'Omega-3', tr: 'Omega-3 Balık Yağı', de: 'Omega-3 Fischöl', ru: 'Омега-3 рыбий жир' },
+  title: { en: 'Omega-3', tr: 'Omega-3', de: 'Omega-3', ru: 'Омега-3' },
   subtitle: {
-    en: '1,000 mg triple-strength fish oil. EPA-forward, molecularly distilled.',
-    tr: '1.000 mg üçlü güç balık yağı. EPA ağırlıklı, moleküler distilasyon.',
-    de: '1.000 mg dreifach konzentriertes Fischöl. EPA-betont, molekular destilliert.',
-    ru: '1000 мг рыбьего жира тройной концентрации. С акцентом на EPA, молекулярная дистилляция.',
+    en: 'EPA 360 mg · DHA 240 mg. High-concentration fish oil softgels.',
+    tr: 'EPA 360 mg · DHA 240 mg. Yüksek konsantrasyon balık yağı yumuşak kapsül.',
+    de: 'EPA 360 mg · DHA 240 mg. Hochkonzentrierte Fischöl-Weichkapseln.',
+    ru: 'EPA 360 мг · DHA 240 мг. Высококонцентрированный рыбий жир в мягких капсулах.',
   },
   description: {
-    en: 'Marine-sourced omega-3 concentrated for EPA — the fatty acid most linked to cardiovascular and joint comfort. Molecularly distilled and third-party tested for oxidation, PCBs, and heavy metals, batch by batch.',
-    tr: 'Kalp-damar ve eklem konforuyla en çok ilişkilendirilen yağ asidi EPA açısından yoğunlaştırılmış, deniz kaynaklı omega-3. Moleküler distilasyonla saflaştırılır, her parti oksidasyon, PCB ve ağır metal için bağımsız test edilir.',
-    de: 'Marines Omega-3, konzentriert auf EPA — die Fettsäure, die am stärksten mit kardiovaskulärer und Gelenkgesundheit in Verbindung gebracht wird. Molekular destilliert und Charge für Charge unabhängig auf Oxidation, PCB und Schwermetalle geprüft.',
-    ru: 'Омега-3 морского происхождения, концентрированный по EPA — жирной кислоте, наиболее связанной со здоровьем сердечно-сосудистой системы и суставов. Молекулярная дистилляция, независимая проверка каждой партии на окисление, ПХБ и тяжёлые металлы.',
+    en: 'Marine-sourced omega-3 delivering 360 mg EPA and 240 mg DHA per serving — formulated for cardiovascular, cognitive, and joint support. Softgels are third-party tested for oxidation and heavy metals, batch by batch.',
+    tr: 'Serviste 360 mg EPA ve 240 mg DHA sağlayan deniz kaynaklı omega-3 — kalp-damar, biliş ve eklem desteği için formüle edildi. Yumuşak kapsüller her parti oksidasyon ve ağır metal için bağımsız test edilir.',
+    de: 'Marines Omega-3 mit 360 mg EPA und 240 mg DHA pro Portion — für Herz-Kreislauf, Kognition und Gelenke. Weichkapseln werden Charge für Charge unabhängig auf Oxidation und Schwermetalle geprüft.',
+    ru: 'Омега-3 морского происхождения: 360 мг EPA и 240 мг DHA на порцию — для поддержки сердца, когнитивных функций и суставов. Каждая партия мягких капсул проходит независимую проверку на окисление и тяжёлые металлы.',
   },
   badge: { en: 'New', tr: 'Yeni', de: 'Neu', ru: 'Новинка' },
   category: { en: 'Heart & joints', tr: 'Kalp ve eklem', de: 'Herz & Gelenke', ru: 'Сердце и суставы' },
   highlights: [
     {
-      en: '650 mg EPA + 250 mg DHA per serving',
-      tr: 'Serviste 650 mg EPA + 250 mg DHA',
-      de: '650 mg EPA + 250 mg DHA pro Portion',
-      ru: '650 мг EPA + 250 мг DHA на порцию',
+      en: '360 mg EPA + 240 mg DHA per serving',
+      tr: 'Serviste 360 mg EPA + 240 mg DHA',
+      de: '360 mg EPA + 240 mg DHA pro Portion',
+      ru: '360 мг EPA + 240 мг DHA на порцию',
     },
     {
-      en: 'Molecularly distilled, low oxidation (TOTOX)',
-      tr: 'Moleküler distile, düşük oksidasyon (TOTOX)',
-      de: 'Molekular destilliert, niedriger Oxidationswert (TOTOX)',
-      ru: 'Молекулярная дистилляция, низкий уровень окисления (TOTOX)',
+      en: 'High-concentration triglyceride softgels',
+      tr: 'Yüksek konsantrasyon trigliserid form yumuşak kapsül',
+      de: 'Hochkonzentrierte Triglycerid-Weichkapseln',
+      ru: 'Высококонцентрированные мягкие капсулы в форме триглицеридов',
     },
     {
-      en: 'No fishy aftertaste, enteric softgel',
-      tr: 'Balık tadı yok, enterik yumuşak kapsül',
-      de: 'Kein Fischgeschmack, magensaftresistente Weichkapsel',
-      ru: 'Без рыбного привкуса, кишечнорастворимая капсула',
+      en: 'No fishy aftertaste',
+      tr: 'Balık tadı bırakmaz',
+      de: 'Kein Fischgeschmack',
+      ru: 'Без рыбного привкуса',
     },
     {
       en: 'Tested for heavy metals every batch',
@@ -573,16 +587,25 @@ export const omega3: Product = {
   ],
   activesCount: 2,
   featuredImage: {
-    url: '/images/packshot-omega3.png',
-    altText: 'Vitaself Omega-3 bottle with an amber-gold cap on an ivory background',
+    url: '/images/omega3-hero.jpg',
+    altText: 'Vitaself Omega-3 kutusu ve blister — EPA 360 mg, DHA 240 mg',
   },
   images: [
-    { url: '/images/packshot-omega3.png', altText: 'Vitaself Omega-3 bottle' },
-    { url: '/images/capsules-macro.png', altText: 'Omega-3 softgels photographed in macro' },
-    { url: '/images/ingredient-macro.png', altText: 'Raw omega-3 ingredients in glass dishes' },
+    {
+      url: '/images/omega3-hero.jpg',
+      altText: 'Vitaself Omega-3 su sıçraması ürün görseli',
+    },
+    {
+      url: '/images/omega3-packshot.jpg',
+      altText: 'Vitaself Omega-3 kutu ve yumuşak kapsül blister',
+    },
+    {
+      url: '/images/packshot-omega3.png',
+      altText: 'Vitaself Omega-3 packshot',
+    },
   ],
   rating: { value: 4.7, count: 489 },
-  servingsPerContainer: 30,
+  servingsPerContainer: 100,
   variants: [
     {
       id: 'gid://shopify/ProductVariant/62',
@@ -668,13 +691,13 @@ export const multivitaminMen: Product = {
   ],
   activesCount: 18,
   featuredImage: {
-    url: '/images/packshot-multivitamin-men.png',
-    altText: 'Vitaself Multivitamin for Men bottle with a slate-blue cap on an ivory background',
+    url: '/images/multivitamin-men-hero.png',
+    altText: 'Vitaself Multivitamin Mineral for Men kutusu — 12 Vitamin & 8 Mineral',
   },
   images: [
-    { url: '/images/packshot-multivitamin-men.png', altText: 'Vitaself Multivitamin for Men bottle' },
-    { url: '/images/capsules-macro.png', altText: "Men's multivitamin tablets photographed in macro" },
-    { url: '/images/ingredient-macro.png', altText: 'Raw multivitamin ingredients in glass dishes' },
+    { url: '/images/multivitamin-men-hero.png', altText: 'Vitaself Multivitamin for Men ürün görseli' },
+    { url: '/images/multivitamin-men-packshot.png', altText: 'Vitaself Multivitamin for Men kutu ve tablet packshot' },
+    { url: '/images/multivitamin-men-lifestyle.png', altText: 'Vitaself Multivitamin for Men lifestyle çekimi' },
   ],
   rating: { value: 4.8, count: 734 },
   servingsPerContainer: 30,
@@ -763,13 +786,13 @@ export const multivitaminWomen: Product = {
   ],
   activesCount: 20,
   featuredImage: {
-    url: '/images/packshot-multivitamin-women.png',
-    altText: 'Vitaself Multivitamin for Women bottle with a dusty-rose cap on an ivory background',
+    url: '/images/multivitamin-women-hero.png',
+    altText: 'Vitaself Multivitamin Mineral for Women kutusu — 12 Vitamin & 8 Mineral',
   },
   images: [
-    { url: '/images/packshot-multivitamin-women.png', altText: 'Vitaself Multivitamin for Women bottle' },
-    { url: '/images/capsules-macro.png', altText: "Women's multivitamin tablets photographed in macro" },
-    { url: '/images/ingredient-macro.png', altText: 'Raw multivitamin ingredients in glass dishes' },
+    { url: '/images/multivitamin-women-hero.png', altText: 'Vitaself Multivitamin for Women ürün görseli' },
+    { url: '/images/multivitamin-women-packshot.png', altText: 'Vitaself Multivitamin for Women kutu ve tablet packshot' },
+    { url: '/images/multivitamin-women-lifestyle.png', altText: 'Vitaself Multivitamin for Women lifestyle çekimi' },
   ],
   rating: { value: 4.9, count: 891 },
   servingsPerContainer: 30,
@@ -858,13 +881,13 @@ export const glucosamineComplex: Product = {
   ],
   activesCount: 3,
   featuredImage: {
-    url: '/images/packshot-glucosamine.png',
-    altText: 'Vitaself Glucosamine Complex bottle with a terracotta cap on an ivory background',
+    url: '/images/glucosamine-hero.png',
+    altText: 'Vitaself Glukozamin Kompleks kutusu — 1500 mg, Tip II Kolajen, Hyaluronik Asit, Kurkumin',
   },
   images: [
-    { url: '/images/packshot-glucosamine.png', altText: 'Vitaself Glucosamine Complex bottle' },
-    { url: '/images/capsules-macro.png', altText: 'Glucosamine complex tablets photographed in macro' },
-    { url: '/images/ingredient-macro.png', altText: 'Raw glucosamine complex ingredients in glass dishes' },
+    { url: '/images/glucosamine-hero.png', altText: 'Vitaself Glukozamin Kompleks ürün görseli' },
+    { url: '/images/glucosamine-packshot.png', altText: 'Vitaself Glukozamin Kompleks kutu ve tablet packshot' },
+    { url: '/images/glucosamine-lifestyle.png', altText: 'Vitaself Glukozamin Kompleks lifestyle çekimi' },
   ],
   rating: { value: 4.7, count: 356 },
   servingsPerContainer: 30,
@@ -914,23 +937,44 @@ export const products: Product[] = [
   essentialsTrio,
 ]
 
+/** Şimdilik UI’da gösterilmeyen ürün handle’ları. */
+export const HIDDEN_PRODUCT_HANDLES = new Set([
+  'daily-foundation',
+  'sleep-depth',
+  'algal-omega',
+  'essentials-trio',
+])
+
+/** Ürünün vitrinde görünür olup olmadığını döner. */
+export function isProductVisible(handle: string): boolean {
+  return !HIDDEN_PRODUCT_HANDLES.has(handle)
+}
+
+/** Görünür ürünleri filtreler. */
+export function filterVisibleProducts(catalog: Product[]): Product[] {
+  return catalog.filter((product) => isProductVisible(product.handle))
+}
+
+/** UI’da listelenen statik ürünler. */
+export const visibleProducts = filterVisibleProducts(products)
+
 /** Handle ile ürün bulur; yoksa null döner. */
 export function getProduct(handle: string): Product | null {
   return products.find((product) => product.handle === handle) ?? null
 }
 
-/** Ürünün ilişkili / cross-sell listesini döner. */
+/** Ürünün ilişkili / cross-sell listesini döner (gizli ürünler hariç). */
 export function getRelatedProducts(product: Product): Product[] {
   return product.relatedHandles
     .map((handle) => getProduct(handle))
-    .filter((item): item is Product => Boolean(item))
+    .filter((item): item is Product => item !== null && isProductVisible(item.handle))
 }
 
-/** Stack / FBT önerisi ürünlerini döner. */
+/** Stack / FBT önerisi ürünlerini döner (gizli ürünler hariç). */
 export function getStackProducts(product: Product): Product[] {
   return product.stackWith
     .map((handle) => getProduct(handle))
-    .filter((item): item is Product => Boolean(item))
+    .filter((item): item is Product => item !== null && isProductVisible(item.handle))
 }
 
 export type CrossSellOffer = {
@@ -938,12 +982,12 @@ export type CrossSellOffer = {
   reason: LocaleCopy
 }
 
-/** Cross-sell add-on listesini ürün + neden metniyle döner. */
+/** Cross-sell add-on listesini ürün + neden metniyle döner (gizli ürünler hariç). */
 export function getCrossSellOffers(product: Product): CrossSellOffer[] {
   return product.crossSells
     .map((entry) => {
       const offer = getProduct(entry.handle)
-      if (!offer) return null
+      if (!offer || !isProductVisible(offer.handle)) return null
       return { product: offer, reason: entry.reason }
     })
     .filter((item): item is CrossSellOffer => Boolean(item))
@@ -970,6 +1014,22 @@ export function findVariantById(variantId: string): ResolvedVariant | null {
   return null
 }
 
+/**
+ * Sepet satırını çözümler: önce variantId, yoksa handle ile varsayılan varyant.
+ * Shopify merge sonrası GID’ler değişince eski/yeni ID uyumsuzluğunu yumuşatır.
+ */
+export function resolveCartLine(line: {
+  variantId: string
+  handle?: string
+}): ResolvedVariant | null {
+  const byId = findVariantById(line.variantId)
+  if (byId) return byId
+  if (!line.handle) return null
+  const product = getProduct(line.handle)
+  if (!product) return null
+  return { product, variant: defaultVariant(product) }
+}
+
 /** Flat shipping ücreti (eşik altı). */
 export const FLAT_SHIPPING: Money = { usd: 8, try: 149 }
 
@@ -994,10 +1054,12 @@ export function lineTotal(price: Money, quantity: number): Money {
 }
 
 /** Sepet satırlarından ara toplam hesaplar (miktar indirimli). */
-export function cartSubtotal(lines: { variantId: string; quantity: number }[]): Money {
+export function cartSubtotal(
+  lines: { variantId: string; quantity: number; handle?: string }[],
+): Money {
   return lines.reduce(
     (sum, line) => {
-      const resolved = findVariantById(line.variantId)
+      const resolved = resolveCartLine(line)
       if (!resolved) return sum
       return addMoney(sum, lineTotal(resolved.variant.price, line.quantity))
     },

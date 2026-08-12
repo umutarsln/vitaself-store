@@ -1,5 +1,5 @@
 import type { MetadataRoute } from 'next'
-import { products } from '@/lib/products'
+import { visibleProducts } from '@/lib/products'
 import { absoluteUrl } from '@/lib/site'
 
 /** Site sitemap’i — checkout gibi noindex sayfalar hariç. */
@@ -18,7 +18,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: absoluteUrl('/company/contact'), lastModified: now, changeFrequency: 'monthly', priority: 0.4 },
   ]
 
-  const productRoutes: MetadataRoute.Sitemap = products.map((product) => ({
+  const productRoutes: MetadataRoute.Sitemap = visibleProducts.map((product) => ({
     url: absoluteUrl(`/products/${product.handle}`),
     lastModified: now,
     changeFrequency: 'weekly',

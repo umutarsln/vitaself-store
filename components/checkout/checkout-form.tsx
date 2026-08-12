@@ -3,7 +3,7 @@
 import Image from 'next/image'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
-import { useMemo, useState, type FormEvent, type ReactNode } from 'react'
+import { useEffect, useMemo, useState, type FormEvent, type ReactNode } from 'react'
 import { buttonVariants } from '@/components/ui/button'
 import { useCart } from '@/lib/cart'
 import { useLanguage } from '@/lib/i18n'
@@ -12,8 +12,8 @@ import { LAST_ORDER_KEY, type CheckoutOrder, type CheckoutPaymentMethod } from '
 import {
   addMoney,
   copy,
-  findVariantById,
   lineTotal,
+  resolveCartLine,
   shippingForSubtotal,
 } from '@/lib/products'
 import { cn } from '@/lib/utils'
@@ -48,6 +48,14 @@ export function CheckoutForm() {
   const [notes, setNotes] = useState('')
   const [submitting, setSubmitting] = useState(false)
   const [error, setError] = useState<string | null>(null)
+  const [shopifyEnabled, setShopifyEnabled] = useState(false)
+
+  useEffect(() => {
+    fetch('/api/checkout')
+      .then((response) => response.json())
+      .then((data: { shopify?: boolean }) => setShopifyEnabled(Boolean(data.shopify)))
+      .catch(() => setShopifyEnabled(false))
+  }, [])
 
   const shipping = shippingForSubtotal(subtotal)
   const total = addMoney(subtotal, shipping)
@@ -56,7 +64,7 @@ export function CheckoutForm() {
     () =>
       lines
         .map((line) => {
-          const resolved = findVariantById(line.variantId)
+          const resolved = resolveCartLine(line)
           if (!resolved) return null
           return { line, ...resolved }
         })
@@ -69,7 +77,7 @@ export function CheckoutForm() {
     event.preventDefault()
     if (count === 0 || submitting) return
 
-    if (paymentMethod === 'card') {
+    if (!shopifyEnabled && paymentMethod === 'card') {
       const digits = cardNumber.replace(/\s/g, '')
       if (digits.length < 12 || !cardExpiry.trim() || cardCvc.trim().length < 3) {
         setError(d.checkout.errors.card)
@@ -97,6 +105,17 @@ export function CheckoutForm() {
       const data = (await response.json()) as { order?: CheckoutOrder; error?: string }
       if (!response.ok || !data.order) {
         throw new Error(data.error || d.checkout.errors.generic)
+      }
+
+      if (data.order.shopifyCheckoutUrl) {
+        try {
+          window.sessionStorage.setItem(LAST_ORDER_KEY, JSON.stringify(data.order))
+        } catch {
+          // sessionStorage engelli olabilir
+        }
+        clear()
+        window.location.href = data.order.shopifyCheckoutUrl
+        return
       }
 
       try {
@@ -289,7 +308,7 @@ export function CheckoutForm() {
             ))}
           </div>
 
-          {paymentMethod === 'card' && (
+          {paymentMethod === 'card' && !shopifyEnabled && (
             <div className="mt-5 grid gap-4 sm:grid-cols-2">
               <Field label={d.checkout.fields.cardNumber} className="sm:col-span-2">
                 <input
@@ -352,7 +371,7 @@ export function CheckoutForm() {
           {submitting ? d.checkout.submitting : `${d.checkout.placeOrder} · ${price(total)}`}
         </button>
         <p className="text-muted-foreground mt-4 max-w-md text-xs leading-relaxed">
-          {d.checkout.demoNote}
+          {shopifyEnabled ? d.checkout.success.shopifyNote : d.checkout.demoNote}
         </p>
       </div>
 

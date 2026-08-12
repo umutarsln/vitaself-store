@@ -1,0 +1,30 @@
+# vita-front — Vitaself headless storefront Partner app
+# Docs: https://shopify.dev/docs/apps/build/cli-for-apps/app-configuration
+#
+# Bu dosya CLI ile Partner Dashboard senkronunu yönetir.
+# Canlı checkout için ayrıca .env.local içinde Storefront API token gerekir
+# (Headless kanalı veya app → API credentials → Storefront API).
+
+client_id = "417580740f2269f74bee976653c1b81a"
+name = "vita-front"
+handle = "vita-front"
+application_url = "https://vitaself.com"
+embedded = false
+
+[build]
+automatically_update_urls_on_dev = true
+# Dev mağaza domain'inizi yazın (ör. vitaself-premium-3g3oy.myshopify.com)
+dev_store_url = "vitaself-premium-3g3oy.myshopify.com"
+include_config_on_deploy = true
+
+[access_scopes]
+# Seed / Admin ürün yönetimi için gerekli scope'lar.
+scopes = "read_products,write_products,read_inventory,write_inventory,read_publications,write_publications,read_files,write_files"
+optional_scopes = []
+use_legacy_install_flow = false
+
+[auth]
+redirect_urls = []
+
+[webhooks]
+api_version = "2026-07"

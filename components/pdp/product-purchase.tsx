@@ -65,11 +65,11 @@ export function ProductPurchase({ product }: ProductPurchaseProps) {
 
   /** Ana ürün + seçili cross-sell'leri sepete ekler ve prompt açar. */
   function handleAdd() {
-    add(variant.id, quantity)
+    add(variant.id, quantity, { handle: product.handle })
     for (const handle of crossSellHandles) {
       const offer = getProduct(handle)
       if (!offer) continue
-      add(defaultVariant(offer).id, 1)
+      add(defaultVariant(offer).id, 1, { handle: offer.handle })
     }
     setAdded(true)
     setPromptOpen(true)

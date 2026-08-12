@@ -12,8 +12,8 @@ import {
   FREE_SHIPPING_THRESHOLD,
   addMoney,
   copy,
-  findVariantById,
   lineTotal,
+  resolveCartLine,
   shippingForSubtotal,
 } from '@/lib/products'
 
@@ -123,12 +123,12 @@ export function CartDrawer() {
               ) : (
                 <ul className="flex flex-col gap-5">
                   {lines.map((line) => {
-                    const resolved = findVariantById(line.variantId)
+                    const resolved = resolveCartLine(line)
                     if (!resolved) return null
                     const { product, variant } = resolved
                     return (
                       <motion.li
-                        key={line.variantId}
+                        key={`${line.handle ?? product.handle}-${line.variantId}`}
                         layout
                         initial={{ opacity: 0, x: 24 }}
                         animate={{

@@ -1,7 +1,6 @@
 import type { Metadata } from 'next'
 import { DocumentLang } from '@/components/document-lang'
 import { CollectionJsonLd } from '@/components/seo/json-ld'
-import { ShopBundleSpotlight } from '@/components/shop/shop-bundle-spotlight'
 import { ShopHero } from '@/components/shop/shop-hero'
 import { ProductGrid } from '@/components/shop/product-grid'
 import { SiteFooter } from '@/components/site-footer'
@@ -11,7 +10,7 @@ import { absoluteUrl, siteConfig } from '@/lib/site'
 export const metadata: Metadata = {
   title: 'Shop clinical formulas',
   description:
-    'Browse the full Vitaself line: Daily Foundation, Sleep Depth, Algal Omega, Magnesium, Omega-3, Multivitamin for Men & Women, Glucosamine Complex, and the Essentials Trio. Clinically formulated, third-party tested.',
+    'Browse the Vitaself line: Magnesium Complex, Omega-3, Multivitamin for Men & Women, and Glucosamine Complex. Clinically formulated, third-party tested.',
   alternates: {
     canonical: '/products',
   },
@@ -53,7 +52,6 @@ export default function ProductsPage() {
       <main>
         <ShopHero />
         <ProductGrid />
-        <ShopBundleSpotlight />
       </main>
       <SiteFooter />
     </>

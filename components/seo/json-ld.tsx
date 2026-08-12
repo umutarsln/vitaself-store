@@ -1,4 +1,4 @@
-import { products } from '@/lib/products'
+import { products, visibleProducts } from '@/lib/products'
 import { absoluteUrl, siteConfig } from '@/lib/site'
 
 type JsonLdProps = {
@@ -91,7 +91,7 @@ export function CollectionJsonLd() {
         url: absoluteUrl('/products'),
         mainEntity: {
           '@type': 'ItemList',
-          itemListElement: products.map((product, index) => ({
+          itemListElement: visibleProducts.map((product, index) => ({
             '@type': 'ListItem',
             position: index + 1,
             url: absoluteUrl(`/products/${product.handle}`),

@@ -22,7 +22,7 @@ export function FeaturedProduct() {
 
   /** Featured ürünü sepete ekler ve drawer'ı açar. */
   function handleAdd() {
-    add(variant.id, 1, { openDrawer: true })
+    add(variant.id, 1, { openDrawer: true, handle: dailyFoundation.handle })
     setAdded(true)
     window.setTimeout(() => setAdded(false), 2000)
   }

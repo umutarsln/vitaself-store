@@ -1,13 +1,28 @@
 'use client'
 
+import { useEffect, useState } from 'react'
 import { Eyebrow, Reveal, Section } from '@/components/reveal'
 import { ProductCard } from '@/components/shop/product-card'
 import { useLanguage } from '@/lib/i18n'
-import { products } from '@/lib/products'
+import { visibleProducts, type Product } from '@/lib/products'
 
 /** Ürünler sayfası grid bölümü. */
 export function ProductGrid() {
   const { d } = useLanguage()
+  const [catalog, setCatalog] = useState<Product[]>(visibleProducts)
+
+  useEffect(() => {
+    fetch('/api/catalog')
+      .then((response) => response.json())
+      .then((data: { products?: Product[] }) => {
+        if (Array.isArray(data.products) && data.products.length > 0) {
+          setCatalog(data.products)
+        }
+      })
+      .catch(() => {
+        // Statik katalog fallback
+      })
+  }, [])
 
   return (
     <Section id="formulas" className="bg-ivory pt-10 md:pt-14" label={d.shop.title}>
@@ -19,7 +34,7 @@ export function ProductGrid() {
       </Reveal>
 
       <ul className="mt-14 grid gap-x-8 gap-y-16 sm:grid-cols-2 lg:grid-cols-2 xl:grid-cols-2">
-        {products.map((product, index) => (
+        {catalog.map((product, index) => (
           <li key={product.id}>
             <ProductCard product={product} index={index} />
           </li>

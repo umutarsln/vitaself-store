@@ -56,7 +56,7 @@ export function CrossSellPrompt({ product, open, excludeHandles, onClose }: Cros
 
   /** Tek bir cross-sell ürününü sepete ekler. */
   function handleAddOffer(handle: string, variantId: string) {
-    add(variantId, 1)
+    add(variantId, 1, { handle })
     setAddedHandles((prev) => (prev.includes(handle) ? prev : [...prev, handle]))
   }
 

@@ -23,7 +23,7 @@ export function StickyBuyBar() {
 
   /** Featured ürünü sepete ekler ve drawer'ı açar. */
   function handleAdd() {
-    add(variant.id, 1, { openDrawer: true })
+    add(variant.id, 1, { openDrawer: true, handle: dailyFoundation.handle })
   }
 
   return (

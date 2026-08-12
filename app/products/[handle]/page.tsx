@@ -8,7 +8,7 @@ import { RelatedProducts } from '@/components/pdp/related-products'
 import { ProductJsonLd } from '@/components/seo/json-ld'
 import { SiteFooter } from '@/components/site-footer'
 import { SiteHeader } from '@/components/site-header'
-import { getProduct, products } from '@/lib/products'
+import { getCatalogProduct, getStaticProductHandles } from '@/lib/catalog'
 import { absoluteUrl } from '@/lib/site'
 
 type ProductPageProps = {
@@ -17,13 +17,13 @@ type ProductPageProps = {
 
 /** Statik PDP route parametrelerini üretir. */
 export function generateStaticParams() {
-  return products.map((product) => ({ handle: product.handle }))
+  return getStaticProductHandles().map((handle) => ({ handle }))
 }
 
 /** Ürün detay metadata’sını handle’a göre üretir. */
 export async function generateMetadata({ params }: ProductPageProps): Promise<Metadata> {
   const { handle } = await params
-  const product = getProduct(handle)
+  const product = await getCatalogProduct(handle)
   if (!product) {
     return { title: 'Product not found' }
   }
@@ -58,7 +58,7 @@ export async function generateMetadata({ params }: ProductPageProps): Promise<Me
 /** Ürün detay sayfası — galeri, satın alma, related. */
 export default async function ProductDetailPage({ params }: ProductPageProps) {
   const { handle } = await params
-  const product = getProduct(handle)
+  const product = await getCatalogProduct(handle)
 
   if (!product) {
     notFound()

@@ -26,7 +26,7 @@ export function RelatedProducts({ product }: RelatedProductsProps) {
 
   /** Related ürünü hızlıca sepete ekler. */
   function handleQuickAdd(item: Product) {
-    add(defaultVariant(item).id, 1)
+    add(defaultVariant(item).id, 1, { handle: item.handle })
     setAddedHandles((prev) => (prev.includes(item.handle) ? prev : [...prev, item.handle]))
   }
 

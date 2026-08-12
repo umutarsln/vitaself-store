@@ -1,6 +1,7 @@
 'use client'
 
 import Image from 'next/image'
+import Link from 'next/link'
 import { motion, useReducedMotion, useScroll, useTransform } from 'motion/react'
 import { ArrowRight } from 'lucide-react'
 import { useRef } from 'react'
@@ -90,12 +91,12 @@ export function Hero() {
             transition={{ duration: 1, delay: 0.34, ease: [0.16, 1, 0.3, 1] }}
             className="mt-10 flex flex-wrap items-center gap-x-8 gap-y-4"
           >
-            <a
-              href="#product"
+            <Link
+              href="/products"
               className="bg-primary text-primary-foreground shadow-soft hover:shadow-float inline-flex h-13 items-center rounded-full px-8 text-sm tracking-wide transition-all duration-500 hover:-translate-y-0.5"
             >
               {d.hero.cta}
-            </a>
+            </Link>
             <a
               href="#ingredients"
               className="group text-foreground inline-flex items-center gap-2 text-sm tracking-wide"
@@ -131,7 +132,7 @@ export function Hero() {
         >
           <Image
             src="/images/hero-product.png"
-            alt="Vitaself Daily Foundation bottle on a travertine pedestal in afternoon sunlight"
+            alt="Vitaself clinical supplement collection in afternoon sunlight"
             fill
             priority
             sizes="(max-width: 1024px) 100vw, 50vw"

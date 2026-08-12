@@ -1,14 +1,15 @@
 import { NextResponse } from 'next/server'
+import { getCatalogProducts } from '@/lib/catalog'
 import { isLang } from '@/lib/i18n/config'
 import type { CheckoutOrder, CheckoutPayload } from '@/lib/orders'
 import {
   addMoney,
   cartSubtotal,
   copy,
-  findVariantById,
   lineTotal,
   shippingForSubtotal,
 } from '@/lib/products'
+import { createShopifyCheckout, isShopifyConfigured } from '@/lib/shopify'
 
 /** Sipariş kimliği üretir. */
 function createOrderId() {
@@ -37,9 +38,8 @@ function validatePayload(body: unknown): body is CheckoutPayload {
 
 /**
  * Checkout API.
- * Shopify Storefront token yoksa mock sipariş üretir.
- * SHOPIFY_STORE_DOMAIN + SHOPIFY_STOREFRONT_TOKEN tanımlıysa ileride
- * checkoutCreate mutation’ına delege edilecek şekilde bırakıldı.
+ * Shopify yapılandırılmışsa cartCreate ile hosted checkout URL döner.
+ * Aksi halde katalog doğrulamalı mock sipariş üretir.
  */
 export async function POST(request: Request) {
   let body: unknown
@@ -53,27 +53,33 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: 'Invalid checkout payload' }, { status: 400 })
   }
 
-  const shopifyDomain = process.env.SHOPIFY_STORE_DOMAIN
-  const storefrontToken = process.env.SHOPIFY_STOREFRONT_TOKEN
-  const shopifyReady = Boolean(shopifyDomain && storefrontToken)
+  const catalog = await getCatalogProducts()
+  const lang = isLang(body.lang) ? body.lang : 'tr'
 
-  // Shopify hazır olduğunda burada checkoutCreate çağrılacak.
-  // Şimdilik katalog doğrulamalı mock sipariş dönüyoruz.
-  if (shopifyReady) {
-    // Placeholder: gerçek Storefront checkoutCreate entegrasyonu için reserved.
-  }
-
-  const resolvedLines = []
+  const resolvedLines: CheckoutOrder['lines'] = []
   for (const line of body.lines) {
-    const resolved = findVariantById(line.variantId)
+    const resolved =
+      catalog
+        .flatMap((product) =>
+          product.variants.map((variant) => ({ product, variant })),
+        )
+        .find((entry) => entry.variant.id === line.variantId) ??
+      (line.handle
+        ? catalog
+            .filter((product) => product.handle === line.handle)
+            .flatMap((product) =>
+              product.variants.map((variant) => ({ product, variant })),
+            )[0]
+        : null)
+
     if (!resolved || !resolved.variant.availableForSale) {
       return NextResponse.json(
-        { error: `Unavailable variant: ${line.variantId}` },
+        { error: `Unavailable variant: ${line.handle ?? line.variantId}` },
         { status: 400 },
       )
     }
+
     const quantity = Math.max(1, Math.floor(line.quantity))
-    const lang = isLang(body.lang) ? body.lang : 'tr'
     resolvedLines.push({
       variantId: line.variantId,
       quantity,
@@ -84,10 +90,54 @@ export async function POST(request: Request) {
     })
   }
 
-  const subtotal = cartSubtotal(body.lines)
+  const linesWithHandles = body.lines.map((line, index) => ({
+    ...line,
+    handle:
+      line.handle ??
+      catalog.find((product) =>
+        product.variants.some((variant) => variant.id === line.variantId),
+      )?.handle,
+  }))
+
+  const subtotal = resolvedLines.reduce(
+    (sum, line) => addMoney(sum, line.lineTotal),
+    { usd: 0, try: 0 },
+  )
   const shipping = shippingForSubtotal(subtotal)
   const total = addMoney(subtotal, shipping)
-  const lang = isLang(body.lang) ? body.lang : 'tr'
+
+  if (isShopifyConfigured()) {
+    try {
+      const shopifyCheckout = await createShopifyCheckout({
+        lines: linesWithHandles,
+        customer: body.customer,
+        shippingAddress: body.shippingAddress,
+        notes: body.notes,
+      })
+
+      const order: CheckoutOrder = {
+        id: createOrderId(),
+        createdAt: new Date().toISOString(),
+        status: 'pending',
+        paymentMethod: body.paymentMethod,
+        customer: body.customer,
+        shippingAddress: body.shippingAddress,
+        lines: resolvedLines,
+        subtotal,
+        shipping,
+        total,
+        currency: lang === 'tr' ? 'TRY' : 'USD',
+        notes: body.notes,
+        shopifyCheckoutUrl: shopifyCheckout.checkoutUrl,
+        mode: 'shopify',
+      }
+
+      return NextResponse.json({ order })
+    } catch (error) {
+      const message = error instanceof Error ? error.message : 'Shopify checkout failed'
+      return NextResponse.json({ error: message }, { status: 502 })
+    }
+  }
 
   const order: CheckoutOrder = {
     id: createOrderId(),
@@ -107,4 +157,9 @@ export async function POST(request: Request) {
   }
 
   return NextResponse.json({ order })
+}
+
+/** Shopify bağlantı durumunu döner. */
+export async function GET() {
+  return NextResponse.json({ shopify: isShopifyConfigured() })
 }

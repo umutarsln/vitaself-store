@@ -6,7 +6,7 @@ import { AnimatePresence, motion } from 'motion/react'
 import { ArrowUpRight, ChevronDown } from 'lucide-react'
 import { useRef, useState } from 'react'
 import { useLanguage } from '@/lib/i18n'
-import { copy, defaultVariant, products } from '@/lib/products'
+import { copy, defaultVariant, visibleProducts } from '@/lib/products'
 
 /** Dropdown önizlemesinde gösterilen ürün sayısı (setler hariç). */
 const MENU_PREVIEW_COUNT = 6
@@ -69,7 +69,7 @@ export function ShopNavMenu({ onNavigate }: ShopNavMenuProps) {
           >
             <div className="bg-card/95 shadow-soft border-border/60 w-[min(34rem,calc(100vw-2rem))] rounded-2xl border p-3 backdrop-blur-xl">
               <ul className="grid grid-cols-3 gap-2">
-                {products.slice(0, MENU_PREVIEW_COUNT).map((product) => {
+                {visibleProducts.slice(0, MENU_PREVIEW_COUNT).map((product) => {
                   const variant = defaultVariant(product)
                   return (
                     <li key={product.handle}>

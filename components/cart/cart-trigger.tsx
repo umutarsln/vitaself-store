@@ -35,7 +35,7 @@ export function CartTrigger({ className }: CartTriggerProps) {
         <ShoppingBag className="size-[18px]" strokeWidth={1.4} />
         {count > 0 && (
           <motion.span
-            key={count}
+            key={`badge-${count}`}
             initial={{ scale: 0.3, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
             transition={{ type: 'spring', stiffness: 520, damping: 22 }}
@@ -46,7 +46,7 @@ export function CartTrigger({ className }: CartTriggerProps) {
         )}
         {pulseKey > 0 && (
           <motion.span
-            key={pulseKey}
+            key={`pulse-${pulseKey}`}
             initial={{ scale: 0.8, opacity: 0.55 }}
             animate={{ scale: 2.2, opacity: 0 }}
             transition={{ duration: 0.65, ease: 'easeOut' }}
