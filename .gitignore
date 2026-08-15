@@ -13,4 +13,8 @@ __v0_jsx-dev-runtime.ts
 # Common ignores
 node_modules
 .next/
-.DS_Store*.tsbuildinfo
+.DS_Store
+*.tsbuildinfo
+
+# Next.js auto-generated (local dev path varies)
+next-env.d.ts
