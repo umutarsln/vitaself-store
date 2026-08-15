@@ -1,7 +1,7 @@
 export const de = {
   locale: 'de-DE',
   currency: 'usd',
-  announce: 'Unabhängig geprüft · Kostenloser Versand ab 60 $ · 60-Tage-Garantie',
+  announce: 'Unabhängig geprüft · Kostenloser Versand ab 60 $ · GMP-Anlage',
   nav: {
     shop: 'Shop',
     science: 'Wissenschaft',
@@ -34,7 +34,7 @@ export const de = {
     add: 'In den Warenkorb',
     perDay: 'pro Tag',
     supply: '30-Tage-Vorrat',
-    trust: ['Kostenloser Versand', '60-Tage-Garantie', 'Versand innerhalb von 24 Std.'],
+    trust: ['Kostenloser Versand', 'Unabhängig geprüft', 'Versand innerhalb von 24 Std.'],
   },
   benefits: {
     eyebrow: 'Warum Vitaself',
@@ -175,7 +175,7 @@ export const de = {
       },
       {
         q: 'Was, wenn es nicht das Richtige für mich ist?',
-        a: 'Senden Sie es innerhalb von 60 Tagen zurück — auch wenn die Flasche leer ist — für eine vollständige Rückerstattung des Produktpreises.',
+        a: 'Bei ungeöffneten Produkten haben Sie 14 Tage Widerrufsrecht ab Lieferung. Geöffnete oder entsiegelte Artikel sind aus Hygienegründen vom Rückgaberecht ausgeschlossen. Details unter Versand & Rückgabe.',
       },
       {
         q: 'Wo wird es hergestellt?',
@@ -202,7 +202,7 @@ export const de = {
     from: 'Ab',
     actives: 'Wirkstoffe',
     reviews: 'Bewertungen',
-    trust: ['Unabhängig geprüft', 'GMP-pharmazeutisch', '60-Tage-Garantie'],
+    trust: ['Unabhängig geprüft', 'GMP-pharmazeutisch', 'Transparente Dosierungen'],
   },
   pdp: {
     back: 'Alle Formeln',
@@ -210,7 +210,7 @@ export const de = {
     added: 'Zum Warenkorb hinzugefügt',
     perDay: 'pro Tag',
     supply: '30-Tage-Vorrat',
-    trust: ['Kostenloser Versand ab 60 $', '60-Tage-Garantie', 'Versand innerhalb von 24 Std.'],
+    trust: ['Kostenloser Versand ab 60 $', 'Versand innerhalb von 24 Std.', 'Unabhängig geprüft'],
     highlights: 'Warum diese Formel',
     quantity: {
       title: 'Routine auffüllen',

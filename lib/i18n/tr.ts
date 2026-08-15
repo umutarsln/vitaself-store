@@ -1,7 +1,7 @@
 export const tr = {
   locale: 'tr-TR',
   currency: 'try',
-  announce: 'Bağımsız laboratuvar onaylı · 1.500 ₺ üzeri ücretsiz kargo · 60 gün garanti',
+  announce: 'Bağımsız laboratuvar onaylı · 1.500 ₺ üzeri ücretsiz kargo · GMP ilaç tesisi',
   nav: {
     shop: 'Ürünler',
     science: 'Bilim',
@@ -34,7 +34,7 @@ export const tr = {
     add: 'Sepete ekle',
     perDay: 'günlük',
     supply: '30 günlük kullanım',
-    trust: ['Ücretsiz kargo', '60 gün garanti', '24 saatte kargo'],
+    trust: ['Ücretsiz kargo', 'Bağımsız test', '24 saatte kargo'],
   },
   benefits: {
     eyebrow: 'Neden Vitaself',
@@ -175,7 +175,7 @@ export const tr = {
       },
       {
         q: 'Bana uygun olmazsa?',
-        a: 'Kutu boşalmış olsa bile 60 gün içinde iade edin, ürün bedelini eksiksiz geri ödüyoruz.',
+        a: 'Ambalajı açılmamış ürünlerde teslimattan itibaren 14 gün içinde cayma hakkınız vardır. Açılmış veya mühürü bozulmuş kutularda hijyen nedeniyle iade kabul edilmez. Ayrıntılar için Kargo ve iade sayfasına bakın.',
       },
       {
         q: 'Nerede üretiliyor?',
@@ -202,7 +202,7 @@ export const tr = {
     from: 'Başlangıç',
     actives: 'aktif',
     reviews: 'yorum',
-    trust: ['Bağımsız laboratuvar', 'GMP ilaç tesisi', '60 gün garanti'],
+    trust: ['Bağımsız laboratuvar', 'GMP ilaç tesisi', 'Şeffaf dozlar'],
   },
   pdp: {
     back: 'Tüm formüller',
@@ -210,7 +210,7 @@ export const tr = {
     added: 'Sepete eklendi',
     perDay: 'günlük',
     supply: '30 günlük kullanım',
-    trust: ['1.500 ₺ üzeri ücretsiz kargo', '60 gün garanti', '24 saatte kargo'],
+    trust: ['1.500 ₺ üzeri ücretsiz kargo', '24 saatte kargo', 'Bağımsız test'],
     highlights: 'Neden bu formül',
     quantity: {
       title: 'Rutininizi stoklayın',

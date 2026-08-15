@@ -1,7 +1,7 @@
 export const en = {
   locale: 'en-US',
   currency: 'usd',
-  announce: 'Third-party tested · Free shipping over $60 · 60-day guarantee',
+  announce: 'Third-party tested · Free shipping over $60 · GMP facility',
   nav: {
     shop: 'Shop',
     science: 'Science',
@@ -34,7 +34,7 @@ export const en = {
     add: 'Add to cart',
     perDay: 'per day',
     supply: '30-day supply',
-    trust: ['Free shipping', '60-day guarantee', 'Ships in 24h'],
+    trust: ['Free shipping', 'Independent testing', 'Ships in 24h'],
   },
   benefits: {
     eyebrow: 'Why Vitaself',
@@ -175,7 +175,7 @@ export const en = {
       },
       {
         q: 'What if it is not right for me?',
-        a: 'Return it within 60 days, even if the bottle is empty, for a full refund of the product price.',
+        a: 'For unopened products you may withdraw within 14 days of delivery. Opened or unsealed items cannot be returned for hygiene reasons. See Shipping & returns for details.',
       },
       {
         q: 'Where is it made?',
@@ -202,7 +202,7 @@ export const en = {
     from: 'From',
     actives: 'actives',
     reviews: 'reviews',
-    trust: ['Third-party tested', 'GMP pharmaceutical', '60-day guarantee'],
+    trust: ['Third-party tested', 'GMP pharmaceutical', 'Transparent doses'],
   },
   pdp: {
     back: 'All formulas',
@@ -210,7 +210,7 @@ export const en = {
     added: 'Added to cart',
     perDay: 'per day',
     supply: '30-day supply',
-    trust: ['Free shipping over $60', '60-day guarantee', 'Ships in 24h'],
+    trust: ['Free shipping over $60', 'Ships in 24h', 'Independent testing'],
     highlights: 'Why this formula',
     quantity: {
       title: 'Stock your routine',
