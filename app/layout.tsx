@@ -4,6 +4,7 @@ import { Geist, Geist_Mono, Instrument_Serif } from 'next/font/google'
 import { cookies } from 'next/headers'
 import { CartDrawer } from '@/components/cart/cart-drawer'
 import { CartToast } from '@/components/cart/cart-toast'
+import { ClarityScript } from '@/components/clarity-script'
 import { DocumentLang } from '@/components/document-lang'
 import { PageTransition } from '@/components/page-transition'
 import { CartProvider } from '@/lib/cart'
@@ -85,12 +86,18 @@ export const metadata: Metadata = {
   },
   icons: {
     icon: [
+      { url: '/favicon-16x16.png', sizes: '16x16', type: 'image/png' },
+      { url: '/favicon-48x48.png', sizes: '48x48', type: 'image/png' },
       {
         url: '/icon-light-32x32.png',
+        sizes: '32x32',
+        type: 'image/png',
         media: '(prefers-color-scheme: light)',
       },
       {
         url: '/icon-dark-32x32.png',
+        sizes: '32x32',
+        type: 'image/png',
         media: '(prefers-color-scheme: dark)',
       },
       {
@@ -131,6 +138,7 @@ export default async function RootLayout({
           </CartProvider>
         </LanguageProvider>
         {process.env.NODE_ENV === 'production' && <Analytics />}
+        <ClarityScript />
       </body>
     </html>
   )
