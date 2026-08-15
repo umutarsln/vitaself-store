@@ -1,5 +1,6 @@
 'use client'
 
+import { VitaselfLogo } from '@/components/brand/vitaself-logo'
 import { useLanguage } from '@/lib/i18n'
 
 export function SiteFooter() {
@@ -10,7 +11,7 @@ export function SiteFooter() {
       <div className="mx-auto w-full max-w-6xl">
         <div className="grid gap-12 lg:grid-cols-[1.2fr_2fr]">
           <div>
-            <p className="text-display text-background text-3xl">Vitaself</p>
+            <VitaselfLogo variant="inverse" size="lg" asLink />
             <p className="mt-4 max-w-xs text-sm leading-relaxed">{d.footer.tagline}</p>
           </div>
 

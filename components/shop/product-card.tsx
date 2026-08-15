@@ -34,7 +34,7 @@ export function ProductCard({ product, index }: ProductCardProps) {
   }
 
   return (
-    <Reveal delay={index * 0.07} className="group flex flex-col">
+    <Reveal delay={index * 0.07} className="group flex h-full flex-col">
       <div className="flex h-full flex-col">
         {/* Görsel */}
         <Link href={`/products/${product.handle}`} className="outline-none">
@@ -59,7 +59,7 @@ export function ProductCard({ product, index }: ProductCardProps) {
           <p className="text-eyebrow text-muted-foreground text-[10px]">{copy(product.category, lang)}</p>
           <div className="mt-1.5 flex items-start justify-between gap-2">
             <Link href={`/products/${product.handle}`}>
-              <h2 className="text-display text-[1.15rem] leading-tight tracking-tight hover:opacity-75 transition-opacity">
+              <h2 className="text-display min-h-[2.875rem] text-[1.15rem] leading-tight tracking-tight hover:opacity-75 transition-opacity">
                 {title}
               </h2>
             </Link>
@@ -67,7 +67,7 @@ export function ProductCard({ product, index }: ProductCardProps) {
               {price(variant.price)}
             </p>
           </div>
-          <p className="text-muted-foreground mt-1.5 text-xs leading-relaxed line-clamp-2">
+          <p className="text-muted-foreground mt-1.5 min-h-[2.625rem] text-xs leading-relaxed line-clamp-2">
             {copy(product.subtitle, lang)}
           </p>
 
@@ -77,7 +77,7 @@ export function ProductCard({ product, index }: ProductCardProps) {
             onClick={handleAdd}
             animate={added ? { backgroundColor: 'var(--positive)' } : { backgroundColor: 'var(--foreground)' }}
             transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
-            className="text-background mt-3 flex w-full items-center justify-center gap-2 rounded-xl py-2.5 text-xs tracking-wide transition-transform active:scale-[0.98]"
+            className="text-background mt-auto flex w-full shrink-0 items-center justify-center gap-2 rounded-xl py-2.5 pt-3 text-xs tracking-wide transition-transform active:scale-[0.98]"
           >
             <AnimatePresence mode="wait" initial={false}>
               {added ? (
