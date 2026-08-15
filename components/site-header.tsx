@@ -35,15 +35,16 @@ export function SiteHeader() {
           scrolled ? 'bg-background/80 shadow-soft backdrop-blur-xl' : 'bg-transparent'
         }`}
       >
-        <div className="mx-auto flex h-16 w-full max-w-6xl items-center justify-between gap-6 px-6 md:h-20 md:px-10">
+        {/* Desktop nav (lg+) */}
+        <div className="mx-auto hidden h-20 w-full max-w-6xl items-center justify-between gap-6 px-10 lg:flex">
           <Link href="/" className="flex shrink-0 items-baseline gap-2">
-            <span className="text-display text-xl md:text-2xl">Vitaself</span>
+            <span className="text-display text-2xl">Vitaself</span>
             <span className="text-[9px] tracking-[0.28em] text-muted-foreground hidden uppercase sm:block">
               Pharma
             </span>
           </Link>
 
-          <nav aria-label="Primary" className="hidden items-center gap-9 lg:flex">
+          <nav aria-label="Primary" className="flex items-center gap-9">
             <ShopNavMenu />
             {secondaryLinks.map((link) => (
               <a
@@ -56,33 +57,47 @@ export function SiteHeader() {
             ))}
           </nav>
 
-          <div className="flex items-center gap-1 md:gap-2">
-            <LanguageSwitcher className="mr-1 hidden sm:block" />
-
+          <div className="flex items-center gap-1">
+            <LanguageSwitcher className="mr-1" />
             <button
               type="button"
-              className="text-foreground/70 hover:text-foreground hidden size-10 items-center justify-center rounded-full transition-colors sm:flex"
+              className="text-foreground/70 hover:text-foreground flex size-10 items-center justify-center rounded-full transition-colors"
             >
               <Search className="size-[18px]" strokeWidth={1.4} />
               <span className="sr-only">{d.nav.search}</span>
             </button>
             <button
               type="button"
-              className="text-foreground/70 hover:text-foreground hidden size-10 items-center justify-center rounded-full transition-colors sm:flex"
+              className="text-foreground/70 hover:text-foreground flex size-10 items-center justify-center rounded-full transition-colors"
             >
               <User className="size-[18px]" strokeWidth={1.4} />
               <span className="sr-only">{d.nav.account}</span>
             </button>
             <CartTrigger />
-            <button
-              type="button"
-              onClick={() => setOpen((prev) => !prev)}
-              aria-expanded={open}
-              className="text-foreground/70 hover:text-foreground flex size-10 items-center justify-center rounded-full transition-colors lg:hidden"
-            >
-              {open ? <X className="size-5" strokeWidth={1.4} /> : <Menu className="size-5" strokeWidth={1.4} />}
-              <span className="sr-only">{open ? d.nav.close : d.nav.menu}</span>
-            </button>
+          </div>
+        </div>
+
+        {/* Mobil nav — menü sol | logo ortada | sepet sağ */}
+        <div className="mx-auto flex h-16 w-full max-w-6xl items-center px-4 lg:hidden">
+          {/* Sol: hamburger */}
+          <button
+            type="button"
+            onClick={() => setOpen((prev) => !prev)}
+            aria-expanded={open}
+            className="text-foreground/70 hover:text-foreground flex size-10 items-center justify-center rounded-full transition-colors"
+          >
+            {open ? <X className="size-5" strokeWidth={1.4} /> : <Menu className="size-5" strokeWidth={1.4} />}
+            <span className="sr-only">{open ? d.nav.close : d.nav.menu}</span>
+          </button>
+
+          {/* Orta: logo */}
+          <Link href="/" className="absolute left-1/2 -translate-x-1/2 flex items-baseline gap-1.5">
+            <span className="text-display text-xl">Vitaself</span>
+          </Link>
+
+          {/* Sağ: sepet */}
+          <div className="ml-auto">
+            <CartTrigger />
           </div>
         </div>
 

@@ -209,7 +209,9 @@ export const en = {
     add: 'Add to cart',
     added: 'Added to cart',
     perDay: 'per day',
+    perDose: 'per dose',
     supply: '30-day supply',
+    saved: 'saved',
     trust: ['Free shipping over $60', 'Ships in 24h', 'Independent testing'],
     highlights: 'Why this formula',
     quantity: {
@@ -219,6 +221,16 @@ export const en = {
       three: '3 bottles',
       saveTwo: 'Save 8%',
       saveThree: 'Save 12%',
+    },
+    shippingBar: {
+      unlocked: 'Free shipping unlocked 🎉',
+      remaining: 'away from free shipping',
+    },
+    shippingDeadline: {
+      todayCutoff: 'Order by {time} →',
+      todayShips: 'Ships today',
+      tomorrowShips: 'Ships tomorrow',
+      mondayShips: 'Ships Monday',
     },
     upsell: {
       eyebrow: 'Complete the protocol',

@@ -20,6 +20,7 @@ type ProductByHandleResult = {
   product: {
     id: string
     handle: string
+    description: string
     variants: { nodes: ShopifyVariantNode[] }
   } | null
 }
@@ -29,6 +30,7 @@ type ProductsQueryResult = {
     nodes: Array<{
       id: string
       handle: string
+      description: string
       variants: { nodes: ShopifyVariantNode[] }
     }>
   }
@@ -68,7 +70,7 @@ function mapShopifyVariant(node: ShopifyVariantNode, existing: ProductVariant): 
 }
 
 /**
- * Handle ile Shopify ürününü Storefront API’den çeker.
+ * Handle ile Shopify ürününü Storefront API'den çeker.
  * @see https://shopify.dev/docs/api/storefront/latest/queries/product
  */
 export async function fetchShopifyProductByHandle(handle: string) {
@@ -77,6 +79,7 @@ export async function fetchShopifyProductByHandle(handle: string) {
       product(handle: $handle) {
         id
         handle
+        description
         variants(first: 20) {
           nodes {
             id
@@ -101,8 +104,8 @@ export async function fetchShopifyProductByHandle(handle: string) {
 }
 
 /**
- * Sepet/checkout için gerçek Shopify variant GID’sini çözümler.
- * Handle varsa Shopify’dan, yoksa mevcut variantId kullanılır.
+ * Sepet/checkout için gerçek Shopify variant GID'sini çözümler.
+ * Handle varsa Shopify'dan, yoksa mevcut variantId kullanılır.
  */
 export async function resolveShopifyVariantId(
   variantId: string,
@@ -132,7 +135,7 @@ export async function resolveShopifyVariantId(
   return null
 }
 
-/** Statik katalogdaki handle’larla eşleşen Shopify ürünlerini çeker. */
+/** Statik katalogdaki handle'larla eşleşen Shopify ürünlerini çeker. */
 async function fetchShopifyProductsByHandles(handles: string[]) {
   if (handles.length === 0) {
     return []
@@ -146,6 +149,7 @@ async function fetchShopifyProductsByHandles(handles: string[]) {
         nodes {
           id
           handle
+          description
           variants(first: 20) {
             nodes {
               id
@@ -170,7 +174,7 @@ async function fetchShopifyProductsByHandles(handles: string[]) {
 }
 
 /**
- * Statik pazarlama katalogunu Shopify fiyat/stok/variant ID ile birleştirir.
+ * Statik pazarlama katalogunu Shopify fiyat/stok/variant ID/açıklama ile birleştirir.
  * Shopify yapılandırılmamışsa statik katalog döner.
  */
 export async function loadMergedCatalog(): Promise<Product[]> {
@@ -203,9 +207,17 @@ export async function loadMergedCatalog(): Promise<Product[]> {
         VARIANT_CACHE.set(product.handle, remoteVariant.id)
       }
 
+      // Shopify'dan gelen açıklama varsa TR ve EN'i override et;
+      // DE/RU statik içerik olarak kalmaya devam eder.
+      const description =
+        remote.description?.trim()
+          ? { ...product.description, tr: remote.description, en: remote.description }
+          : product.description
+
       return {
         ...product,
         id: remote.id,
+        description,
         variants,
       }
     })

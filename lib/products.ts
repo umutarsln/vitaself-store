@@ -1038,6 +1038,18 @@ export function lineTotal(price: Money, quantity: number): Money {
   return percent > 0 ? discountMoney(raw, percent) : raw
 }
 
+/** Miktar indiriminden elde edilen tasarrufu para birimi olarak döndürür. */
+export function quantitySavingsAmount(price: Money, quantity: number): Money {
+  const percent = quantityDiscountPercent(quantity)
+  if (percent === 0) return { usd: 0, try: 0 }
+  const raw = multiplyMoney(price, quantity)
+  const discounted = discountMoney(raw, percent)
+  return {
+    usd: Math.round((raw.usd - discounted.usd) * 100) / 100,
+    try: Math.round(raw.try - discounted.try),
+  }
+}
+
 /** Sepet satırlarından ara toplam hesaplar (miktar indirimli). */
 export function cartSubtotal(
   lines: { variantId: string; quantity: number; handle?: string }[],

@@ -1,7 +1,6 @@
 import type { Metadata } from 'next'
 import { DocumentLang } from '@/components/document-lang'
 import { CollectionJsonLd } from '@/components/seo/json-ld'
-import { ShopHero } from '@/components/shop/shop-hero'
 import { ProductGrid } from '@/components/shop/product-grid'
 import { SiteFooter } from '@/components/site-footer'
 import { SiteHeader } from '@/components/site-header'
@@ -50,7 +49,6 @@ export default function ProductsPage() {
       />
       <SiteHeader />
       <main>
-        <ShopHero />
         <ProductGrid />
       </main>
       <SiteFooter />

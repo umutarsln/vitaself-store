@@ -1,14 +1,14 @@
 'use client'
 
-import { Check, Repeat, ShieldCheck, Star, Truck } from 'lucide-react'
+import { Check, Repeat, ShieldCheck, Truck } from 'lucide-react'
 import { motion } from 'motion/react'
 import { useEffect, useMemo, useState } from 'react'
 import { CrossSellOptions } from '@/components/pdp/cross-sell-options'
 import { CrossSellPrompt } from '@/components/pdp/cross-sell-prompt'
+import { ShippingDeadline } from '@/components/pdp/shipping-deadline'
 import { Eyebrow, Reveal } from '@/components/reveal'
 import { useCart } from '@/lib/cart'
 import { useLanguage } from '@/lib/i18n'
-import { LOCALE_BY_LANG } from '@/lib/i18n/config'
 import {
   FREE_SHIPPING_THRESHOLD,
   copy,
@@ -16,12 +16,15 @@ import {
   getProduct,
   lineTotal,
   perDayPrice,
-  quantityDiscountPercent,
+  quantitySavingsAmount,
   type Product,
 } from '@/lib/products'
 
 const trustIcons = [Truck, ShieldCheck, Repeat]
 const quantityOptions = [1, 2, 3] as const
+
+/** Highlight satırına atanan emoji seti (sırayla döngü yapar). */
+const HIGHLIGHT_EMOJIS = ['✅', '⚡', '🔬', '🌿', '💊', '🧬']
 
 type ProductPurchaseProps = {
   product: Product
@@ -45,23 +48,23 @@ export function ProductPurchase({ product }: ProductPurchaseProps) {
     setPromptOpen(false)
   }, [product.id])
 
-  const qtyDiscount = quantityDiscountPercent(quantity)
   const payable = lineTotal(variant.price, quantity)
-  const linePrice = {
-    usd: variant.price.usd * quantity,
-    try: variant.price.try * quantity,
-  }
+  const savings = quantitySavingsAmount(variant.price, quantity)
+  const hasSavings = d.currency === 'try' ? savings.try > 0 : savings.usd > 0
+
   const daily = perDayPrice(variant.price, product.servingsPerContainer)
 
   const shippingGap = useMemo(() => {
     const threshold = FREE_SHIPPING_THRESHOLD
-    const current = payable
-    const remainingUsd = Math.max(0, threshold.usd - current.usd)
-    const remainingTry = Math.max(0, threshold.try - current.try)
+    const remainingUsd = Math.max(0, threshold.usd - payable.usd)
+    const remainingTry = Math.max(0, threshold.try - payable.try)
     return { usd: remainingUsd, try: remainingTry }
   }, [payable])
 
   const shippingUnlocked = d.currency === 'try' ? shippingGap.try <= 0 : shippingGap.usd <= 0
+  const shippingProgress = d.currency === 'try'
+    ? Math.min(1, payable.try / FREE_SHIPPING_THRESHOLD.try)
+    : Math.min(1, payable.usd / FREE_SHIPPING_THRESHOLD.usd)
 
   /** Ana ürün + seçili cross-sell'leri sepete ekler ve prompt açar. */
   function handleAdd() {
@@ -88,22 +91,8 @@ export function ProductPurchase({ product }: ProductPurchaseProps) {
         <h1 className="text-display mt-4 text-[clamp(2.4rem,6vw,3.75rem)] text-balance">
           {copy(product.title, lang)}
         </h1>
-        <p className="text-muted-foreground mt-3 text-[15px] leading-relaxed">
+        <p className="text-muted-foreground mt-3 text-[15px] leading-relaxed line-clamp-2">
           {copy(product.subtitle, lang)}
-        </p>
-        <div className="mt-5 flex items-center gap-3">
-          <div className="flex gap-0.5" aria-hidden>
-            {Array.from({ length: 5 }).map((_, index) => (
-              <Star key={index} className="fill-gold text-gold size-3.5" strokeWidth={0} />
-            ))}
-          </div>
-          <p className="text-muted-foreground text-[13px]">
-            {product.rating.value.toFixed(1)} ·{' '}
-            {product.rating.count.toLocaleString(LOCALE_BY_LANG[lang])} {d.pdp.social}
-          </p>
-        </div>
-        <p className="text-muted-foreground mt-6 max-w-md text-[15px] leading-relaxed">
-          {copy(product.description, lang)}
         </p>
       </Reveal>
 
@@ -112,10 +101,10 @@ export function ProductPurchase({ product }: ProductPurchaseProps) {
         <div role="radiogroup" aria-label={d.pdp.quantity.title} className="mt-4 grid grid-cols-3 gap-3">
           {quantityOptions.map((option) => {
             const isActive = quantity === option
-            const saveLabel =
-              option === 2 ? d.pdp.quantity.saveTwo : option === 3 ? d.pdp.quantity.saveThree : null
             const label =
               option === 1 ? d.pdp.quantity.one : option === 2 ? d.pdp.quantity.two : d.pdp.quantity.three
+            const optionSavings = quantitySavingsAmount(variant.price, option)
+            const optionHasSavings = d.currency === 'try' ? optionSavings.try > 0 : optionSavings.usd > 0
             return (
               <button
                 key={option}
@@ -130,9 +119,9 @@ export function ProductPurchase({ product }: ProductPurchaseProps) {
                 }`}
               >
                 <span className="block text-sm tracking-tight">{label}</span>
-                {saveLabel && (
+                {optionHasSavings && (
                   <span className="text-positive-foreground mt-1 block text-[10px] tracking-wide uppercase">
-                    {saveLabel}
+                    {price(optionSavings)} {d.pdp.saved}
                   </span>
                 )}
               </button>
@@ -152,10 +141,12 @@ export function ProductPurchase({ product }: ProductPurchaseProps) {
           <div>
             <p className="text-display text-3xl">{price(payable)}</p>
             <p className="text-muted-foreground mt-1 text-xs">
-              {qtyDiscount > 0 && (
-                <span className="mr-2 line-through">{price(linePrice)}</span>
+              {hasSavings && (
+                <span className="text-positive-foreground mr-2">
+                  {price(savings)} {d.pdp.saved}
+                </span>
               )}
-              {price(daily)} {d.pdp.perDay} · {d.pdp.supply}
+              {price(daily)} {d.pdp.perDose} · {d.pdp.supply}
             </p>
           </div>
           <motion.button
@@ -180,15 +171,32 @@ export function ProductPurchase({ product }: ProductPurchaseProps) {
           </motion.button>
         </div>
 
-        <p
-          className={`mt-5 text-xs tracking-wide ${
-            shippingUnlocked ? 'text-positive-foreground' : 'text-muted-foreground'
-          }`}
-        >
-          {shippingUnlocked
-            ? d.pdp.shipping.unlocked
-            : `${price(shippingGap)} ${d.pdp.shipping.remaining}`}
-        </p>
+        {/* Ücretsiz kargo ilerleme barı */}
+        <div className="mt-5">
+          <div className="mb-1.5 flex items-center justify-between text-xs">
+            <span className={shippingUnlocked ? 'text-positive-foreground font-medium' : 'text-muted-foreground'}>
+              {shippingUnlocked
+                ? d.pdp.shippingBar.unlocked
+                : `${price(shippingGap)} ${d.pdp.shippingBar.remaining}`}
+            </span>
+            {shippingUnlocked && (
+              <span className="text-positive-foreground text-[10px] tracking-wide uppercase">✓ Ücretsiz kargo</span>
+            )}
+          </div>
+          <div className="bg-border/60 h-1.5 w-full overflow-hidden rounded-full">
+            <motion.div
+              className={`h-full rounded-full ${shippingUnlocked ? 'bg-positive-foreground' : 'bg-foreground/40'}`}
+              initial={{ width: 0 }}
+              animate={{ width: `${shippingProgress * 100}%` }}
+              transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+            />
+          </div>
+        </div>
+
+        {/* Kargo deadline */}
+        <div className="mt-4">
+          <ShippingDeadline />
+        </div>
 
         <ul className="border-border/70 mt-7 flex flex-wrap gap-x-8 gap-y-3 border-t pt-6">
           {d.pdp.trust.map((item, index) => {
@@ -205,14 +213,16 @@ export function ProductPurchase({ product }: ProductPurchaseProps) {
 
       <Reveal delay={0.2} className="mt-12">
         <p className="text-eyebrow text-muted-foreground">{d.pdp.highlights}</p>
-        <ul className="mt-5 grid gap-3 sm:grid-cols-2">
-          {product.highlights.map((item) => (
+        <ul className="mt-4 flex flex-col gap-2.5">
+          {product.highlights.map((item, index) => (
             <li
               key={copy(item, lang)}
-              className="border-border/70 text-foreground/90 flex items-start gap-3 border-b pb-3 text-sm leading-relaxed"
+              className="flex items-start gap-3 text-sm leading-snug"
             >
-              <Check className="text-primary mt-0.5 size-4 shrink-0" strokeWidth={1.6} />
-              {copy(item, lang)}
+              <span className="shrink-0 text-base leading-none" aria-hidden>
+                {HIGHLIGHT_EMOJIS[index % HIGHLIGHT_EMOJIS.length]}
+              </span>
+              <span className="text-foreground/85">{copy(item, lang)}</span>
             </li>
           ))}
         </ul>

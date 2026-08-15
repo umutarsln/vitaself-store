@@ -209,7 +209,9 @@ export const de = {
     add: 'In den Warenkorb',
     added: 'Zum Warenkorb hinzugefügt',
     perDay: 'pro Tag',
+    perDose: 'pro Dosis',
     supply: '30-Tage-Vorrat',
+    saved: 'gespart',
     trust: ['Kostenloser Versand ab 60 $', 'Versand innerhalb von 24 Std.', 'Unabhängig geprüft'],
     highlights: 'Warum diese Formel',
     quantity: {
@@ -219,6 +221,16 @@ export const de = {
       three: '3 Flaschen',
       saveTwo: '8 % sparen',
       saveThree: '12 % sparen',
+    },
+    shippingBar: {
+      unlocked: 'Kostenloser Versand freigeschaltet 🎉',
+      remaining: 'bis zum kostenlosen Versand',
+    },
+    shippingDeadline: {
+      todayCutoff: 'Bestellen bis {time} →',
+      todayShips: 'Versand heute',
+      tomorrowShips: 'Versand morgen',
+      mondayShips: 'Versand Montag',
     },
     upsell: {
       eyebrow: 'Protokoll vervollständigen',

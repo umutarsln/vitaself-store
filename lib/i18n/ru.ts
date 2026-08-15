@@ -209,7 +209,9 @@ export const ru = {
     add: 'Добавить в корзину',
     added: 'Добавлено в корзину',
     perDay: 'в день',
+    perDose: 'за дозу',
     supply: '30-дневный курс',
+    saved: 'сэкономлено',
     trust: ['Бесплатная доставка от $60', 'Отправка за 24 ч', 'Независимое тестирование'],
     highlights: 'Почему эта формула',
     quantity: {
@@ -219,6 +221,16 @@ export const ru = {
       three: '3 банки',
       saveTwo: 'Экономия 8%',
       saveThree: 'Экономия 12%',
+    },
+    shippingBar: {
+      unlocked: 'Бесплатная доставка активирована 🎉',
+      remaining: 'до бесплатной доставки',
+    },
+    shippingDeadline: {
+      todayCutoff: 'Заказать до {time} →',
+      todayShips: 'Отправка сегодня',
+      tomorrowShips: 'Отправка завтра',
+      mondayShips: 'Отправка в понедельник',
     },
     upsell: {
       eyebrow: 'Завершите протокол',

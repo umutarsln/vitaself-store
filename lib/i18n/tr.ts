@@ -209,7 +209,9 @@ export const tr = {
     add: 'Sepete ekle',
     added: 'Sepete eklendi',
     perDay: 'günlük',
+    perDose: 'doz başına',
     supply: '30 günlük kullanım',
+    saved: 'tasarruf',
     trust: ['1.500 ₺ üzeri ücretsiz kargo', '24 saatte kargo', 'Bağımsız test'],
     highlights: 'Neden bu formül',
     quantity: {
@@ -219,6 +221,16 @@ export const tr = {
       three: '3 kutu',
       saveTwo: '%8 kazanın',
       saveThree: '%12 kazanın',
+    },
+    shippingBar: {
+      unlocked: 'Ücretsiz kargo açıldı 🎉',
+      remaining: 'ücretsiz kargoya kaldı',
+    },
+    shippingDeadline: {
+      todayCutoff: 'Saat {time}\'ye kadar sipariş ver →',
+      todayShips: 'Bugün kargoya verilir',
+      tomorrowShips: 'Yarın kargoya verilir',
+      mondayShips: 'Pazartesi kargoya verilir',
     },
     upsell: {
       eyebrow: 'Protokolü tamamla',
