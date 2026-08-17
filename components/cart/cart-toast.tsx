@@ -1,6 +1,5 @@
 'use client'
 
-import { AnimatePresence, motion } from 'motion/react'
 import { Check, ShoppingBag } from 'lucide-react'
 import { useEffect, useState } from 'react'
 import { useCart } from '@/lib/cart'
@@ -38,22 +37,17 @@ export function CartToast() {
   }
 
   return (
-    <AnimatePresence>
-      {visible && (
-        <motion.div
-          role="status"
-          aria-live="polite"
-          initial={{ opacity: 0, y: 16, scale: 0.96 }}
-          animate={{ opacity: 1, y: 0, scale: 1 }}
-          exit={{ opacity: 0, y: 10, scale: 0.98 }}
-          transition={{ duration: 0.45, ease: [0.16, 1, 0.3, 1] }}
-          className="pointer-events-none fixed inset-x-0 bottom-6 z-[70] flex justify-center px-4 md:bottom-auto md:top-28 md:justify-end md:px-8"
+    visible ? (
+      <div
+        role="status"
+        aria-live="polite"
+        className="pointer-events-none fixed inset-x-0 bottom-6 z-[70] flex justify-center px-4 md:bottom-auto md:top-28 md:justify-end md:px-8"
+      >
+        <button
+          type="button"
+          onClick={handleOpenCart}
+          className="bg-card/95 shadow-float border-border/60 pointer-events-auto flex max-w-sm items-center gap-3 rounded-full border py-3 pr-5 pl-4 backdrop-blur-xl"
         >
-          <button
-            type="button"
-            onClick={handleOpenCart}
-            className="bg-card/95 shadow-float border-border/60 pointer-events-auto flex max-w-sm items-center gap-3 rounded-full border py-3 pr-5 pl-4 backdrop-blur-xl transition-transform duration-300 hover:-translate-y-0.5"
-          >
             <span className="bg-positive text-positive-foreground flex size-9 shrink-0 items-center justify-center rounded-full">
               <Check className="size-4" strokeWidth={2.2} />
             </span>
@@ -65,9 +59,8 @@ export function CartToast() {
               <ShoppingBag className="size-3.5" strokeWidth={1.6} />
               {d.cart.viewCart}
             </span>
-          </button>
-        </motion.div>
-      )}
-    </AnimatePresence>
+        </button>
+      </div>
+    ) : null
   )
 }

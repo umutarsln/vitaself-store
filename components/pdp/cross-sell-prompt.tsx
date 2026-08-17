@@ -2,7 +2,6 @@
 
 import Image from 'next/image'
 import Link from 'next/link'
-import { AnimatePresence, motion } from 'motion/react'
 import { Check, X } from 'lucide-react'
 import { useEffect, useRef, useState } from 'react'
 import { useCart } from '@/lib/cart'
@@ -61,30 +60,19 @@ export function CrossSellPrompt({ product, open, excludeHandles, onClose }: Cros
   }
 
   return (
-    <AnimatePresence>
-      {open && (
-        <motion.div
-          className="fixed inset-0 z-50 flex items-end justify-center p-4 sm:items-center"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          exit={{ opacity: 0 }}
-          transition={{ duration: 0.35 }}
-        >
+    open ? (
+      <div className="fixed inset-0 z-50 flex items-end justify-center p-4 sm:items-center">
           <button
             type="button"
             aria-label={d.pdp.crossSell.skip}
             className="absolute inset-0 bg-foreground/35 backdrop-blur-[2px]"
             onClick={onClose}
           />
-          <motion.div
+          <div
             ref={dialogRef}
             role="dialog"
             aria-modal="true"
             aria-labelledby="cross-sell-prompt-title"
-            initial={{ y: 40, opacity: 0, scale: 0.98 }}
-            animate={{ y: 0, opacity: 1, scale: 1 }}
-            exit={{ y: 24, opacity: 0, scale: 0.98 }}
-            transition={{ duration: 0.45, ease: [0.16, 1, 0.3, 1] }}
             className="bg-background shadow-float border-border/70 relative z-10 w-full max-w-lg overflow-hidden rounded-[1.75rem] border"
           >
             <div className="flex items-start justify-between gap-4 px-6 pt-6 md:px-7">
@@ -175,9 +163,8 @@ export function CrossSellPrompt({ product, open, excludeHandles, onClose }: Cros
                 {d.pdp.crossSell.skip}
               </button>
             </div>
-          </motion.div>
-        </motion.div>
-      )}
-    </AnimatePresence>
+          </div>
+      </div>
+    ) : null
   )
 }

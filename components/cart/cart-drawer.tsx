@@ -65,7 +65,7 @@ export function CartDrawer() {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
-          transition={{ duration: 0.3 }}
+          transition={{ duration: 0.2 }}
         >
           <button
             type="button"
@@ -82,7 +82,7 @@ export function CartDrawer() {
             initial={{ x: '100%' }}
             animate={{ x: 0 }}
             exit={{ x: '100%' }}
-            transition={{ duration: 0.45, ease: [0.16, 1, 0.3, 1] }}
+            transition={{ duration: 0.25, ease: [0.16, 1, 0.3, 1] }}
             className="bg-background border-border/60 relative flex h-full w-full max-w-md flex-col border-l shadow-float"
           >
             <div className="flex items-center justify-between gap-4 border-b border-border/60 px-5 py-5">
@@ -127,25 +127,13 @@ export function CartDrawer() {
                     if (!resolved) return null
                     const { product, variant } = resolved
                     return (
-                      <motion.li
+                      <li
                         key={`${line.handle ?? product.handle}-${line.variantId}`}
-                        layout
-                        initial={{ opacity: 0, x: 24 }}
-                        animate={{
-                          opacity: 1,
-                          x: 0,
-                          backgroundColor:
-                            highlightVariantId === line.variantId
-                              ? 'color-mix(in oklab, var(--primary) 8%, transparent)'
-                              : 'transparent',
-                        }}
-                        transition={{
-                          layout: { duration: 0.35, ease: [0.16, 1, 0.3, 1] },
-                          opacity: { duration: 0.35 },
-                          x: { duration: 0.4, ease: [0.16, 1, 0.3, 1] },
-                          backgroundColor: { duration: 0.45 },
-                        }}
-                        className="flex gap-4 rounded-2xl px-1 py-1"
+                        className={`flex gap-4 rounded-2xl px-1 py-1 transition-colors duration-200 ${
+                          highlightVariantId === line.variantId
+                            ? 'bg-primary/8'
+                            : 'bg-transparent'
+                        }`}
                       >
                         <Link
                           href={`/products/${product.handle}`}
@@ -206,7 +194,7 @@ export function CartDrawer() {
                             </button>
                           </div>
                         </div>
-                      </motion.li>
+                      </li>
                     )
                   })}
                 </ul>

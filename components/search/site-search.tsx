@@ -2,7 +2,6 @@
 
 import Image from 'next/image'
 import Link from 'next/link'
-import { AnimatePresence, motion } from 'motion/react'
 import { ArrowRight, FileText, Hash, Package, Search, X } from 'lucide-react'
 import { useEffect, useMemo, useRef, useState } from 'react'
 import { useLanguage } from '@/lib/i18n'
@@ -153,15 +152,8 @@ export function SiteSearch({ open, onClose }: SiteSearchProps) {
   }, [open])
 
   return (
-    <AnimatePresence>
-      {open && (
-        <motion.div
-          className="fixed inset-0 z-[70] flex items-start justify-center px-4 pt-28 sm:pt-32"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          exit={{ opacity: 0 }}
-          transition={{ duration: 0.25 }}
-        >
+    open ? (
+      <div className="fixed inset-0 z-[70] flex items-start justify-center px-4 pt-28 sm:pt-32">
           <button
             type="button"
             aria-label={d.search.close}
@@ -169,15 +161,11 @@ export function SiteSearch({ open, onClose }: SiteSearchProps) {
             onClick={onClose}
           />
 
-          <motion.div
+          <div
             ref={panelRef}
             role="dialog"
             aria-modal="true"
             aria-label={d.nav.search}
-            initial={{ opacity: 0, y: -12, scale: 0.98 }}
-            animate={{ opacity: 1, y: 0, scale: 1 }}
-            exit={{ opacity: 0, y: -8, scale: 0.98 }}
-            transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
             className="bg-background shadow-float relative w-full max-w-2xl overflow-hidden rounded-[1.75rem] border border-border/60"
           >
             <div className="border-border/60 flex items-center gap-3 border-b px-5 py-4">
@@ -228,9 +216,8 @@ export function SiteSearch({ open, onClose }: SiteSearchProps) {
                 <p className="text-muted-foreground px-3 py-8 text-center text-sm">{d.search.hint}</p>
               ) : null}
             </div>
-          </motion.div>
-        </motion.div>
-      )}
-    </AnimatePresence>
+          </div>
+      </div>
+    ) : null
   )
 }

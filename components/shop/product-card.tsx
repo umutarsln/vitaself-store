@@ -4,7 +4,6 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { Check, ShoppingBag } from 'lucide-react'
 import { useState } from 'react'
-import { motion, AnimatePresence } from 'motion/react'
 import { Reveal } from '@/components/reveal'
 import { useCart } from '@/lib/cart'
 import { useLanguage } from '@/lib/i18n'
@@ -16,7 +15,7 @@ type ProductCardProps = {
 }
 
 /** Tek ürün kartı — sepete hızlı ekleme desteğiyle. */
-export function ProductCard({ product, index }: ProductCardProps) {
+export function ProductCard({ product }: ProductCardProps) {
   const { d, lang, price } = useLanguage()
   const { add } = useCart()
   const variant = defaultVariant(product)
@@ -34,7 +33,7 @@ export function ProductCard({ product, index }: ProductCardProps) {
   }
 
   return (
-    <Reveal delay={index * 0.07} className="group flex h-full flex-col">
+    <Reveal className="group flex h-full flex-col">
       <div className="flex h-full flex-col">
         {/* Görsel */}
         <Link href={`/products/${product.handle}`} className="outline-none">
@@ -44,7 +43,7 @@ export function ProductCard({ product, index }: ProductCardProps) {
               alt={product.featuredImage.altText}
               fill
               sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
-              className="object-cover transition-transform duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-[1.04]"
+              className="object-cover transition-transform duration-300 group-hover:scale-[1.02]"
             />
             {product.badge && (
               <span className="bg-background/90 text-foreground absolute top-2.5 left-2.5 rounded-full px-2.5 py-0.5 text-[9px] tracking-[0.14em] uppercase backdrop-blur-md">
@@ -72,41 +71,25 @@ export function ProductCard({ product, index }: ProductCardProps) {
           </p>
 
           {/* Sepete ekle butonu */}
-          <motion.button
+          <button
             type="button"
             onClick={handleAdd}
-            animate={added ? { backgroundColor: 'var(--positive)' } : { backgroundColor: 'var(--foreground)' }}
-            transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
-            className="text-background mt-auto flex w-full shrink-0 items-center justify-center gap-2 rounded-xl py-2.5 pt-3 text-xs tracking-wide transition-transform active:scale-[0.98]"
+            className={`text-background mt-auto flex w-full shrink-0 items-center justify-center gap-2 rounded-xl py-2.5 pt-3 text-xs tracking-wide transition-colors duration-200 active:scale-[0.98] ${
+              added ? 'bg-positive' : 'bg-foreground'
+            }`}
           >
-            <AnimatePresence mode="wait" initial={false}>
-              {added ? (
-                <motion.span
-                  key="added"
-                  initial={{ opacity: 0, y: 4 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: -4 }}
-                  transition={{ duration: 0.2 }}
-                  className="flex items-center gap-1.5"
-                >
-                  <Check className="size-3.5" strokeWidth={2} />
-                  {d.pdp.added}
-                </motion.span>
-              ) : (
-                <motion.span
-                  key="add"
-                  initial={{ opacity: 0, y: 4 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: -4 }}
-                  transition={{ duration: 0.2 }}
-                  className="flex items-center gap-1.5"
-                >
-                  <ShoppingBag className="size-3.5" strokeWidth={1.6} />
-                  {d.pdp.add}
-                </motion.span>
-              )}
-            </AnimatePresence>
-          </motion.button>
+            {added ? (
+              <span className="flex items-center gap-1.5">
+                <Check className="size-3.5" strokeWidth={2} />
+                {d.pdp.added}
+              </span>
+            ) : (
+              <span className="flex items-center gap-1.5">
+                <ShoppingBag className="size-3.5" strokeWidth={1.6} />
+                {d.pdp.add}
+              </span>
+            )}
+          </button>
         </div>
       </div>
     </Reveal>

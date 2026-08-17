@@ -2,7 +2,6 @@
 
 import Image from 'next/image'
 import Link from 'next/link'
-import { AnimatePresence, motion } from 'motion/react'
 import { ArrowUpRight, ChevronDown } from 'lucide-react'
 import { useRef, useState } from 'react'
 import { useLanguage } from '@/lib/i18n'
@@ -56,17 +55,12 @@ export function ShopNavMenu({ onNavigate }: ShopNavMenuProps) {
         />
       </Link>
 
-      <AnimatePresence>
-        {open && (
-          <motion.div
-            initial={{ opacity: 0, y: 6 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: 4 }}
-            transition={{ duration: 0.2, ease: [0.16, 1, 0.3, 1] }}
-            className="absolute top-full left-0 z-50 pt-3"
-            onMouseEnter={handleOpen}
-            onMouseLeave={handleCloseSoon}
-          >
+      {open ? (
+        <div
+          className="absolute top-full left-0 z-50 pt-3"
+          onMouseEnter={handleOpen}
+          onMouseLeave={handleCloseSoon}
+        >
             <div className="bg-card/95 shadow-soft border-border/60 w-[min(34rem,calc(100vw-2rem))] rounded-2xl border p-3 backdrop-blur-xl">
               <ul className="grid grid-cols-3 gap-2">
                 {visibleProducts.slice(0, MENU_PREVIEW_COUNT).map((product) => {
@@ -112,9 +106,8 @@ export function ShopNavMenu({ onNavigate }: ShopNavMenuProps) {
                 <ArrowUpRight className="size-3.5" strokeWidth={1.6} />
               </Link>
             </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
+        </div>
+      ) : null}
     </div>
   )
 }

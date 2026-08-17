@@ -1,6 +1,5 @@
 'use client'
 
-import { AnimatePresence, motion } from 'motion/react'
 import { Check, ChevronDown } from 'lucide-react'
 import { useEffect, useRef, useState } from 'react'
 import { useLanguage } from '@/lib/i18n'
@@ -103,15 +102,10 @@ export function LanguageSwitcher({ variant = 'dropdown', className }: LanguageSw
         />
       </button>
 
-      <AnimatePresence>
-        {open && (
-          <motion.ul
+      {open ? (
+          <ul
             role="listbox"
             aria-label={d.nav.language}
-            initial={{ opacity: 0, y: 6, scale: 0.98 }}
-            animate={{ opacity: 1, y: 0, scale: 1 }}
-            exit={{ opacity: 0, y: 4, scale: 0.98 }}
-            transition={{ duration: 0.22, ease: [0.16, 1, 0.3, 1] }}
             className="bg-card shadow-float border-border/60 absolute top-[calc(100%+0.5rem)] right-0 z-50 min-w-[10.5rem] overflow-hidden rounded-2xl border py-1.5"
           >
             {LANG_OPTIONS.map((option) => {
@@ -136,9 +130,8 @@ export function LanguageSwitcher({ variant = 'dropdown', className }: LanguageSw
                 </li>
               )
             })}
-          </motion.ul>
-        )}
-      </AnimatePresence>
+          </ul>
+      ) : null}
     </div>
   )
 }

@@ -1,6 +1,5 @@
 'use client'
 
-import { AnimatePresence, motion, useMotionValueEvent, useScroll } from 'motion/react'
 import { Menu, Search, User, X } from 'lucide-react'
 import Link from 'next/link'
 import { useEffect, useState } from 'react'
@@ -15,9 +14,18 @@ export function SiteHeader() {
   const [scrolled, setScrolled] = useState(false)
   const [open, setOpen] = useState(false)
   const [searchOpen, setSearchOpen] = useState(false)
-  const { scrollY } = useScroll()
 
-  useMotionValueEvent(scrollY, 'change', (value) => setScrolled(value > 24))
+  /** Scroll durumuna göre header arka planını günceller. */
+  useEffect(() => {
+    /** Scroll konumunu dinler. */
+    function onScroll() {
+      setScrolled(window.scrollY > 24)
+    }
+
+    onScroll()
+    window.addEventListener('scroll', onScroll, { passive: true })
+    return () => window.removeEventListener('scroll', onScroll)
+  }, [])
 
   /** ⌘K / Ctrl+K ile arama panelini açar veya kapatır. */
   useEffect(() => {
@@ -46,7 +54,7 @@ export function SiteHeader() {
       </div>
 
       <div
-        className={`transition-[background-color,box-shadow,backdrop-filter] duration-500 ${
+        className={`transition-[background-color,box-shadow,backdrop-filter] duration-300 ${
           scrolled ? 'bg-background/80 shadow-soft backdrop-blur-xl' : 'bg-transparent'
         }`}
       >
@@ -65,7 +73,7 @@ export function SiteHeader() {
               <a
                 key={link.href}
                 href={link.href}
-                className="text-muted-foreground hover:text-foreground text-[13px] tracking-wide transition-colors duration-300"
+                className="text-muted-foreground hover:text-foreground text-[13px] tracking-wide transition-colors duration-200"
               >
                 {link.label}
               </a>
@@ -95,7 +103,6 @@ export function SiteHeader() {
 
         {/* Mobil nav — menü sol | logo ortada | sepet sağ */}
         <div className="mx-auto flex h-16 w-full max-w-6xl items-center px-4 lg:hidden">
-          {/* Sol: hamburger */}
           <button
             type="button"
             onClick={() => setOpen((prev) => !prev)}
@@ -106,12 +113,10 @@ export function SiteHeader() {
             <span className="sr-only">{open ? d.nav.close : d.nav.menu}</span>
           </button>
 
-          {/* Orta: logo */}
           <Link href="/" className="absolute left-1/2 -translate-x-1/2 flex items-baseline gap-1.5">
             <span className="text-display text-xl">Vitaself</span>
           </Link>
 
-          {/* Sağ: arama + sepet */}
           <div className="ml-auto flex items-center gap-1">
             <button
               type="button"
@@ -125,50 +130,44 @@ export function SiteHeader() {
           </div>
         </div>
 
-        <AnimatePresence initial={false}>
-          {open && (
-            <motion.nav
-              aria-label="Mobile"
-              initial={{ height: 0, opacity: 0 }}
-              animate={{ height: 'auto', opacity: 1 }}
-              exit={{ height: 0, opacity: 0 }}
-              transition={{ duration: 0.45, ease: [0.16, 1, 0.3, 1] }}
-              className="bg-background/95 border-border/60 overflow-hidden border-t backdrop-blur-xl lg:hidden"
-            >
-              <ul className="mx-auto flex max-w-6xl flex-col px-6 py-4 md:px-10">
-                <ShopNavLink onNavigate={() => setOpen(false)} />
-                {secondaryLinks.map((link) => (
-                  <li key={link.href}>
-                    <a
-                      href={link.href}
-                      onClick={() => setOpen(false)}
-                      className="text-display block py-3 text-2xl"
-                    >
-                      {link.label}
-                    </a>
-                  </li>
-                ))}
-                <li className="mt-3 border-t border-border/60 pt-3">
-                  <button
-                    type="button"
-                    onClick={() => {
-                      setOpen(false)
-                      setSearchOpen(true)
-                    }}
-                    className="text-display flex w-full items-center gap-3 py-3 text-2xl"
+        {open ? (
+          <nav
+            aria-label="Mobile"
+            className="bg-background/95 border-border/60 border-t backdrop-blur-xl lg:hidden"
+          >
+            <ul className="mx-auto flex max-w-6xl flex-col px-6 py-4 md:px-10">
+              <ShopNavLink onNavigate={() => setOpen(false)} />
+              {secondaryLinks.map((link) => (
+                <li key={link.href}>
+                  <a
+                    href={link.href}
+                    onClick={() => setOpen(false)}
+                    className="text-display block py-3 text-2xl"
                   >
-                    <Search className="size-5" strokeWidth={1.4} />
-                    {d.nav.search}
-                  </button>
+                    {link.label}
+                  </a>
                 </li>
-                <li className="mt-3 border-t border-border/60 pt-3">
-                  <p className="text-eyebrow text-muted-foreground mb-2 px-1">{d.nav.language}</p>
-                  <LanguageSwitcher variant="list" />
-                </li>
-              </ul>
-            </motion.nav>
-          )}
-        </AnimatePresence>
+              ))}
+              <li className="mt-3 border-t border-border/60 pt-3">
+                <button
+                  type="button"
+                  onClick={() => {
+                    setOpen(false)
+                    setSearchOpen(true)
+                  }}
+                  className="text-display flex w-full items-center gap-3 py-3 text-2xl"
+                >
+                  <Search className="size-5" strokeWidth={1.4} />
+                  {d.nav.search}
+                </button>
+              </li>
+              <li className="mt-3 border-t border-border/60 pt-3">
+                <p className="text-eyebrow text-muted-foreground mb-2 px-1">{d.nav.language}</p>
+                <LanguageSwitcher variant="list" />
+              </li>
+            </ul>
+          </nav>
+        ) : null}
       </div>
       <SiteSearch open={searchOpen} onClose={() => setSearchOpen(false)} />
     </header>

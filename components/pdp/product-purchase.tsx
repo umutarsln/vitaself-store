@@ -1,7 +1,6 @@
 'use client'
 
 import { Check, Repeat, ShieldCheck, Truck } from 'lucide-react'
-import { motion } from 'motion/react'
 import { useEffect, useMemo, useState } from 'react'
 import { CrossSellOptions } from '@/components/pdp/cross-sell-options'
 import { CrossSellPrompt } from '@/components/pdp/cross-sell-prompt'
@@ -149,16 +148,12 @@ export function ProductPurchase({ product }: ProductPurchaseProps) {
               {price(daily)} {d.pdp.perDose} · {d.pdp.supply}
             </p>
           </div>
-          <motion.button
+          <button
             type="button"
             onClick={handleAdd}
-            animate={
-              added
-                ? { scale: [1, 0.97, 1.02, 1], backgroundColor: 'var(--positive)' }
-                : { scale: 1, backgroundColor: 'var(--foreground)' }
-            }
-            transition={{ duration: 0.45, ease: [0.16, 1, 0.3, 1] }}
-            className="text-background shadow-soft hover:shadow-float inline-flex h-13 min-w-40 items-center justify-center rounded-full px-9 text-sm tracking-wide transition-shadow duration-500 hover:-translate-y-0.5"
+            className={`text-background shadow-soft hover:shadow-float inline-flex h-13 min-w-40 items-center justify-center rounded-full px-9 text-sm tracking-wide transition-colors duration-200 ${
+              added ? 'bg-positive' : 'bg-foreground'
+            }`}
           >
             {added ? (
               <span className="inline-flex items-center gap-2">
@@ -168,7 +163,7 @@ export function ProductPurchase({ product }: ProductPurchaseProps) {
             ) : (
               d.pdp.add
             )}
-          </motion.button>
+          </button>
         </div>
 
         {/* Ücretsiz kargo ilerleme barı */}
@@ -184,11 +179,9 @@ export function ProductPurchase({ product }: ProductPurchaseProps) {
             )}
           </div>
           <div className="bg-border/60 h-1.5 w-full overflow-hidden rounded-full">
-            <motion.div
-              className={`h-full rounded-full ${shippingUnlocked ? 'bg-positive-foreground' : 'bg-foreground/40'}`}
-              initial={{ width: 0 }}
-              animate={{ width: `${shippingProgress * 100}%` }}
-              transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+            <div
+              className={`h-full rounded-full transition-[width] duration-200 ${shippingUnlocked ? 'bg-positive-foreground' : 'bg-foreground/40'}`}
+              style={{ width: `${shippingProgress * 100}%` }}
             />
           </div>
         </div>

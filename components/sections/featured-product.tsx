@@ -3,7 +3,6 @@
 import Image from 'next/image'
 import Link from 'next/link'
 import { Check, Repeat, ShieldCheck, Star, Truck } from 'lucide-react'
-import { motion } from 'motion/react'
 import { useState } from 'react'
 import { Eyebrow, Reveal, Section } from '@/components/reveal'
 import { useCart } from '@/lib/cart'
@@ -90,15 +89,15 @@ export function FeaturedProduct() {
                   {price(daily)} {d.featured.perDay} · {d.featured.supply}
                 </p>
               </div>
-              <motion.button
+              <button
                 type="button"
                 onClick={handleAdd}
-                animate={added ? { scale: [1, 0.94, 1.04, 1] } : { scale: 1 }}
-                transition={{ duration: 0.45, ease: [0.16, 1, 0.3, 1] }}
-                className="bg-foreground text-background shadow-soft hover:shadow-float inline-flex h-13 items-center justify-center rounded-full px-9 text-sm tracking-wide transition-shadow duration-500 hover:-translate-y-0.5"
+                className={`shadow-soft hover:shadow-float inline-flex h-13 items-center justify-center rounded-full px-9 text-sm tracking-wide transition-colors duration-200 ${
+                  added ? 'bg-positive text-background' : 'bg-foreground text-background'
+                }`}
               >
                 {added ? <Check className="size-4" strokeWidth={1.8} /> : d.featured.add}
-              </motion.button>
+              </button>
             </div>
 
             <ul className="border-border/70 mt-8 flex flex-wrap gap-x-8 gap-y-3 border-t pt-6">
