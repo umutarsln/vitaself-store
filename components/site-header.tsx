@@ -3,9 +3,10 @@
 import { AnimatePresence, motion, useMotionValueEvent, useScroll } from 'motion/react'
 import { Menu, Search, User, X } from 'lucide-react'
 import Link from 'next/link'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { CartTrigger } from '@/components/cart/cart-trigger'
 import { LanguageSwitcher } from '@/components/language-switcher'
+import { SiteSearch } from '@/components/search/site-search'
 import { ShopNavLink, ShopNavMenu } from '@/components/shop/shop-nav-menu'
 import { useLanguage } from '@/lib/i18n'
 
@@ -13,14 +14,28 @@ export function SiteHeader() {
   const { d } = useLanguage()
   const [scrolled, setScrolled] = useState(false)
   const [open, setOpen] = useState(false)
+  const [searchOpen, setSearchOpen] = useState(false)
   const { scrollY } = useScroll()
 
   useMotionValueEvent(scrollY, 'change', (value) => setScrolled(value > 24))
 
+  /** ⌘K / Ctrl+K ile arama panelini açar veya kapatır. */
+  useEffect(() => {
+    /** Global arama kısayolunu dinler. */
+    function onKeyDown(event: KeyboardEvent) {
+      if ((event.metaKey || event.ctrlKey) && event.key.toLowerCase() === 'k') {
+        event.preventDefault()
+        setSearchOpen((prev) => !prev)
+      }
+    }
+
+    window.addEventListener('keydown', onKeyDown)
+    return () => window.removeEventListener('keydown', onKeyDown)
+  }, [])
+
   const secondaryLinks = [
     { label: d.nav.science, href: '/#science' },
     { label: d.nav.ingredients, href: '/#ingredients' },
-    { label: d.nav.reviews, href: '/#reviews' },
     { label: d.nav.about, href: '/#about' },
   ]
 
@@ -61,6 +76,7 @@ export function SiteHeader() {
             <LanguageSwitcher className="mr-1" />
             <button
               type="button"
+              onClick={() => setSearchOpen(true)}
               className="text-foreground/70 hover:text-foreground flex size-10 items-center justify-center rounded-full transition-colors"
             >
               <Search className="size-[18px]" strokeWidth={1.4} />
@@ -95,8 +111,16 @@ export function SiteHeader() {
             <span className="text-display text-xl">Vitaself</span>
           </Link>
 
-          {/* Sağ: sepet */}
-          <div className="ml-auto">
+          {/* Sağ: arama + sepet */}
+          <div className="ml-auto flex items-center gap-1">
+            <button
+              type="button"
+              onClick={() => setSearchOpen(true)}
+              className="text-foreground/70 hover:text-foreground flex size-10 items-center justify-center rounded-full transition-colors"
+            >
+              <Search className="size-5" strokeWidth={1.4} />
+              <span className="sr-only">{d.nav.search}</span>
+            </button>
             <CartTrigger />
           </div>
         </div>
@@ -125,6 +149,19 @@ export function SiteHeader() {
                   </li>
                 ))}
                 <li className="mt-3 border-t border-border/60 pt-3">
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setOpen(false)
+                      setSearchOpen(true)
+                    }}
+                    className="text-display flex w-full items-center gap-3 py-3 text-2xl"
+                  >
+                    <Search className="size-5" strokeWidth={1.4} />
+                    {d.nav.search}
+                  </button>
+                </li>
+                <li className="mt-3 border-t border-border/60 pt-3">
                   <p className="text-eyebrow text-muted-foreground mb-2 px-1">{d.nav.language}</p>
                   <LanguageSwitcher variant="list" />
                 </li>
@@ -133,6 +170,7 @@ export function SiteHeader() {
           )}
         </AnimatePresence>
       </div>
+      <SiteSearch open={searchOpen} onClose={() => setSearchOpen(false)} />
     </header>
   )
 }

@@ -132,11 +132,11 @@ export function Hero() {
         >
           <Image
             src="/images/hero-product.png"
-            alt="Vitaself clinical supplement collection in afternoon sunlight"
+            alt="Vitaself Pharma ürün koleksiyonu — Magnezyum, Omega-3, Multivitamin ve Glukozamin"
             fill
             priority
             sizes="(max-width: 1024px) 100vw, 50vw"
-            className="object-cover"
+            className="object-cover object-center"
           />
         </motion.div>
       </div>
