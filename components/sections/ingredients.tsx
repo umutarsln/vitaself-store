@@ -5,8 +5,26 @@ import { ArrowUpRight } from 'lucide-react'
 import { Eyebrow, Reveal, Section } from '@/components/reveal'
 import { useLanguage } from '@/lib/i18n'
 
+type IngredientItem = {
+  group: string
+  name: string
+  dose: string
+  note: string
+}
+
+/**
+ * Listedeki öğenin üstünde yeni bir grup başlığı gösterilip gösterilmeyeceğini döner.
+ */
+function shouldShowGroup(items: IngredientItem[], index: number): boolean {
+  const current = items[index]
+  if (!current?.group) return false
+  return current.group !== items[index - 1]?.group
+}
+
+/** Ana sayfa içerik bölümü — formül aktiflerini kısa açıklamalarla listeler. */
 export function Ingredients() {
   const { d } = useLanguage()
+  const items = d.ingredients.items
 
   return (
     <Section id="ingredients" className="bg-ivory" label={d.ingredients.title}>
@@ -45,20 +63,30 @@ export function Ingredients() {
 
         <Reveal delay={0.08}>
           <ul className="border-border/70 border-t">
-            {d.ingredients.items.map((item) => (
-              <li
-                key={item.name}
-                className="border-border/70 group flex items-baseline justify-between gap-6 border-b py-6 transition-colors duration-500 md:py-7"
-              >
-                <div>
-                  <p className="text-[17px] tracking-tight">{item.name}</p>
-                  <p className="text-muted-foreground mt-1.5 text-[13px] leading-relaxed">{item.note}</p>
-                </div>
-                <p className="text-muted-foreground font-mono text-xs tracking-tight whitespace-nowrap">
-                  {item.dose}
-                </p>
-              </li>
-            ))}
+            {items.map((item, index) => {
+              const showGroup = shouldShowGroup(items, index)
+              return (
+                <li
+                  key={item.name}
+                  className="border-border/70 group border-b py-6 transition-colors duration-500 md:py-7"
+                >
+                  {showGroup && (
+                    <p className="text-eyebrow text-muted-foreground mb-4 text-[11px] tracking-[0.16em] uppercase">
+                      {item.group}
+                    </p>
+                  )}
+                  <div className="flex items-baseline justify-between gap-6">
+                    <div>
+                      <p className="text-[17px] tracking-tight">{item.name}</p>
+                      <p className="text-muted-foreground mt-1.5 text-[13px] leading-relaxed">{item.note}</p>
+                    </div>
+                    <p className="text-muted-foreground font-mono text-xs tracking-tight whitespace-nowrap">
+                      {item.dose}
+                    </p>
+                  </div>
+                </li>
+              )
+            })}
           </ul>
         </Reveal>
       </div>
