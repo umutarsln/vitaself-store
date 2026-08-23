@@ -1,6 +1,7 @@
 'use client'
 
 import type { ReactNode } from 'react'
+import { cn } from '@/lib/utils'
 
 type RevealProps = {
   children: ReactNode
@@ -30,7 +31,7 @@ export function Section({
   label?: string
 }) {
   return (
-    <section id={id} aria-label={label} className={`px-6 py-24 md:px-10 md:py-36 ${className}`}>
+    <section id={id} aria-label={label} className={cn('px-6 py-24 md:px-10 md:py-36', className)}>
       <div className="mx-auto w-full max-w-6xl">{children}</div>
     </section>
   )
