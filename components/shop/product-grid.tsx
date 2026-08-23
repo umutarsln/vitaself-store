@@ -25,7 +25,7 @@ export function ProductGrid() {
   }, [])
 
   return (
-    <Section id="formulas" className="bg-ivory pt-36 md:pt-44 lg:pt-52" label={d.shop.title}>
+    <Section id="formulas" className="bg-ivory pt-44 md:pt-48 lg:pt-52" label={d.shop.title}>
       <ul className="grid grid-cols-2 items-stretch gap-x-4 gap-y-8 sm:gap-x-6 lg:grid-cols-3 lg:gap-x-8 lg:gap-y-10">
         {catalog.map((product, index) => (
           <li key={product.id} className="h-full">
