@@ -17,12 +17,13 @@ export default function IngredientPanelPage() {
       titleTr="Tam içerik paneli"
     >
       <p>
-        Thirty-two actives with source origin and assay method. A printed panel ships in every box;
-        the digital panel mirrors the same data.
+        Magnesium citrate, malate, and bisglycinate each do different work. Glucosamine, chondroitin,
+        and MSM support cartilage and movement. The digital panel lists the same actives as the
+        printed insert in every box.
       </p>
       <p>
-        Otuz iki aktif; kaynak ülke ve analiz yöntemiyle. Kutuda basılı panel gelir; dijital panel
-        aynı veriyi yansıtır.
+        Magnezyum sitrat, malat ve bisglisinat ayrı iş görür. Glukozamin, kondroitin ve MSM kıkırdak
+        ve hareketi destekler. Dijital panel, kutudaki basılı ekle aynı aktifleri listeler.
       </p>
       <p>
         <Link

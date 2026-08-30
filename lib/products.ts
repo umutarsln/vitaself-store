@@ -10,12 +10,24 @@ export type Money = { usd: number; try: number }
 /** Dil bazlı kısa metin (de/ru opsiyonel, yoksa EN). */
 export type LocaleCopy = { en: string; tr: string; de?: string; ru?: string }
 
+/** Sayısal doz etiketini dört dile aynı şekilde kopyalar (mg / IU evrenseldir). */
+function doseLabel(value: string): LocaleCopy {
+  return { en: value, tr: value, de: value, ru: value }
+}
+
 export type ProductVariant = {
   id: string
   title: string
   price: Money
   compareAtPrice: Money | null
   availableForSale: boolean
+}
+
+/** Formüldeki tek aktif — PDP ve içerik listelerinde kısa açıklama satırı. */
+export type FormulaActive = {
+  name: LocaleCopy
+  dose: LocaleCopy
+  note: LocaleCopy
 }
 
 export type Product = {
@@ -28,6 +40,8 @@ export type Product = {
   badge?: LocaleCopy
   category: LocaleCopy
   highlights: LocaleCopy[]
+  /** Formül aktifleri; varsa PDP’de kısa açıklayıcı satırlar olarak gösterilir. */
+  composition?: FormulaActive[]
   activesCount: number
   featuredImage: { url: string; altText: string }
   images: { url: string; altText: string }[]
@@ -447,10 +461,10 @@ export const magnesium: Product = {
     ru: 'Магний Комплекс',
   },
   subtitle: {
-    en: '200 mg elemental magnesium — citrate, malate, bisglycinate + Vitamin B6 (P5P).',
-    tr: '200 mg elemental magnezyum — sitrat, malat, bisglisinat + Vitamin B6 (P5P).',
-    de: '200 mg elementares Magnesium — Citrat, Malat, Bisglycinat + Vitamin B6 (P5P).',
-    ru: '200 мг элементарного магния — цитрат, малат, бисглицинат + витамин B6 (P5P).',
+    en: 'Citrate for energy, malate for muscles, bisglycinate for sleep. 200 mg elemental + B6 (P5P).',
+    tr: 'Sitrat enerji, malat kas, bisglisinat uyku. 200 mg elemental magnezyum + B6 (P5P).',
+    de: 'Citrat für Energie, Malat für Muskeln, Bisglycinat für Schlaf. 200 mg elementar + B6 (P5P).',
+    ru: 'Цитрат для энергии, малат для мышц, бисглицинат для сна. 200 мг элементарного + B6 (P5P).',
   },
   description: {
     en: 'A triple-form magnesium complex (citrate, malate, bisglycinate) providing 200 mg elemental magnesium, with bioactive Vitamin B6 (P5P) for absorption and nerve support — without the digestive upset common to cheaper magnesium oxide.',
@@ -484,6 +498,48 @@ export const magnesium: Product = {
       tr: 'Kas, sinir ve uyku kalitesini destekler',
       de: 'Unterstützt Muskeln, Nerven und Schlafqualität',
       ru: 'Поддерживает мышцы, нервную систему и качество сна',
+    },
+  ],
+  composition: [
+    {
+      name: { en: 'Magnesium citrate', tr: 'Magnezyum sitrat', de: 'Magnesiumcitrat', ru: 'Цитрат магния' },
+      dose: { en: 'Absorption', tr: 'Emilim', de: 'Aufnahme', ru: 'Усвоение' },
+      note: {
+        en: 'Highly absorbable. Supports muscle relaxation, energy, and regularity.',
+        tr: 'Emilimi yüksektir. Kas gevşemesi, enerji ve bağırsak motilitesini destekler.',
+        de: 'Hoch bioverfügbar. Unterstützt Muskelentspannung, Energie und die Verdauungsbewegung.',
+        ru: 'Высокая биодоступность. Поддерживает расслабление мышц, энергию и моторику кишечника.',
+      },
+    },
+    {
+      name: { en: 'Magnesium malate', tr: 'Magnezyum malat', de: 'Magnesiummalat', ru: 'Малат магния' },
+      dose: { en: 'Energy', tr: 'Enerji', de: 'Energie', ru: 'Энергия' },
+      note: {
+        en: 'Bound to malic acid. Suited to daytime use for cellular energy and muscle fatigue.',
+        tr: 'Malik asitle bağlıdır. Hücresel enerji ve kas yorgunluğunda gündüz kullanımına uygundur.',
+        de: 'An Äpfelsäure gebunden. Für den Tag geeignet — zelluläre Energie und Muskelermüdung.',
+        ru: 'Связан с яблочной кислотой. Подходит днём — клеточная энергия и мышечная усталость.',
+      },
+    },
+    {
+      name: { en: 'Magnesium bisglycinate', tr: 'Magnezyum bisglisinat', de: 'Magnesiumbisglycinat', ru: 'Бисглицинат магния' },
+      dose: { en: 'Sleep', tr: 'Uyku', de: 'Schlaf', ru: 'Сон' },
+      note: {
+        en: 'Chelated with glycine and gentle on the stomach. Supports calm and overnight recovery.',
+        tr: 'Glisinle şelatlı, mideye nazik. Sakinlik ve gece toparlanmayı destekler.',
+        de: 'Mit Glycin cheliert, magenschonend. Unterstützt Ruhe und nächtliche Erholung.',
+        ru: 'Хелатирован глицином, мягкий для желудка. Поддерживает спокойствие и ночное восстановление.',
+      },
+    },
+    {
+      name: { en: 'Vitamin B6 (P5P)', tr: 'Vitamin B6 (P5P)', de: 'Vitamin B6 (P5P)', ru: 'Витамин B6 (P5P)' },
+      dose: { en: 'Active B6', tr: 'Aktif B6', de: 'Aktives B6', ru: 'Активный B6' },
+      note: {
+        en: 'Bioactive B6 that supports magnesium utilisation and nerve signalling.',
+        tr: 'Magnezyum kullanımını ve sinir iletimini destekleyen aktif B6 formu.',
+        de: 'Bioaktives B6, das die Magnesiumverwertung und die Nervensignalgebung unterstützt.',
+        ru: 'Биоактивный B6: поддерживает усвоение магния и нервную передачу.',
+      },
     },
   ],
   activesCount: 4,
@@ -539,10 +595,10 @@ export const omega3: Product = {
   vendor: 'Vitaself',
   title: { en: 'Omega-3', tr: 'Omega-3', de: 'Omega-3', ru: 'Омега-3' },
   subtitle: {
-    en: 'EPA 360 mg · DHA 240 mg. High-concentration fish oil softgels.',
-    tr: 'EPA 360 mg · DHA 240 mg. Yüksek konsantrasyon balık yağı yumuşak kapsül.',
-    de: 'EPA 360 mg · DHA 240 mg. Hochkonzentrierte Fischöl-Weichkapseln.',
-    ru: 'EPA 360 мг · DHA 240 мг. Высококонцентрированный рыбий жир в мягких капсулах.',
+    en: '360 mg EPA + 240 mg DHA for heart, cognition, and joints. No fishy aftertaste.',
+    tr: 'Kalp, biliş ve eklem için 360 mg EPA + 240 mg DHA. Balık tadı bırakmaz.',
+    de: '360 mg EPA + 240 mg DHA für Herz, Kognition und Gelenke. Kein Fischgeschmack.',
+    ru: '360 мг EPA + 240 мг DHA для сердца, когнитивных функций и суставов. Без рыбного привкуса.',
   },
   description: {
     en: 'Marine-sourced omega-3 delivering 360 mg EPA and 240 mg DHA per serving — formulated for cardiovascular, cognitive, and joint support. Softgels are third-party tested for oxidation and heavy metals, batch by batch.',
@@ -576,6 +632,28 @@ export const omega3: Product = {
       tr: 'Her parti ağır metal testli',
       de: 'Jede Charge auf Schwermetalle geprüft',
       ru: 'Каждая партия проверяется на тяжёлые металлы',
+    },
+  ],
+  composition: [
+    {
+      name: { en: 'EPA', tr: 'EPA', de: 'EPA', ru: 'EPA' },
+      dose: doseLabel('360 mg'),
+      note: {
+        en: 'Supports cardiovascular comfort and a balanced inflammatory response.',
+        tr: 'Kalp-damar konforunu ve dengeli bir inflamatuar yanıtı destekler.',
+        de: 'Unterstützt Herz-Kreislauf-Komfort und eine ausgewogene Entzündungsantwort.',
+        ru: 'Поддерживает сердечно-сосудистый комфорт и сбалансированный воспалительный ответ.',
+      },
+    },
+    {
+      name: { en: 'DHA', tr: 'DHA', de: 'DHA', ru: 'DHA' },
+      dose: doseLabel('240 mg'),
+      note: {
+        en: 'A structural fat for the brain and retina — cognition and vision support.',
+        tr: 'Beyin ve retina için yapısal yağ asidi — biliş ve görme desteği.',
+        de: 'Strukturelles Fett für Gehirn und Netzhaut — Unterstützung von Kognition und Sehkraft.',
+        ru: 'Структурный жир для мозга и сетчатки — поддержка когнитивных функций и зрения.',
+      },
     },
   ],
   activesCount: 2,
@@ -636,10 +714,10 @@ export const multivitaminMen: Product = {
     ru: 'Мультивитамины для мужчин',
   },
   subtitle: {
-    en: 'Iron-free daily formula for energy, immunity, and prostate support.',
-    tr: 'Enerji, bağışıklık ve prostat desteği için demirsiz günlük formül.',
-    de: 'Eisenfreie Tagesformel für Energie, Immunität und Prostata-Unterstützung.',
-    ru: 'Ежедневная формула без железа для энергии, иммунитета и поддержки простаты.',
+    en: 'Iron-free daily cover: energy, immunity, and prostate support in one serving.',
+    tr: 'Demirsiz günlük kapsam: enerji, bağışıklık ve prostat desteği tek serviste.',
+    de: 'Eisenfreie Tagesabdeckung: Energie, Immunität und Prostata-Unterstützung in einer Portion.',
+    ru: 'Ежедневное покрытие без железа: энергия, иммунитет и поддержка простаты в одной порции.',
   },
   description: {
     en: "Built specifically for men's physiology: zinc and selenium at doses linked to prostate and reproductive health, B-vitamins for energy metabolism, and vitamin D3 + K2 for bone and cardiovascular support — with no added iron most men don't need.",
@@ -673,6 +751,48 @@ export const multivitaminMen: Product = {
       tr: 'Enerji için metillenmiş B kompleks',
       de: 'Methylierter B-Komplex für Energie',
       ru: 'Метилированный B-комплекс для энергии',
+    },
+  ],
+  composition: [
+    {
+      name: { en: 'Zinc + selenium', tr: 'Çinko + selenyum', de: 'Zink + Selen', ru: 'Цинк + селен' },
+      dose: doseLabel('15 mg · 200 mcg'),
+      note: {
+        en: 'Doses linked to prostate and reproductive health, plus immune defence.',
+        tr: 'Prostat ve üreme sağlığıyla ilişkilendirilen dozlar; bağışıklık desteği.',
+        de: 'Dosierungen, die mit Prostata- und Reproduktionsgesundheit verbunden werden — plus Immunabwehr.',
+        ru: 'Дозы, связанные со здоровьем простаты и репродуктивной системы, плюс иммунная защита.',
+      },
+    },
+    {
+      name: { en: 'Vitamin D3 + K2', tr: 'D3 + K2 vitamini', de: 'Vitamin D3 + K2', ru: 'Витамины D3 + K2' },
+      dose: doseLabel('2000 IU · 90 mcg'),
+      note: {
+        en: 'Bone mineralisation and cardiovascular support, taken together on purpose.',
+        tr: 'Kemik mineralizasyonu ve kalp-damar desteği — bilinçli olarak birlikte.',
+        de: 'Knochenmineralisierung und Herz-Kreislauf-Unterstützung — bewusst kombiniert.',
+        ru: 'Минерализация костей и сердечно-сосудистая поддержка — специально вместе.',
+      },
+    },
+    {
+      name: { en: 'Methylated B-complex', tr: 'Metillenmiş B kompleks', de: 'Methylierter B-Komplex', ru: 'Метилированный B-комплекс' },
+      dose: { en: 'Energy', tr: 'Enerji', de: 'Energie', ru: 'Энергия' },
+      note: {
+        en: 'Active B-vitamins for energy metabolism — no conversion step required.',
+        tr: 'Enerji metabolizması için aktif B vitaminleri — dönüşüm adımı gerekmez.',
+        de: 'Aktive B-Vitamine für den Energiestoffwechsel — keine Umwandlung nötig.',
+        ru: 'Активные витамины группы B для энергетического обмена — без этапа преобразования.',
+      },
+    },
+    {
+      name: { en: 'No added iron', tr: 'İlave demir yok', de: 'Kein zusätzliches Eisen', ru: 'Без добавленного железа' },
+      dose: { en: 'Men’s formula', tr: 'Erkek formülü', de: 'Männerformel', ru: 'Мужская формула' },
+      note: {
+        en: 'Most men do not need supplemental iron; this formula leaves it out.',
+        tr: 'Çoğu erkeğin ilave demire ihtiyacı yoktur; bu formül onu dışarıda bırakır.',
+        de: 'Die meisten Männer brauchen kein zusätzliches Eisen — diese Formel lässt es weg.',
+        ru: 'Большинству мужчин добавленное железо не нужно — в этой формуле его нет.',
+      },
     },
   ],
   activesCount: 18,
@@ -730,10 +850,10 @@ export const multivitaminWomen: Product = {
     ru: 'Мультивитамины для женщин',
   },
   subtitle: {
-    en: 'Iron, folate, and biotin at clinical doses for energy, hair, and hormonal balance.',
-    tr: 'Enerji, saç ve hormonal denge için klinik dozlarda demir, folat ve biotin.',
-    de: 'Eisen, Folat und Biotin in klinischen Dosierungen für Energie, Haare und hormonelles Gleichgewicht.',
-    ru: 'Железо, фолат и биотин в клинических дозах для энергии, волос и гормонального баланса.',
+    en: 'Clinical-dose iron, folate, and biotin for energy, hair, and cycle comfort.',
+    tr: 'Enerji, saç ve döngü konforu için klinik dozda demir, folat ve biotin.',
+    de: 'Eisen, Folat und Biotin in klinischer Dosis für Energie, Haare und Zykluskomfort.',
+    ru: 'Железо, фолат и биотин в клинической дозе для энергии, волос и комфорта цикла.',
   },
   description: {
     en: 'Formulated around the nutrients women are most commonly deficient in: bioavailable iron bisglycinate, methylfolate, biotin, and calcium — plus vitamin D3 and magnesium for cycle-related comfort.',
@@ -767,6 +887,48 @@ export const multivitaminWomen: Product = {
       tr: 'Döngü konforu için magnezyum',
       de: 'Magnesium für zyklusbedingten Komfort',
       ru: 'Магний для комфорта в течение цикла',
+    },
+  ],
+  composition: [
+    {
+      name: { en: 'Iron bisglycinate', tr: 'Demir bisglisinat', de: 'Eisenbisglycinat', ru: 'Бисглицинат железа' },
+      dose: doseLabel('18 mg'),
+      note: {
+        en: 'A gentle chelate for energy — easier on the stomach than typical iron salts.',
+        tr: 'Enerji için nazik şelat — klasik demir tuzlarına göre mideye daha yumuşak.',
+        de: 'Ein magenschonendes Chelat für Energie — verträglicher als übliche Eisensalze.',
+        ru: 'Мягкий хелат для энергии — легче для желудка, чем обычные соли железа.',
+      },
+    },
+    {
+      name: { en: 'Methylfolate', tr: 'Metilfolat', de: 'Methylfolat', ru: 'Метилфолат' },
+      dose: doseLabel('400 mcg'),
+      note: {
+        en: 'Active B9. No conversion step — ready for cells that need folate.',
+        tr: 'Aktif B9. Dönüşüm adımı yok — folata ihtiyaç duyan hücreler için hazır.',
+        de: 'Aktives B9. Keine Umwandlung — bereit für Zellen, die Folat brauchen.',
+        ru: 'Активный B9. Без преобразования — готов для клеток, которым нужен фолат.',
+      },
+    },
+    {
+      name: { en: 'Biotin', tr: 'Biotin', de: 'Biotin', ru: 'Биотин' },
+      dose: doseLabel('5000 mcg'),
+      note: {
+        en: 'Supports hair, skin, and nail keratin at a clinical daily dose.',
+        tr: 'Klinik günlük dozda saç, cilt ve tırnak keratinini destekler.',
+        de: 'Unterstützt Haar-, Haut- und Nagelkeratin in einer klinischen Tagesdosis.',
+        ru: 'Поддерживает кератин волос, кожи и ногтей в клинической суточной дозе.',
+      },
+    },
+    {
+      name: { en: 'Calcium + D3', tr: 'Kalsiyum + D3', de: 'Calcium + D3', ru: 'Кальций + D3' },
+      dose: { en: 'Bone', tr: 'Kemik', de: 'Knochen', ru: 'Кости' },
+      note: {
+        en: 'Bone-density pair, with magnesium for cycle-related comfort.',
+        tr: 'Kemik yoğunluğu ikilisi; döngü konforu için magnezyumla.',
+        de: 'Duo für die Knochendichte — plus Magnesium für zyklusbedingten Komfort.',
+        ru: 'Пара для плотности костей — плюс магний для комфорта цикла.',
+      },
     },
   ],
   activesCount: 20,
@@ -824,10 +986,10 @@ export const glucosamineComplex: Product = {
     ru: 'Комплекс с глюкозамином',
   },
   subtitle: {
-    en: 'Glucosamine, chondroitin, and MSM at doses used in joint-comfort trials.',
-    tr: 'Eklem konforu çalışmalarında kullanılan dozlarda glikozamin, kondroitin ve MSM.',
-    de: 'Glucosamin, Chondroitin und MSM in Dosierungen aus Studien zum Gelenkkomfort.',
-    ru: 'Глюкозамин, хондроитин и МСМ в дозах, использованных в исследованиях комфорта суставов.',
+    en: '1500 mg glucosamine, chondroitin, and MSM for cartilage comfort and easier movement.',
+    tr: 'Kıkırdak ve rahat hareket için 1500 mg glukozamin, kondroitin ve MSM.',
+    de: '1500 mg Glucosamin, Chondroitin und MSM für Knorpelkomfort und leichtere Bewegung.',
+    ru: '1500 мг глюкозамина, хондроитин и МСМ для комфорта хряща и более лёгкого движения.',
   },
   description: {
     en: 'A joint-support complex combining glucosamine sulfate, chondroitin sulfate, and MSM at the combined dose most frequently studied for cartilage comfort and mobility — for people who train hard or simply want to move without stiffness.',
@@ -861,6 +1023,38 @@ export const glucosamineComplex: Product = {
       tr: 'Kabuklu deniz ürünü içermez, laboratuvar onaylı saflık',
       de: 'Schalentierfrei, laborgeprüfte Reinheit',
       ru: 'Без ракообразных, лабораторно подтверждённая чистота',
+    },
+  ],
+  composition: [
+    {
+      name: { en: 'Glucosamine sulfate', tr: 'Glukozamin sülfat', de: 'Glucosaminsulfat', ru: 'Сульфат глюкозамина' },
+      dose: doseLabel('1500 mg'),
+      note: {
+        en: 'A building block of cartilage. The dose most often used in joint-comfort studies.',
+        tr: 'Kıkırdak yapısının yapı taşı. Eklem konforu çalışmalarında en sık kullanılan doz.',
+        de: 'Baustein des Knorpels. Die in Gelenkstudien am häufigsten verwendete Dosis.',
+        ru: 'Строительный материал хряща. Наиболее частая доза в исследованиях комфорта суставов.',
+      },
+    },
+    {
+      name: { en: 'Chondroitin sulfate', tr: 'Kondroitin sülfat', de: 'Chondroitinsulfat', ru: 'Сульфат хондроитина' },
+      dose: doseLabel('1200 mg'),
+      note: {
+        en: 'Supports joint cushioning and works alongside glucosamine for easier movement.',
+        tr: 'Eklem yastıklamasını destekler; glukozaminle birlikte hareket rahatlığına katkı sağlar.',
+        de: 'Unterstützt die Gelenkpolsterung und wirkt zusammen mit Glucosamin für leichtere Bewegung.',
+        ru: 'Поддерживает амортизацию сустава и работает вместе с глюкозамином для более лёгкого движения.',
+      },
+    },
+    {
+      name: { en: 'MSM', tr: 'MSM', de: 'MSM', ru: 'МСМ' },
+      dose: doseLabel('500 mg'),
+      note: {
+        en: 'A natural sulfur source. Supports flexibility and connective-tissue comfort.',
+        tr: 'Doğal kükürt kaynağı. Esneklik ve bağ dokusu konforunu destekler.',
+        de: 'Natürliche Schwefelquelle. Unterstützt Flexibilität und das Bindegewebe.',
+        ru: 'Природный источник серы. Поддерживает гибкость и комфорт соединительной ткани.',
+      },
     },
   ],
   activesCount: 3,
@@ -976,6 +1170,11 @@ export function getCrossSellOffers(product: Product): CrossSellOffer[] {
       return { product: offer, reason: entry.reason }
     })
     .filter((item): item is CrossSellOffer => Boolean(item))
+}
+
+/** Ürünün formül aktiflerini döner; tanımsızsa boş dizi. */
+export function getComposition(product: Product): FormulaActive[] {
+  return product.composition ?? []
 }
 
 /** Ürünün varsayılan (tek) varyantını döndürür. */

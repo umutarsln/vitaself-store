@@ -12,6 +12,7 @@ import {
   FREE_SHIPPING_THRESHOLD,
   copy,
   defaultVariant,
+  getComposition,
   getProduct,
   lineTotal,
   perDayPrice,
@@ -221,6 +222,8 @@ export function ProductPurchase({ product }: ProductPurchaseProps) {
         </ul>
       </Reveal>
 
+      <CompositionList product={product} />
+
       <CrossSellPrompt
         product={product}
         open={promptOpen}
@@ -228,5 +231,40 @@ export function ProductPurchase({ product }: ProductPurchaseProps) {
         onClose={handleClosePrompt}
       />
     </div>
+  )
+}
+
+type CompositionListProps = {
+  product: Product
+}
+
+/** PDP formül aktifleri — her aktif için kısa açıklayıcı satır. */
+function CompositionList({ product }: CompositionListProps) {
+  const { d, lang } = useLanguage()
+  const items = getComposition(product)
+  if (items.length === 0) return null
+
+  return (
+    <Reveal delay={0.24} className="mt-12">
+      <p className="text-eyebrow text-muted-foreground">{d.pdp.composition}</p>
+      <ul className="border-border/70 mt-4 border-t">
+        {items.map((item) => (
+          <li
+            key={copy(item.name, lang)}
+            className="border-border/70 flex items-baseline justify-between gap-6 border-b py-5"
+          >
+            <div>
+              <p className="text-[16px] tracking-tight">{copy(item.name, lang)}</p>
+              <p className="text-muted-foreground mt-1.5 text-[13px] leading-relaxed">
+                {copy(item.note, lang)}
+              </p>
+            </div>
+            <p className="text-muted-foreground font-mono text-xs tracking-tight whitespace-nowrap">
+              {copy(item.dose, lang)}
+            </p>
+          </li>
+        ))}
+      </ul>
+    </Reveal>
   )
 }
