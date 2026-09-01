@@ -90,7 +90,7 @@ function pagesFromDictionary(d: Dictionary): SearchResult[] {
 function sectionsFromDictionary(d: Dictionary): SearchResult[] {
   const sections = [
     { href: '/#about', title: d.benefits.title, subtitle: d.benefits.eyebrow, body: d.benefits.items.map((item) => `${item.title} ${item.body}`).join(' ') },
-    { href: '/#ingredients', title: d.ingredients.title, subtitle: d.ingredients.eyebrow, body: `${d.ingredients.body} ${d.ingredients.items.map((item) => `${item.group} ${item.name} ${item.note}`).join(' ')}` },
+    { href: '/#ingredients', title: d.ingredients.title, subtitle: d.ingredients.eyebrow, body: `${d.ingredients.body} ${d.ingredients.items.map((item) => `${item.name} ${item.note}`).join(' ')}` },
     { href: '/#science', title: d.science.title, subtitle: d.science.eyebrow, body: d.science.body },
     { href: '/#faq', title: d.faq.title, subtitle: d.faq.eyebrow, body: d.faq.items.map((item) => `${item.q} ${item.a}`).join(' ') },
   ]

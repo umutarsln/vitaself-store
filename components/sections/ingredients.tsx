@@ -1,30 +1,14 @@
 'use client'
 
 import Image from 'next/image'
+import Link from 'next/link'
 import { ArrowUpRight } from 'lucide-react'
 import { Eyebrow, Reveal, Section } from '@/components/reveal'
 import { useLanguage } from '@/lib/i18n'
 
-type IngredientItem = {
-  group: string
-  name: string
-  dose: string
-  note: string
-}
-
-/**
- * Listedeki öğenin üstünde yeni bir grup başlığı gösterilip gösterilmeyeceğini döner.
- */
-function shouldShowGroup(items: IngredientItem[], index: number): boolean {
-  const current = items[index]
-  if (!current?.group) return false
-  return current.group !== items[index - 1]?.group
-}
-
-/** Ana sayfa içerik bölümü — formül aktiflerini kısa açıklamalarla listeler. */
+/** Ana sayfa içerik listesi — beş görünür formülün kısa doz ve fayda özeti. */
 export function Ingredients() {
   const { d } = useLanguage()
-  const items = d.ingredients.items
 
   return (
     <Section id="ingredients" className="bg-ivory" label={d.ingredients.title}>
@@ -36,8 +20,8 @@ export function Ingredients() {
               {d.ingredients.title}
             </h2>
             <p className="text-muted-foreground mt-6 max-w-sm text-sm leading-relaxed">{d.ingredients.body}</p>
-            <a
-              href="/science/ingredient-panel"
+            <Link
+              href="/products"
               className="group text-foreground mt-8 inline-flex items-center gap-2 text-sm tracking-wide"
             >
               {d.ingredients.cta}
@@ -45,7 +29,7 @@ export function Ingredients() {
                 className="size-4 transition-transform duration-500 group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
                 strokeWidth={1.5}
               />
-            </a>
+            </Link>
           </Reveal>
 
           <Reveal delay={0.12} className="mt-12">
@@ -63,30 +47,24 @@ export function Ingredients() {
 
         <Reveal delay={0.08}>
           <ul className="border-border/70 border-t">
-            {items.map((item, index) => {
-              const showGroup = shouldShowGroup(items, index)
-              return (
-                <li
-                  key={item.name}
-                  className="border-border/70 group border-b py-6 transition-colors duration-500 md:py-7"
+            {d.ingredients.items.map((item) => (
+              <li key={item.name} className="border-border/70 border-b">
+                <Link
+                  href={item.href}
+                  className="group flex items-baseline justify-between gap-6 py-6 transition-colors duration-500 md:py-7"
                 >
-                  {showGroup && (
-                    <p className="text-eyebrow text-muted-foreground mb-4 text-[11px] tracking-[0.16em] uppercase">
-                      {item.group}
+                  <div>
+                    <p className="text-[17px] tracking-tight transition-colors duration-300 group-hover:text-foreground/80">
+                      {item.name}
                     </p>
-                  )}
-                  <div className="flex items-baseline justify-between gap-6">
-                    <div>
-                      <p className="text-[17px] tracking-tight">{item.name}</p>
-                      <p className="text-muted-foreground mt-1.5 text-[13px] leading-relaxed">{item.note}</p>
-                    </div>
-                    <p className="text-muted-foreground font-mono text-xs tracking-tight whitespace-nowrap">
-                      {item.dose}
-                    </p>
+                    <p className="text-muted-foreground mt-1.5 text-[13px] leading-relaxed">{item.note}</p>
                   </div>
-                </li>
-              )
-            })}
+                  <p className="text-muted-foreground font-mono text-xs tracking-tight whitespace-nowrap">
+                    {item.dose}
+                  </p>
+                </Link>
+              </li>
+            ))}
           </ul>
         </Reveal>
       </div>
