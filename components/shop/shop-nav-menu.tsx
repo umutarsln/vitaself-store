@@ -8,7 +8,7 @@ import { useLanguage } from '@/lib/i18n'
 import { copy, defaultVariant, visibleProducts } from '@/lib/products'
 
 /** Dropdown önizlemesinde gösterilen ürün sayısı (setler hariç). */
-const MENU_PREVIEW_COUNT = 6
+const MENU_PREVIEW_COUNT = 9
 
 type ShopNavMenuProps = {
   /** Mobil menü kapanırken çağrılır. */

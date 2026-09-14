@@ -15,7 +15,7 @@ export const en = {
     close: 'Close',
     language: 'Language',
     viewAllFormulas: 'All formulas',
-    shopMenuHint: 'Five clinical formulas. Transparent doses in every capsule.',
+    shopMenuHint: 'Clinical formulas. Transparent doses in every capsule.',
   },
   search: {
     placeholder: 'Search products or pages…',
@@ -71,7 +71,7 @@ export const en = {
   ingredients: {
     eyebrow: 'Ingredients',
     title: 'Everything inside. Nothing behind a blend.',
-    body: 'Key doses from our five clinical formulas. The complete panel, with sourcing origin and assay method, ships in the box.',
+    body: 'Key doses from our clinical formulas. The complete panel, with sourcing origin and assay method, ships in the box.',
     items: [
       {
         name: 'Magnesium Complex',
@@ -102,6 +102,30 @@ export const en = {
         dose: '1500 mg',
         note: 'Chondroitin and MSM — cartilage comfort and mobility',
         href: '/products/glucosamine-complex',
+      },
+      {
+        name: 'Vitamin D3 K2',
+        dose: '1000 IU',
+        note: '11 µg K2 in organic olive oil — bone and immune signalling',
+        href: '/products/vitamin-d3-k2',
+      },
+      {
+        name: 'Ginkgo Biloba',
+        dose: '240 mg',
+        note: 'Leaf extract — circulation and cognition',
+        href: '/products/ginkgo-biloba',
+      },
+      {
+        name: 'Black Cumin Seed Oil',
+        dose: '1000 mg',
+        note: 'Nigella sativa — 90 softgels',
+        href: '/products/black-cumin-seed-oil',
+      },
+      {
+        name: 'Iron-C',
+        dose: '17 mg',
+        note: '500 mg vitamin C — absorption and energy',
+        href: '/products/iron-c',
       },
     ],
     cta: 'Browse all formulas',
@@ -230,7 +254,7 @@ export const en = {
     eyebrow: 'The Collection',
     title: 'Clinical formulas.',
     titleAccent: 'Nothing hidden.',
-    body: 'Five clinical formulas. Transparent doses. The same pharmaceutical discipline behind every capsule.',
+    body: 'Clinical formulas. Transparent doses. The same pharmaceutical discipline behind every capsule.',
     browse: 'Browse formulas',
     view: 'View formula',
     from: 'From',
@@ -395,6 +419,10 @@ export const en = {
           { label: 'Multivitamin for Men', href: '/products/multivitamin-men' },
           { label: 'Multivitamin for Women', href: '/products/multivitamin-women' },
           { label: 'Glucosamine Complex', href: '/products/glucosamine-complex' },
+          { label: 'Vitamin D3 K2', href: '/products/vitamin-d3-k2' },
+          { label: 'Ginkgo Biloba', href: '/products/ginkgo-biloba' },
+          { label: 'Black Cumin Seed Oil', href: '/products/black-cumin-seed-oil' },
+          { label: 'Iron-C', href: '/products/iron-c' },
           { label: 'All formulas', href: '/products' },
         ],
       },

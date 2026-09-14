@@ -15,7 +15,7 @@ export const ru = {
     close: 'Закрыть',
     language: 'Язык',
     viewAllFormulas: 'Все формулы',
-    shopMenuHint: 'Пять клинических формул. Прозрачные дозировки в каждой капсуле.',
+    shopMenuHint: 'Клинические формулы. Прозрачные дозировки в каждой капсуле.',
   },
   search: {
     placeholder: 'Поиск товаров или страниц…',
@@ -71,7 +71,7 @@ export const ru = {
   ingredients: {
     eyebrow: 'Состав',
     title: 'Всё внутри. Ничего за смесью.',
-    body: 'Основные дозы пяти клинических формул. Полная таблица с указанием происхождения сырья и метода анализа прилагается в упаковке.',
+    body: 'Основные дозы клинических формул. Полная таблица с указанием происхождения сырья и метода анализа прилагается в упаковке.',
     items: [
       {
         name: 'Магний Комплекс',
@@ -102,6 +102,30 @@ export const ru = {
         dose: '1500 мг',
         note: 'Хондроитин и МСМ — комфорт хряща и подвижность',
         href: '/products/glucosamine-complex',
+      },
+      {
+        name: 'Витамин D3 K2',
+        dose: '1000 МЕ',
+        note: '11 мкг K2 в органическом оливковом масле — кости и иммунитет',
+        href: '/products/vitamin-d3-k2',
+      },
+      {
+        name: 'Гинкго билоба',
+        dose: '240 мг',
+        note: 'Экстракт листьев — кровообращение и когнитивные функции',
+        href: '/products/ginkgo-biloba',
+      },
+      {
+        name: 'Масло чёрного тмина',
+        dose: '1000 мг',
+        note: 'Nigella sativa — 90 мягких капсул',
+        href: '/products/black-cumin-seed-oil',
+      },
+      {
+        name: 'Железо-C',
+        dose: '17 мг',
+        note: '500 мг витамина C — усвоение и энергия',
+        href: '/products/iron-c',
       },
     ],
     cta: 'Смотреть все формулы',
@@ -230,7 +254,7 @@ export const ru = {
     eyebrow: 'Коллекция',
     title: 'Клинические формулы.',
     titleAccent: 'Ничего скрытого.',
-    body: 'Пять клинических формул. Прозрачные дозы. Та же фармацевтическая дисциплина в каждой капсуле.',
+    body: 'Клинические формулы. Прозрачные дозы. Та же фармацевтическая дисциплина в каждой капсуле.',
     browse: 'Смотреть формулы',
     view: 'Посмотреть формулу',
     from: 'От',
@@ -395,6 +419,10 @@ export const ru = {
           { label: 'Мультивитамины для мужчин', href: '/products/multivitamin-men' },
           { label: 'Мультивитамины для женщин', href: '/products/multivitamin-women' },
           { label: 'Комплекс с глюкозамином', href: '/products/glucosamine-complex' },
+          { label: 'Витамин D3 K2', href: '/products/vitamin-d3-k2' },
+          { label: 'Гинкго билоба', href: '/products/ginkgo-biloba' },
+          { label: 'Масло чёрного тмина', href: '/products/black-cumin-seed-oil' },
+          { label: 'Железо-C', href: '/products/iron-c' },
           { label: 'Все формулы', href: '/products' },
         ],
       },

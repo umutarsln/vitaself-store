@@ -15,7 +15,7 @@ export const tr = {
     close: 'Kapat',
     language: 'Dil',
     viewAllFormulas: 'Tüm formüller',
-    shopMenuHint: 'Beş klinik formül. Her kapsülde şeffaf dozlar.',
+    shopMenuHint: 'Klinik formüller. Her kapsülde şeffaf dozlar.',
   },
   search: {
     placeholder: 'Ürün veya sayfa ara…',
@@ -71,7 +71,7 @@ export const tr = {
   ingredients: {
     eyebrow: 'İçerikler',
     title: 'İçindeki her şey. Karışımın arkasında hiçbir şey.',
-    body: 'Beş klinik formülün ana dozları aşağıda. Kaynak ülkesi ve analiz yöntemiyle tam panel her kutunun içinde.',
+    body: 'Klinik formüllerin ana dozları aşağıda. Kaynak ülkesi ve analiz yöntemiyle tam panel her kutunun içinde.',
     items: [
       {
         name: 'Magnezyum Kompleks',
@@ -102,6 +102,30 @@ export const tr = {
         dose: '1500 mg',
         note: 'Kondroitin ve MSM — kıkırdak konforu ve hareket',
         href: '/products/glucosamine-complex',
+      },
+      {
+        name: 'Vitamin D3 K2',
+        dose: '1000 IU',
+        note: '11 µg K2, organik zeytinyağı — kemik ve bağışıklık',
+        href: '/products/vitamin-d3-k2',
+      },
+      {
+        name: 'Ginkgo Biloba',
+        dose: '240 mg',
+        note: 'Yaprak ekstresi — dolaşım ve biliş',
+        href: '/products/ginkgo-biloba',
+      },
+      {
+        name: 'Çörek Otu Yağı',
+        dose: '1000 mg',
+        note: 'Nigella sativa — 90 yumuşak kapsül',
+        href: '/products/black-cumin-seed-oil',
+      },
+      {
+        name: 'Demir-C',
+        dose: '17 mg',
+        note: '500 mg C vitamini — emilim ve enerji',
+        href: '/products/iron-c',
       },
     ],
     cta: 'Tüm formülleri incele',
@@ -230,7 +254,7 @@ export const tr = {
     eyebrow: 'Koleksiyon',
     title: 'Klinik formüller.',
     titleAccent: 'Gizli hiçbir şey yok.',
-    body: 'Beş klinik formül. Şeffaf dozlar. Her kapsülün arkasında aynı farmasötik disiplin.',
+    body: 'Klinik formüller. Şeffaf dozlar. Her kapsülün arkasında aynı farmasötik disiplin.',
     browse: 'Ürünleri incele',
     view: 'Formülü gör',
     from: 'Başlangıç',
@@ -395,6 +419,10 @@ export const tr = {
           { label: 'Erkekler için Multivitamin', href: '/products/multivitamin-men' },
           { label: 'Kadınlar için Multivitamin', href: '/products/multivitamin-women' },
           { label: 'Glikozamin Kompleks', href: '/products/glucosamine-complex' },
+          { label: 'Vitamin D3 K2', href: '/products/vitamin-d3-k2' },
+          { label: 'Ginkgo Biloba', href: '/products/ginkgo-biloba' },
+          { label: 'Çörek Otu Yağı', href: '/products/black-cumin-seed-oil' },
+          { label: 'Demir-C', href: '/products/iron-c' },
           { label: 'Tüm formüller', href: '/products' },
         ],
       },

@@ -15,7 +15,7 @@ export const de = {
     close: 'Schließen',
     language: 'Sprache',
     viewAllFormulas: 'Alle Formeln',
-    shopMenuHint: 'Fünf klinische Formeln. Transparente Dosierungen in jeder Kapsel.',
+    shopMenuHint: 'Klinische Formeln. Transparente Dosierungen in jeder Kapsel.',
   },
   search: {
     placeholder: 'Produkte oder Seiten suchen…',
@@ -71,7 +71,7 @@ export const de = {
   ingredients: {
     eyebrow: 'Inhaltsstoffe',
     title: 'Alles drin. Nichts hinter einer Mischung verborgen.',
-    body: 'Die Hauptdosierungen unserer fünf klinischen Formeln. Das vollständige Panel mit Herkunft und Prüfverfahren liegt der Verpackung bei.',
+    body: 'Die Hauptdosierungen unserer klinischen Formeln. Das vollständige Panel mit Herkunft und Prüfverfahren liegt der Verpackung bei.',
     items: [
       {
         name: 'Magnesium Komplex',
@@ -102,6 +102,30 @@ export const de = {
         dose: '1500 mg',
         note: 'Chondroitin und MSM — Knorpelkomfort und Beweglichkeit',
         href: '/products/glucosamine-complex',
+      },
+      {
+        name: 'Vitamin D3 K2',
+        dose: '1000 IU',
+        note: '11 µg K2 in Bio-Olivenöl — Knochen und Immunsignale',
+        href: '/products/vitamin-d3-k2',
+      },
+      {
+        name: 'Ginkgo Biloba',
+        dose: '240 mg',
+        note: 'Blattextrakt — Durchblutung und Kognition',
+        href: '/products/ginkgo-biloba',
+      },
+      {
+        name: 'Schwarzkümmelöl',
+        dose: '1000 mg',
+        note: 'Nigella sativa — 90 Weichkapseln',
+        href: '/products/black-cumin-seed-oil',
+      },
+      {
+        name: 'Eisen-C',
+        dose: '17 mg',
+        note: '500 mg Vitamin C — Aufnahme und Energie',
+        href: '/products/iron-c',
       },
     ],
     cta: 'Alle Formeln ansehen',
@@ -230,7 +254,7 @@ export const de = {
     eyebrow: 'Die Kollektion',
     title: 'Klinische Formeln.',
     titleAccent: 'Nichts verborgen.',
-    body: 'Fünf klinische Formeln. Transparente Dosierungen. Dieselbe pharmazeutische Disziplin hinter jeder Kapsel.',
+    body: 'Klinische Formeln. Transparente Dosierungen. Dieselbe pharmazeutische Disziplin hinter jeder Kapsel.',
     browse: 'Formeln entdecken',
     view: 'Formel ansehen',
     from: 'Ab',
@@ -395,6 +419,10 @@ export const de = {
           { label: 'Multivitamin für Männer', href: '/products/multivitamin-men' },
           { label: 'Multivitamin für Frauen', href: '/products/multivitamin-women' },
           { label: 'Glucosamin-Komplex', href: '/products/glucosamine-complex' },
+          { label: 'Vitamin D3 K2', href: '/products/vitamin-d3-k2' },
+          { label: 'Ginkgo Biloba', href: '/products/ginkgo-biloba' },
+          { label: 'Schwarzkümmelöl', href: '/products/black-cumin-seed-oil' },
+          { label: 'Eisen-C', href: '/products/iron-c' },
           { label: 'Alle Formeln', href: '/products' },
         ],
       },
