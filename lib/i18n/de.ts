@@ -271,6 +271,7 @@ export const de = {
     supply: '30-Tage-Vorrat',
     saved: 'gespart',
     trust: ['Kostenloser Versand ab 60 $', 'Versand innerhalb von 24 Std.', 'Unabhängig geprüft'],
+    focus: 'Wofür es da ist',
     highlights: 'Warum diese Formel',
     composition: 'Was drin ist',
     quantity: {

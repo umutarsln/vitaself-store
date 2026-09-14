@@ -271,6 +271,7 @@ export const tr = {
     supply: '30 günlük kullanım',
     saved: 'tasarruf',
     trust: ['1.500 ₺ üzeri ücretsiz kargo', '24 saatte kargo', 'Bağımsız test'],
+    focus: 'Ne işe yarar',
     highlights: 'Neden bu formül',
     composition: 'İçindekiler',
     quantity: {

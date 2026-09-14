@@ -27,6 +27,7 @@ function productToSearchResult(product: Product, lang: Lang): SearchResult {
   const description = copy(product.description, lang)
   const category = copy(product.category, lang)
   const highlights = product.highlights.map((item) => copy(item, lang)).join(' ')
+  const focus = product.focus.map((item) => copy(item, lang)).join(' ')
   const composition = (product.composition ?? [])
     .map((item) => `${copy(item.name, lang)} ${copy(item.dose, lang)} ${copy(item.note, lang)}`)
     .join(' ')
@@ -37,7 +38,7 @@ function productToSearchResult(product: Product, lang: Lang): SearchResult {
     title,
     subtitle,
     haystack: normalizeSearchText(
-      [title, subtitle, description, category, highlights, composition, product.handle.replace(/-/g, ' ')].join(' '),
+      [title, subtitle, description, category, focus, highlights, composition, product.handle.replace(/-/g, ' ')].join(' '),
     ),
   }
 }

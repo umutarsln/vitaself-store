@@ -15,6 +15,11 @@ function doseLabel(value: string): LocaleCopy {
   return { en: value, tr: value, de: value, ru: value }
 }
 
+/** PDP açıklama maddesi için dört dilli kısa metin üretir. */
+function purpose(en: string, tr: string, de: string, ru: string): LocaleCopy {
+  return { en, tr, de, ru }
+}
+
 export type ProductVariant = {
   id: string
   title: string
@@ -39,6 +44,8 @@ export type Product = {
   description: LocaleCopy
   badge?: LocaleCopy
   category: LocaleCopy
+  /** PDP açıklamasında ürünün ana odağı — 2-3 kısa madde. */
+  focus: LocaleCopy[]
   highlights: LocaleCopy[]
   /** Formül aktifleri; varsa PDP’de kısa açıklayıcı satırlar olarak gösterilir. */
   composition?: FormulaActive[]
@@ -112,6 +119,26 @@ export const dailyFoundation: Product = {
   },
   badge: { en: 'Best seller', tr: 'Çok satan', de: 'Bestseller', ru: 'Хит продаж' },
   category: { en: 'Daily essentials', tr: 'Günlük temel', de: 'Tägliche Essentials', ru: 'Ежедневные основы' },
+  focus: [
+    purpose(
+      'Covers daily vitamin and mineral gaps',
+      'Günlük vitamin ve mineral açığını kapatır',
+      'Schließt tägliche Vitamin- und Mineralstofflücken',
+      'Закрывает суточные пробелы в витаминах и минералах',
+    ),
+    purpose(
+      'Supports energy and immune baseline',
+      'Enerji ve bağışıklık temelini destekler',
+      'Unterstützt Energie und Immunbasis',
+      'Поддерживает энергию и иммунный базис',
+    ),
+    purpose(
+      'Adaptogen support under daily stress',
+      'Günlük stres yükünde adaptojen desteği',
+      'Adaptogen-Unterstützung bei Alltagsstress',
+      'Адаптогенная поддержка при повседневном стрессе',
+    ),
+  ],
   highlights: [
     {
       en: 'Clinical doses printed in mg',
@@ -203,6 +230,26 @@ export const sleepDepth: Product = {
   },
   badge: { en: 'New', tr: 'Yeni', de: 'Neu', ru: 'Новинка' },
   category: { en: 'Recovery', tr: 'Toparlanma', de: 'Regeneration', ru: 'Восстановление' },
+  focus: [
+    purpose(
+      'Restorative sleep without melatonin fog',
+      'Melatonin sisi olmadan onarıcı uyku',
+      'Erholsamer Schlaf ohne Melatonin-Nebel',
+      'Восстановительный сон без «тумана» от мелатонина',
+    ),
+    purpose(
+      'Evening calm and easier wind-down',
+      'Akşam sakinliği ve uykuya geçiş',
+      'Abendliche Ruhe und leichteres Abschalten',
+      'Вечернее спокойствие и более лёгкое засыпание',
+    ),
+    purpose(
+      'Clearer mornings, not next-day grogginess',
+      'Ertesi sabah netlik, sersemlik değil',
+      'Klarer Morgen statt Müdigkeit am nächsten Tag',
+      'Ясное утро, а не вялость на следующий день',
+    ),
+  ],
   highlights: [
     {
       en: '200 mg magnesium bisglycinate',
@@ -297,6 +344,26 @@ export const algalOmega: Product = {
     de: 'Kognitive Unterstützung',
     ru: 'Когнитивная поддержка',
   },
+  focus: [
+    purpose(
+      'Cognitive and vision support from DHA',
+      'DHA ile biliş ve görme desteği',
+      'Kognition und Sehkraft durch DHA',
+      'Поддержка когнитивных функций и зрения за счёт DHA',
+    ),
+    purpose(
+      'Heart and cell-membrane omega-3',
+      'Kalp ve hücre zarı için omega-3',
+      'Omega-3 für Herz und Zellmembranen',
+      'Омега-3 для сердца и клеточных мембран',
+    ),
+    purpose(
+      'Plant-based — no fish oil',
+      'Bitkisel kaynak — balık yağı değil',
+      'Pflanzlich — kein Fischöl',
+      'Растительный источник — не рыбий жир',
+    ),
+  ],
   highlights: [
     {
       en: '500 mg DHA + 250 mg EPA',
@@ -387,6 +454,26 @@ export const essentialsTrio: Product = {
   },
   badge: { en: 'Best value', tr: 'En avantajlı', de: 'Bestes Preis-Leistungs-Verhältnis', ru: 'Лучшее предложение' },
   category: { en: 'Bundles', tr: 'Setler', de: 'Bundles', ru: 'Наборы' },
+  focus: [
+    purpose(
+      'Day, night, and omega in one protocol',
+      'Gündüz, gece ve omega tek protokolde',
+      'Tag, Nacht und Omega in einem Protokoll',
+      'День, ночь и омега в одном протоколе',
+    ),
+    purpose(
+      'Covers the daily foundational stack',
+      'Günlük temel ihtiyacı tek rutinde toplar',
+      'Deckt den täglichen Basis-Stack ab',
+      'Закрывает ежедневный базовый стек',
+    ),
+    purpose(
+      'One coordinated routine, one delivery',
+      'Tek koordineli rutin, tek teslimat',
+      'Eine abgestimmte Routine, eine Lieferung',
+      'Одна согласованная рутина, одна доставка',
+    ),
+  ],
   highlights: [
     {
       en: 'All three core formulas',
@@ -474,6 +561,26 @@ export const magnesium: Product = {
   },
   badge: { en: 'New', tr: 'Yeni', de: 'Neu', ru: 'Новинка' },
   category: { en: 'Minerals', tr: 'Mineraller', de: 'Mineralstoffe', ru: 'Минералы' },
+  focus: [
+    purpose(
+      'Muscle relaxation and recovery',
+      'Kas gevşemesi ve toparlanma',
+      'Muskelentspannung und Regeneration',
+      'Расслабление мышц и восстановление',
+    ),
+    purpose(
+      'Nerve signalling and energy metabolism',
+      'Sinir iletimi ve enerji metabolizması',
+      'Nervensignalgebung und Energiestoffwechsel',
+      'Нервная передача и энергетический обмен',
+    ),
+    purpose(
+      'Sleep quality and evening calm',
+      'Uyku kalitesi ve akşam sakinliği',
+      'Schlafqualität und abendliche Ruhe',
+      'Качество сна и вечернее спокойствие',
+    ),
+  ],
   highlights: [
     {
       en: '200 mg elemental magnesium per serving',
@@ -560,7 +667,7 @@ export const magnesium: Product = {
     {
       id: 'gid://shopify/ProductVariant/52',
       title: 'Default',
-      price: { usd: 29, try: 790 },
+      price: { usd: 25, try: 700 },
       compareAtPrice: null,
       availableForSale: true,
     },
@@ -608,6 +715,26 @@ export const omega3: Product = {
   },
   badge: { en: 'New', tr: 'Yeni', de: 'Neu', ru: 'Новинка' },
   category: { en: 'Heart & joints', tr: 'Kalp ve eklem', de: 'Herz & Gelenke', ru: 'Сердце и суставы' },
+  focus: [
+    purpose(
+      'Heart and circulation support',
+      'Kalp ve dolaşım desteği',
+      'Unterstützung für Herz und Kreislauf',
+      'Поддержка сердца и кровообращения',
+    ),
+    purpose(
+      'Cognitive function from DHA',
+      'DHA ile bilişsel işlev',
+      'Kognitive Funktion durch DHA',
+      'Когнитивные функции за счёт DHA',
+    ),
+    purpose(
+      'Joint comfort and daily mobility',
+      'Eklem konforu ve günlük hareket',
+      'Gelenkkomfort und alltägliche Beweglichkeit',
+      'Комфорт суставов и повседневная подвижность',
+    ),
+  ],
   highlights: [
     {
       en: '360 mg EPA + 240 mg DHA per serving',
@@ -674,7 +801,7 @@ export const omega3: Product = {
     {
       id: 'gid://shopify/ProductVariant/62',
       title: 'Default',
-      price: { usd: 34, try: 940 },
+      price: { usd: 35, try: 950 },
       compareAtPrice: null,
       availableForSale: true,
     },
@@ -727,6 +854,26 @@ export const multivitaminMen: Product = {
   },
   badge: { en: 'New', tr: 'Yeni', de: 'Neu', ru: 'Новинка' },
   category: { en: "Men's health", tr: 'Erkek sağlığı', de: 'Männergesundheit', ru: 'Мужское здоровье' },
+  focus: [
+    purpose(
+      'Daily energy and immune coverage',
+      'Günlük enerji ve bağışıklık kapsamı',
+      'Tägliche Energie- und Immunabdeckung',
+      'Ежедневная поддержка энергии и иммунитета',
+    ),
+    purpose(
+      'Prostate support with zinc and selenium',
+      'Çinko ve selenyum ile prostat desteği',
+      'Prostata-Unterstützung mit Zink und Selen',
+      'Поддержка простаты цинком и селеном',
+    ),
+    purpose(
+      'Bone and heart signalling with D3 and K2',
+      'D3 ve K2 ile kemik ve kalp sinyali',
+      'Knochen- und Herzsignale mit D3 und K2',
+      'Сигналы костей и сердца с D3 и K2',
+    ),
+  ],
   highlights: [
     {
       en: '15 mg zinc + 200 mcg selenium for prostate support',
@@ -810,7 +957,7 @@ export const multivitaminMen: Product = {
     {
       id: 'gid://shopify/ProductVariant/72',
       title: 'Default',
-      price: { usd: 39, try: 1080 },
+      price: { usd: 22, try: 600 },
       compareAtPrice: null,
       availableForSale: true,
     },
@@ -863,6 +1010,26 @@ export const multivitaminWomen: Product = {
   },
   badge: { en: 'New', tr: 'Yeni', de: 'Neu', ru: 'Новинка' },
   category: { en: "Women's health", tr: 'Kadın sağlığı', de: 'Frauengesundheit', ru: 'Женское здоровье' },
+  focus: [
+    purpose(
+      'Energy, hair, and daily vitality',
+      'Enerji, saç ve günlük canlılık',
+      'Energie, Haar und tägliche Vitalität',
+      'Энергия, волосы и повседневная жизненная сила',
+    ),
+    purpose(
+      'Cycle comfort with iron and folate',
+      'Demir ve folat ile döngü konforu',
+      'Zykluskomfort mit Eisen und Folat',
+      'Комфорт цикла с железом и фолатом',
+    ),
+    purpose(
+      'Bone density with calcium and D3',
+      'Kalsiyum ve D3 ile kemik yoğunluğu',
+      'Knochendichte mit Calcium und D3',
+      'Плотность костей с кальцием и D3',
+    ),
+  ],
   highlights: [
     {
       en: '18 mg iron bisglycinate, gentle on the stomach',
@@ -946,7 +1113,7 @@ export const multivitaminWomen: Product = {
     {
       id: 'gid://shopify/ProductVariant/82',
       title: 'Default',
-      price: { usd: 39, try: 1080 },
+      price: { usd: 22, try: 600 },
       compareAtPrice: null,
       availableForSale: true,
     },
@@ -999,6 +1166,26 @@ export const glucosamineComplex: Product = {
   },
   badge: { en: 'New', tr: 'Yeni', de: 'Neu', ru: 'Новинка' },
   category: { en: 'Joint health', tr: 'Eklem sağlığı', de: 'Gelenkgesundheit', ru: 'Здоровье суставов' },
+  focus: [
+    purpose(
+      'Cartilage maintenance and joint comfort',
+      'Kıkırdak yapısı ve eklem konforu',
+      'Knorpelerhalt und Gelenkkomfort',
+      'Поддержание хряща и комфорт суставов',
+    ),
+    purpose(
+      'Easier movement without stiffness',
+      'Sertlik olmadan daha rahat hareket',
+      'Leichtere Bewegung ohne Steifheit',
+      'Более лёгкое движение без скованности',
+    ),
+    purpose(
+      'Everyday mobility for training or daily life',
+      'Antrenman ve günlük yaşamda hareketlilik',
+      'Alltägliche Beweglichkeit beim Training und im Alltag',
+      'Повседневная подвижность на тренировках и в быту',
+    ),
+  ],
   highlights: [
     {
       en: '1500 mg glucosamine sulfate',
@@ -1074,7 +1261,7 @@ export const glucosamineComplex: Product = {
     {
       id: 'gid://shopify/ProductVariant/92',
       title: 'Default',
-      price: { usd: 36, try: 990 },
+      price: { usd: 33, try: 900 },
       compareAtPrice: null,
       availableForSale: true,
     },
@@ -1128,6 +1315,26 @@ export const vitaminD3K2: Product = {
   },
   badge: { en: 'New', tr: 'Yeni', de: 'Neu', ru: 'Новинка' },
   category: { en: 'Vitamins', tr: 'Vitaminler', de: 'Vitamine', ru: 'Витамины' },
+  focus: [
+    purpose(
+      'Immune and bone signalling from D3',
+      'D3 ile bağışıklık ve kemik sinyali',
+      'Immun- und Knochensignale durch D3',
+      'Иммунная и костная сигнализация за счёт D3',
+    ),
+    purpose(
+      'K2 directs calcium to bone, not soft tissue',
+      'K2 kalsiyumu kemiğe yönlendirir, yumuşak dokuya değil',
+      'K2 lenkt Calcium in den Knochen, nicht ins Weichgewebe',
+      'K2 направляет кальций в кость, а не в мягкие ткани',
+    ),
+    purpose(
+      'Fat-soluble vitamins in olive oil for absorption',
+      'Emilim için zeytinyağında yağda çözünen vitaminler',
+      'Fettlösliche Vitamine in Olivenöl für die Aufnahme',
+      'Жирорастворимые витамины в оливковом масле для усвоения',
+    ),
+  ],
   highlights: [
     {
       en: '1000 IU (25 µg) vitamin D3 per serving',
@@ -1202,7 +1409,7 @@ export const vitaminD3K2: Product = {
     {
       id: 'gid://shopify/ProductVariant/102',
       title: 'Default',
-      price: { usd: 32, try: 890 },
+      price: { usd: 11, try: 300 },
       compareAtPrice: null,
       availableForSale: true,
     },
@@ -1261,6 +1468,26 @@ export const ginkgoBiloba: Product = {
     de: 'Kognitive Unterstützung',
     ru: 'Когнитивная поддержка',
   },
+  focus: [
+    purpose(
+      'Cognitive clarity and focus',
+      'Bilişsel netlik ve odak',
+      'Kognitive Klarheit und Fokus',
+      'Когнитивная ясность и концентрация',
+    ),
+    purpose(
+      'Healthy circulation to the brain',
+      'Beyne sağlıklı dolaşım',
+      'Gesunde Durchblutung des Gehirns',
+      'Здоровое кровоснабжение мозга',
+    ),
+    purpose(
+      'Mental stamina through the day',
+      'Gün boyu zihinsel dayanıklılık',
+      'Mentale Ausdauer über den Tag',
+      'Умственная выносливость в течение дня',
+    ),
+  ],
   highlights: [
     {
       en: '240 mg ginkgo leaf extract per serving',
@@ -1320,7 +1547,7 @@ export const ginkgoBiloba: Product = {
     {
       id: 'gid://shopify/ProductVariant/112',
       title: 'Default',
-      price: { usd: 36, try: 990 },
+      price: { usd: 33, try: 900 },
       compareAtPrice: null,
       availableForSale: true,
     },
@@ -1374,6 +1601,26 @@ export const blackCuminSeedOil: Product = {
   },
   badge: { en: 'New', tr: 'Yeni', de: 'Neu', ru: 'Новинка' },
   category: { en: 'Botanicals', tr: 'Bitkisel', de: 'Botanicals', ru: 'Растительные' },
+  focus: [
+    purpose(
+      'Immune system support',
+      'Bağışıklık sistemi desteği',
+      'Unterstützung des Immunsystems',
+      'Поддержка иммунной системы',
+    ),
+    purpose(
+      'Antioxidant coverage from seed oil',
+      'Tohum yağından antioksidan destek',
+      'Antioxidative Abdeckung durch Samenöl',
+      'Антиоксидантная поддержка из масла семян',
+    ),
+    purpose(
+      'Daily botanical wellness in a measured capsule',
+      'Ölçülü kapsülde günlük bitkisel denge',
+      'Tägliches botanisches Wohlbefinden in einer dosierten Kapsel',
+      'Ежедневный растительный баланс в отмеренной капсуле',
+    ),
+  ],
   highlights: [
     {
       en: '1000 mg Nigella sativa oil per softgel',
@@ -1433,7 +1680,7 @@ export const blackCuminSeedOil: Product = {
     {
       id: 'gid://shopify/ProductVariant/122',
       title: 'Default',
-      price: { usd: 32, try: 890 },
+      price: { usd: 27, try: 750 },
       compareAtPrice: null,
       availableForSale: true,
     },
@@ -1482,6 +1729,26 @@ export const ironC: Product = {
   },
   badge: { en: 'New', tr: 'Yeni', de: 'Neu', ru: 'Новинка' },
   category: { en: 'Minerals', tr: 'Mineraller', de: 'Mineralstoffe', ru: 'Минералы' },
+  focus: [
+    purpose(
+      'Supports iron stores and oxygen transport',
+      'Demir deposunu ve oksijen taşınmasını destekler',
+      'Unterstützt Eisenspeicher und Sauerstofftransport',
+      'Поддерживает запасы железа и транспорт кислорода',
+    ),
+    purpose(
+      'Helps with tiredness linked to low iron',
+      'Düşük demirle ilişkili yorgunlukta destek',
+      'Hilft bei Müdigkeit im Zusammenhang mit niedrigem Eisen',
+      'Помогает при усталости, связанной с низким железом',
+    ),
+    purpose(
+      'Vitamin C to aid iron absorption',
+      'Demir emilimi için C vitamini',
+      'Vitamin C zur Unterstützung der Eisenaufnahme',
+      'Витамин C для усвоения железа',
+    ),
+  ],
   highlights: [
     {
       en: '17 mg elemental iron per serving',
@@ -1546,7 +1813,7 @@ export const ironC: Product = {
     {
       id: 'gid://shopify/ProductVariant/132',
       title: 'Default',
-      price: { usd: 29, try: 790 },
+      price: { usd: 27, try: 750 },
       compareAtPrice: null,
       availableForSale: true,
     },

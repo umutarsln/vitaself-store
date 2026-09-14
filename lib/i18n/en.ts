@@ -271,6 +271,7 @@ export const en = {
     supply: '30-day supply',
     saved: 'saved',
     trust: ['Free shipping over $60', 'Ships in 24h', 'Independent testing'],
+    focus: 'What it does',
     highlights: 'Why this formula',
     composition: 'What’s inside',
     quantity: {

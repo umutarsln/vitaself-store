@@ -206,7 +206,19 @@ export function ProductPurchase({ product }: ProductPurchaseProps) {
       </Reveal>
 
       <Reveal delay={0.2} className="mt-12">
-        <p className="text-eyebrow text-muted-foreground">{d.pdp.highlights}</p>
+        <p className="text-eyebrow text-muted-foreground">{d.pdp.focus}</p>
+        <ul className="mt-4 flex flex-col gap-2.5">
+          {product.focus.map((item) => (
+            <li
+              key={copy(item, lang)}
+              className="flex items-start gap-3 text-sm leading-snug"
+            >
+              <Check className="text-foreground/70 mt-0.5 size-3.5 shrink-0" strokeWidth={2} />
+              <span className="text-foreground/85">{copy(item, lang)}</span>
+            </li>
+          ))}
+        </ul>
+        <p className="text-eyebrow text-muted-foreground mt-10">{d.pdp.highlights}</p>
         <ul className="mt-4 flex flex-col gap-2.5">
           {product.highlights.map((item, index) => (
             <li
