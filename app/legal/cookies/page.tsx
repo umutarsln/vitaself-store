@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import { ContentPageShell } from '@/components/content/content-page-shell'
 import { LegalContent, LegalSection } from '@/components/legal/legal-content'
+import { seller } from '@/lib/site'
 
 export const metadata: Metadata = {
   title: 'Cookie preferences',
@@ -20,7 +21,7 @@ export default function CookiesPage() {
         tr={
           <>
             <p className="text-foreground/90">
-              Son güncelleme: Ağustos 2026. Bu sayfa sitede kullanılan çerez ve benzeri
+              Son güncelleme: Eylül 2026. Bu sayfa sitede kullanılan çerez ve benzeri
               teknolojileri açıklar.
             </p>
 
@@ -76,8 +77,11 @@ export default function CookiesPage() {
               </p>
               <p>
                 Çerezler hakkında daha fazla bilgi için{' '}
-                <a href="mailto:privacy@vitaself.com" className="text-foreground underline-offset-4 hover:underline">
-                  privacy@vitaself.com
+                <a
+                  href={`mailto:${seller.emails.privacy}`}
+                  className="text-foreground underline-offset-4 hover:underline"
+                >
+                  {seller.emails.privacy}
                 </a>{' '}
                 adresine yazabilirsiniz.
               </p>
@@ -87,7 +91,7 @@ export default function CookiesPage() {
         en={
           <>
             <p className="text-foreground/90">
-              Last updated: August 2026. This page describes cookies and similar technologies used
+              Last updated: September 2026. This page describes cookies and similar technologies used
               on our site.
             </p>
 
@@ -143,8 +147,11 @@ export default function CookiesPage() {
               </p>
               <p>
                 Questions:{' '}
-                <a href="mailto:privacy@vitaself.com" className="text-foreground underline-offset-4 hover:underline">
-                  privacy@vitaself.com
+                <a
+                  href={`mailto:${seller.emails.privacy}`}
+                  className="text-foreground underline-offset-4 hover:underline"
+                >
+                  {seller.emails.privacy}
                 </a>
                 .
               </p>

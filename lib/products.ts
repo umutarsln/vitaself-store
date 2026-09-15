@@ -1963,6 +1963,11 @@ export const FLAT_SHIPPING: Money = { usd: 8, try: 149 }
 /** Ücretsiz kargo eşiği (dil bağımsız Money). */
 export const FREE_SHIPPING_THRESHOLD: Money = { usd: 60, try: 1500 }
 
+/** Yasal ve pazarlama metinlerinde TRY tutarı: 1.500 ₺ / 149 ₺. */
+export function formatTryAmount(amount: number): string {
+  return `${amount.toLocaleString('tr-TR')} ₺`
+}
+
 /** Stack için varsayılan indirim yüzdesi. */
 export const STACK_DISCOUNT_PERCENT = 12
 

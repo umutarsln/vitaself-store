@@ -1,7 +1,7 @@
 export const de = {
   locale: 'de-DE',
   currency: 'usd',
-  announce: 'Unabhängig geprüft · Kostenloser Versand ab 60 $ · GMP-Anlage',
+  announce: 'Unabhängig geprüft · Kostenloser Versand ab 1.500 ₺ · GMP-Anlage',
   nav: {
     shop: 'Shop',
     science: 'Wissenschaft',
@@ -270,7 +270,7 @@ export const de = {
     perDose: 'pro Dosis',
     supply: '30-Tage-Vorrat',
     saved: 'gespart',
-    trust: ['Kostenloser Versand ab 60 $', 'Versand innerhalb von 24 Std.', 'Unabhängig geprüft'],
+    trust: ['Kostenloser Versand ab 1.500 ₺', 'Versand innerhalb von 24 Std.', 'Unabhängig geprüft'],
     focus: 'Wofür es da ist',
     highlights: 'Warum diese Formel',
     composition: 'Was drin ist',
@@ -447,6 +447,7 @@ export const de = {
     legal: [
       { label: 'Datenschutz', href: '/legal/privacy' },
       { label: 'AGB', href: '/legal/terms' },
+      { label: 'Fernabsatz', href: '/legal/distance-sales' },
       { label: 'Versand & Rückgabe', href: '/legal/shipping' },
       { label: 'Cookie-Einstellungen', href: '/legal/cookies' },
     ],

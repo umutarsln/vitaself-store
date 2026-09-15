@@ -1,6 +1,8 @@
 import type { Metadata } from 'next'
 import { ContentPageShell } from '@/components/content/content-page-shell'
 import { LegalContent, LegalSection } from '@/components/legal/legal-content'
+import { FLAT_SHIPPING, FREE_SHIPPING_THRESHOLD, formatTryAmount } from '@/lib/products'
+import { seller } from '@/lib/site'
 
 export const metadata: Metadata = {
   title: 'Shipping & returns',
@@ -20,7 +22,7 @@ export default function ShippingPage() {
         tr={
           <>
             <p className="text-foreground/90">
-              Son güncelleme: Ağustos 2026. Teslimat ve iade süreçleri aşağıda özetlenmiştir.
+              Son güncelleme: Eylül 2026. Teslimat ve iade süreçleri aşağıda özetlenmiştir.
             </p>
 
             <LegalSection title="Teslimat">
@@ -38,8 +40,11 @@ export default function ShippingPage() {
 
             <LegalSection title="Kargo ücretleri">
               <ul className="list-disc space-y-2 pl-5">
-                <li>1.500 ₺ ve üzeri siparişlerde kargo ücretsizdir.</li>
-                <li>Bu eşiğin altındaki siparişlerde sabit kargo ücreti 149 ₺ uygulanır.</li>
+                <li>{formatTryAmount(FREE_SHIPPING_THRESHOLD.try)} ve üzeri siparişlerde kargo ücretsizdir.</li>
+                <li>
+                  Bu eşiğin altındaki siparişlerde sabit kargo ücreti {formatTryAmount(FLAT_SHIPPING.try)}{' '}
+                  uygulanır.
+                </li>
                 <li>Uluslararası siparişler şu an kabul edilmemektedir.</li>
               </ul>
             </LegalSection>
@@ -67,8 +72,11 @@ export default function ShippingPage() {
               <p>
                 Kargo hasarı veya yanlış ürün gönderimi durumunda, teslimattan itibaren makul bir
                 süre içinde{' '}
-                <a href="mailto:destek@vitaself.com" className="text-foreground underline-offset-4 hover:underline">
-                  destek@vitaself.com
+                <a
+                  href={`mailto:${seller.emails.support}`}
+                  className="text-foreground underline-offset-4 hover:underline"
+                >
+                  {seller.emails.support}
                 </a>{' '}
                 adresine fotoğraf ve sipariş numaranızla birlikte yazın. Doğrulanan hasar veya hatalı
                 sevkiyatlarda değişim veya iade değerlendirilir.
@@ -77,9 +85,17 @@ export default function ShippingPage() {
 
             <LegalSection title="İade süreci">
               <p>
-                Onaylanan iadelerde ürün, orijinal dış ambalajında ve faturasıyla birlikte belirtilen
-                adrese gönderilmelidir. İade kargo ücreti, iade nedenine göre tarafımızca veya
-                müşteri tarafından karşılanır; detay iade onay e-postasında bildirilir.
+                İade talebinizi{' '}
+                <a
+                  href={`mailto:${seller.emails.support}`}
+                  className="text-foreground underline-offset-4 hover:underline"
+                >
+                  {seller.emails.support}
+                </a>{' '}
+                adresine sipariş numaranızla iletin. Onay e-postasından sonra ürün, orijinal dış
+                ambalajında ve faturasıyla {seller.addressLine} adresine gönderilir. İade kargo
+                ücreti, iade nedenine göre tarafımızca veya müşteri tarafından karşılanır; detay
+                onay e-postasında belirtilir.
               </p>
             </LegalSection>
           </>
@@ -87,7 +103,7 @@ export default function ShippingPage() {
         en={
           <>
             <p className="text-foreground/90">
-              Last updated: August 2026. Delivery and return rules are summarised below.
+              Last updated: September 2026. Delivery and return rules are summarised below.
             </p>
 
             <LegalSection title="Delivery">
@@ -105,8 +121,11 @@ export default function ShippingPage() {
 
             <LegalSection title="Shipping fees">
               <ul className="list-disc space-y-2 pl-5">
-                <li>Free shipping on orders of ₺1,500 or more.</li>
-                <li>Orders below that threshold incur a flat ₺149 shipping fee.</li>
+                <li>Free shipping on orders of {formatTryAmount(FREE_SHIPPING_THRESHOLD.try)} or more.</li>
+                <li>
+                  Orders below that threshold incur a flat {formatTryAmount(FLAT_SHIPPING.try)} shipping
+                  fee.
+                </li>
                 <li>International orders are not accepted at this time.</li>
               </ul>
             </LegalSection>
@@ -124,17 +143,20 @@ export default function ShippingPage() {
             <LegalSection title="Right of withdrawal (unopened items)">
               <p>
                 For distance sales, you may withdraw within 14 days of delivery if the product is
-                still unopened and resalable. The product price is refunded within statutory timeframes;
-                standard return shipping is at your expense unless otherwise required by law. Legal
-                exceptions to withdrawal apply.
+                still unopened and resalable. The product price is refunded within statutory
+                timeframes; standard return shipping is at your expense unless otherwise required by
+                law. Legal exceptions to withdrawal apply.
               </p>
             </LegalSection>
 
             <LegalSection title="Damaged or incorrect delivery">
               <p>
                 If your order arrives damaged or incorrect, contact{' '}
-                <a href="mailto:destek@vitaself.com" className="text-foreground underline-offset-4 hover:underline">
-                  destek@vitaself.com
+                <a
+                  href={`mailto:${seller.emails.support}`}
+                  className="text-foreground underline-offset-4 hover:underline"
+                >
+                  {seller.emails.support}
                 </a>{' '}
                 within a reasonable time with photos and your order number. Verified issues are
                 reviewed for replacement or refund.
@@ -143,9 +165,16 @@ export default function ShippingPage() {
 
             <LegalSection title="Return process">
               <p>
-                Approved returns must be sent in original outer packaging with the invoice to the
-                address provided in your return confirmation. Return shipping costs depend on the
-                reason for return and will be stated in the approval email.
+                Send your return request to{' '}
+                <a
+                  href={`mailto:${seller.emails.support}`}
+                  className="text-foreground underline-offset-4 hover:underline"
+                >
+                  {seller.emails.support}
+                </a>{' '}
+                with your order number. After the approval email, ship the item in original outer
+                packaging with the invoice to {seller.addressLine}. Return shipping costs depend on
+                the reason for return and will be stated in the approval email.
               </p>
             </LegalSection>
           </>

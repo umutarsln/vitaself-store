@@ -1,7 +1,7 @@
 export const ru = {
   locale: 'ru-RU',
   currency: 'usd',
-  announce: 'Независимое тестирование · Бесплатная доставка от $60 · GMP-производство',
+  announce: 'Независимое тестирование · Бесплатная доставка от 1.500 ₺ · GMP-производство',
   nav: {
     shop: 'Каталог',
     science: 'Наука',
@@ -270,7 +270,7 @@ export const ru = {
     perDose: 'за дозу',
     supply: '30-дневный курс',
     saved: 'сэкономлено',
-    trust: ['Бесплатная доставка от $60', 'Отправка за 24 ч', 'Независимое тестирование'],
+    trust: ['Бесплатная доставка от 1.500 ₺', 'Отправка за 24 ч', 'Независимое тестирование'],
     focus: 'Для чего это',
     highlights: 'Почему эта формула',
     composition: 'Состав формулы',
@@ -447,6 +447,7 @@ export const ru = {
     legal: [
       { label: 'Конфиденциальность', href: '/legal/privacy' },
       { label: 'Условия', href: '/legal/terms' },
+      { label: 'Дистанционная продажа', href: '/legal/distance-sales' },
       { label: 'Доставка и возврат', href: '/legal/shipping' },
       { label: 'Настройки cookie', href: '/legal/cookies' },
     ],

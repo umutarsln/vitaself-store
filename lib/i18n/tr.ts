@@ -447,6 +447,7 @@ export const tr = {
     legal: [
       { label: 'Gizlilik', href: '/legal/privacy' },
       { label: 'Koşullar', href: '/legal/terms' },
+      { label: 'Mesafeli satış', href: '/legal/distance-sales' },
       { label: 'Kargo ve iade', href: '/legal/shipping' },
       { label: 'Çerez tercihleri', href: '/legal/cookies' },
     ],

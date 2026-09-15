@@ -1,7 +1,7 @@
 export const en = {
   locale: 'en-US',
   currency: 'usd',
-  announce: 'Third-party tested · Free shipping over $60 · GMP facility',
+  announce: 'Third-party tested · Free shipping over 1.500 ₺ · GMP facility',
   nav: {
     shop: 'Shop',
     science: 'Science',
@@ -270,7 +270,7 @@ export const en = {
     perDose: 'per dose',
     supply: '30-day supply',
     saved: 'saved',
-    trust: ['Free shipping over $60', 'Ships in 24h', 'Independent testing'],
+    trust: ['Free shipping over 1.500 ₺', 'Ships in 24h', 'Independent testing'],
     focus: 'What it does',
     highlights: 'Why this formula',
     composition: 'What’s inside',
@@ -447,6 +447,7 @@ export const en = {
     legal: [
       { label: 'Privacy', href: '/legal/privacy' },
       { label: 'Terms', href: '/legal/terms' },
+      { label: 'Distance sales', href: '/legal/distance-sales' },
       { label: 'Shipping & returns', href: '/legal/shipping' },
       { label: 'Cookie preferences', href: '/legal/cookies' },
     ],

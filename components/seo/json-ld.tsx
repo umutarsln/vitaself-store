@@ -1,5 +1,5 @@
 import { products, visibleProducts } from '@/lib/products'
-import { absoluteUrl, siteConfig } from '@/lib/site'
+import { absoluteUrl, seller, siteConfig } from '@/lib/site'
 
 type JsonLdProps = {
   data: Record<string, unknown> | Array<Record<string, unknown>>
@@ -23,10 +23,19 @@ export function HomeJsonLd() {
         {
           '@context': 'https://schema.org',
           '@type': 'Organization',
-          name: siteConfig.name,
+          name: seller.brand,
+          legalName: seller.legalName,
           url: siteConfig.url,
           logo: absoluteUrl('/icon.svg'),
           description: siteConfig.descriptions.en,
+          telephone: seller.phoneDisplay,
+          email: seller.emails.hello,
+          address: {
+            '@type': 'PostalAddress',
+            addressLocality: seller.city,
+            addressRegion: seller.province,
+            addressCountry: 'TR',
+          },
         },
         {
           '@context': 'https://schema.org',
@@ -72,7 +81,7 @@ export function ProductJsonLd({ handle }: { handle: string }) {
         : 'https://schema.org/OutOfStock',
       seller: {
         '@type': 'Organization',
-        name: siteConfig.name,
+        name: seller.brand,
       },
     },
   }

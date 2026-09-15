@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import { VitaselfLogo } from '@/components/brand/vitaself-logo'
 import { ContentPageShell } from '@/components/content/content-page-shell'
+import { seller } from '@/lib/site'
 
 export const metadata: Metadata = { title: 'Contact', alternates: { canonical: '/company/contact' } }
 
@@ -9,9 +10,28 @@ export default function ContactPage() {
   return (
     <ContentPageShell eyebrowEn="Company" eyebrowTr="Kurumsal" titleEn="Contact" titleTr="İletişim">
       <VitaselfLogo size="lg" className="mb-2" />
-      <p>Vitaself İlaç A.Ş. · Istanbul, Türkiye</p>
-      <p>hello@vitaself.com · +90 (212) 000 00 00</p>
-      <p>Support hours: weekdays 09:00–18:00 TRT / Destek: hafta içi 09:00–18:00.</p>
+      <p>
+        {seller.brand} · {seller.legalName}
+      </p>
+      <p>{seller.addressLine}</p>
+      <p>
+        <a href={`mailto:${seller.emails.hello}`} className="text-foreground underline-offset-4 hover:underline">
+          {seller.emails.hello}
+        </a>
+        {' · '}
+        <a href={seller.phoneHref} className="text-foreground underline-offset-4 hover:underline">
+          {seller.phoneDisplay}
+        </a>
+      </p>
+      <p>
+        Sipariş ve iade:{' '}
+        <a href={`mailto:${seller.emails.support}`} className="text-foreground underline-offset-4 hover:underline">
+          {seller.emails.support}
+        </a>
+      </p>
+      <p>
+        {seller.supportHoursEn} / {seller.supportHoursTr}
+      </p>
     </ContentPageShell>
   )
 }

@@ -2,6 +2,7 @@
 
 import { VitaselfLogo } from '@/components/brand/vitaself-logo'
 import { useLanguage } from '@/lib/i18n'
+import { seller } from '@/lib/site'
 
 export function SiteFooter() {
   const { d } = useLanguage()
@@ -41,7 +42,9 @@ export function SiteFooter() {
         </p>
 
         <div className="mt-8 flex flex-col gap-5 text-[11px] sm:flex-row sm:items-center sm:justify-between">
-          <p>© {new Date().getFullYear()} Vitaself İlaç A.Ş. {d.footer.rights}</p>
+          <p>
+            © {new Date().getFullYear()} {seller.brand} · {seller.legalName}. {d.footer.rights}
+          </p>
           <ul className="flex flex-wrap gap-x-6 gap-y-2">
             {d.footer.legal.map((item) => (
               <li key={item.href}>

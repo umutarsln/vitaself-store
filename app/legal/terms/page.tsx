@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import { ContentPageShell } from '@/components/content/content-page-shell'
 import { LegalContent, LegalSection } from '@/components/legal/legal-content'
+import { seller, sellerLegalLabel } from '@/lib/site'
 
 export const metadata: Metadata = {
   title: 'Terms of use',
@@ -15,24 +16,24 @@ export default function TermsPage() {
         tr={
           <>
             <p className="text-foreground/90">
-              Son güncelleme: Ağustos 2026. vitaself.com sitesini ve online mağazayı kullanarak bu
-              koşulları kabul etmiş sayılırsınız.
+              Son güncelleme: Eylül 2026. vitaself.com sitesini ve online mağazayı kullanarak bu
+              koşulları kabul etmiş sayılırsınız. Satıcı: {sellerLegalLabel()}.
             </p>
 
             <LegalSection title="Kapsam">
               <p>
-                Bu koşullar Vitaself web sitesi, ürün bilgileri ve online sipariş süreci için
-                geçerlidir. Ödeme işlemi Shopify altyapısı üzerinden tamamlanır; ödeme sayfasındaki
-                ek şartlar da geçerli olabilir.
+                Bu koşullar {seller.brand} web sitesi, ürün bilgileri ve online sipariş süreci için
+                geçerlidir. Ödeme, bağlanan ödeme sağlayıcısının sayfasında tamamlanır; ödeme
+                sayfasındaki ek şartlar da geçerli olabilir.
               </p>
             </LegalSection>
 
             <LegalSection title="Ürünler hakkında">
               <p>
-                Vitaself ürünleri takviye edici gıdadır; ilaç değildir, teşhis veya tedavi amacı
-                taşımaz. Hastalık, hamilelik, emzirme veya düzenli ilaç kullanımı durumlarında
-                ürün almadan önce hekiminize danışmanız gerekir. Sitedeki içerikler bilgilendirme
-                amaçlıdır; tıbbi tavsiye yerine geçmez.
+                {seller.brand} ürünleri takviye edici gıdadır; ilaç değildir, teşhis veya tedavi
+                amacı taşımaz. Hastalık, hamilelik, emzirme veya düzenli ilaç kullanımı
+                durumlarında ürün almadan önce hekiminize danışmanız gerekir. Sitedeki içerikler
+                bilgilendirme amaçlıdır; tıbbi tavsiye yerine geçmez.
               </p>
             </LegalSection>
 
@@ -41,7 +42,7 @@ export default function TermsPage() {
                 Sipariş vererek takviye edici gıda satın alma yaşında olduğunuzu, verdiğiniz
                 iletişim ve teslimat bilgilerinin doğru olduğunu ve siparişi kendi adınıza
                 verdiğinizi beyan edersiniz. Yanlış veya eksik adres nedeniyle oluşabilecek
-                gecikmelerden Vitaself sorumlu tutulamaz.
+                gecikmelerden {seller.brand} sorumlu tutulamaz.
               </p>
             </LegalSection>
 
@@ -55,33 +56,40 @@ export default function TermsPage() {
 
             <LegalSection title="Fikri mülkiyet">
               <p>
-                Site tasarımı, metinler, görseller ve marka unsurları Vitaself’e aittir. İzinsiz
-                kopyalama, çoğaltma veya ticari kullanım yasaktır.
+                Site tasarımı, metinler, görseller ve marka unsurları {seller.brand} markasına
+                aittir. İzinsiz kopyalama, çoğaltma veya ticari kullanım yasaktır.
               </p>
             </LegalSection>
 
             <LegalSection title="Sorumluluk">
               <p>
-                Vitaself, yürürlükteki tüketici mevzuatı kapsamındaki zorunlu haklarınız saklı
-                kalmak kaydıyla; site kesintileri, üçüncü taraf altyapı arızaları veya mücbir
-                sebep hallerinde doğrudan veya dolaylı zararlardan, yalnızca kanunun izin verdiği
-                ölçüde sorumludur.
+                {seller.brand}, yürürlükteki tüketici mevzuatı kapsamındaki zorunlu haklarınız
+                saklı kalmak kaydıyla; site kesintileri, üçüncü taraf altyapı arızaları veya
+                mücbir sebep hallerinde doğrudan veya dolaylı zararlardan, yalnızca kanunun izin
+                verdiği ölçüde sorumludur.
               </p>
             </LegalSection>
 
             <LegalSection title="Uygulanacak hukuk">
               <p>
-                Bu koşullar Türkiye Cumhuriyeti kanunlarına tabidir. Uyuşmazlıklarda İstanbul
-                (Merkez) mahkeme ve icra daireleri yetkilidir; tüketici olarak ikametgâhınızdaki
-                tüketici hakem heyetlerine başvuru hakkınız saklıdır.
+                Bu koşullar Türkiye Cumhuriyeti kanunlarına tabidir. Uyuşmazlıklarda{' '}
+                {seller.jurisdiction} mahkeme ve icra daireleri yetkilidir; tüketici olarak
+                ikametgâhınızdaki tüketici hakem heyetlerine başvuru hakkınız saklıdır.
               </p>
             </LegalSection>
 
             <LegalSection title="İletişim">
               <p>
                 Sorularınız için:{' '}
-                <a href="mailto:destek@vitaself.com" className="text-foreground underline-offset-4 hover:underline">
-                  destek@vitaself.com
+                <a
+                  href={`mailto:${seller.emails.support}`}
+                  className="text-foreground underline-offset-4 hover:underline"
+                >
+                  {seller.emails.support}
+                </a>
+                {' · '}
+                <a href={seller.phoneHref} className="text-foreground underline-offset-4 hover:underline">
+                  {seller.phoneDisplay}
                 </a>
               </p>
             </LegalSection>
@@ -90,22 +98,22 @@ export default function TermsPage() {
         en={
           <>
             <p className="text-foreground/90">
-              Last updated: August 2026. By using vitaself.com and placing orders you accept these
-              terms.
+              Last updated: September 2026. By using vitaself.com and placing orders you accept these
+              terms. Seller: {sellerLegalLabel()}.
             </p>
 
             <LegalSection title="Scope">
               <p>
-                These terms apply to the Vitaself website, product information, and online ordering.
-                Checkout is completed via Shopify; additional payment terms may apply on the checkout
-                page.
+                These terms apply to the {seller.brand} website, product information, and online
+                ordering. Payment is completed on the connected payment provider’s page; additional
+                terms on that page may also apply.
               </p>
             </LegalSection>
 
             <LegalSection title="About our products">
               <p>
-                Vitaself products are food supplements, not medicines. They are not intended to
-                diagnose, treat, or prevent disease. Consult a physician before use if you are
+                {seller.brand} products are food supplements, not medicines. They are not intended
+                to diagnose, treat, or prevent disease. Consult a physician before use if you are
                 pregnant, nursing, taking medication, or have a medical condition. Site content is
                 informational only.
               </p>
@@ -115,7 +123,8 @@ export default function TermsPage() {
               <p>
                 By ordering you confirm you are legally able to purchase supplements, that your
                 contact and shipping details are accurate, and that you are ordering on your own
-                behalf. Delays caused by incorrect addresses are not Vitaself’s responsibility.
+                behalf. Delays caused by incorrect addresses are not {seller.brand}’s
+                responsibility.
               </p>
             </LegalSection>
 
@@ -128,14 +137,14 @@ export default function TermsPage() {
 
             <LegalSection title="Intellectual property">
               <p>
-                Site design, copy, images, and brand assets belong to Vitaself. Unauthorised
+                Site design, copy, images, and brand assets belong to {seller.brand}. Unauthorised
                 copying or commercial use is prohibited.
               </p>
             </LegalSection>
 
             <LegalSection title="Liability">
               <p>
-                Subject to mandatory consumer rights, Vitaself is liable only to the extent
+                Subject to mandatory consumer rights, {seller.brand} is liable only to the extent
                 permitted by law for site outages, third-party infrastructure failures, or force
                 majeure.
               </p>
@@ -143,17 +152,24 @@ export default function TermsPage() {
 
             <LegalSection title="Governing law">
               <p>
-                These terms are governed by the laws of Türkiye. Disputes fall under the courts of
-                Istanbul (Central), without prejudice to your rights as a consumer in your country
-                of residence where applicable.
+                These terms are governed by the laws of Türkiye. Disputes fall under the courts of{' '}
+                {seller.jurisdiction}, without prejudice to your right as a consumer to apply to the
+                consumer arbitration committee at your place of residence.
               </p>
             </LegalSection>
 
             <LegalSection title="Contact">
               <p>
                 Questions:{' '}
-                <a href="mailto:destek@vitaself.com" className="text-foreground underline-offset-4 hover:underline">
-                  destek@vitaself.com
+                <a
+                  href={`mailto:${seller.emails.support}`}
+                  className="text-foreground underline-offset-4 hover:underline"
+                >
+                  {seller.emails.support}
+                </a>
+                {' · '}
+                <a href={seller.phoneHref} className="text-foreground underline-offset-4 hover:underline">
+                  {seller.phoneDisplay}
                 </a>
               </p>
             </LegalSection>
