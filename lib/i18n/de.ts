@@ -352,6 +352,12 @@ export const de = {
     eyebrow: 'Kasse',
     title: 'Bestellung abschließen.',
     body: 'Vorerst sicherer Demo-Checkout. Sobald Shopify-Anmeldedaten verbunden sind, wird dieser Ablauf automatisch an die gehostete Zahlung übergeben.',
+    bodyShopify:
+      'Kontakt, Lieferung und Zahlung werden auf der nächsten Shopify-Seite erfasst. Optional eine Notiz hinterlassen, dann fortfahren.',
+    continueToShopify: 'Zur sicheren Zahlung',
+    shippingAtCheckout: 'Wird an der Kasse berechnet',
+    shopifyHandoff:
+      'E-Mail, Adresse, Versandart und Zahlung geben Sie auf der sicheren Shopify-Checkout-Seite ein.',
     loading: 'Checkout wird vorbereitet…',
     emptyTitle: 'Nichts zum Bezahlen.',
     emptyBody: 'Ihre Tasche ist leer. Fügen Sie eine Formel hinzu und kehren Sie dann hierher zurück.',

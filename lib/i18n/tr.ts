@@ -352,6 +352,12 @@ export const tr = {
     eyebrow: 'Ödeme',
     title: 'Siparişinizi tamamlayın.',
     body: 'Şimdilik güvenli mock ödeme. Shopify kimlik bilgileri bağlandığında bu akış otomatik olarak hosted ödemeye geçer.',
+    bodyShopify:
+      'İletişim, teslimat ve ödeme bir sonraki Shopify sayfasında alınır. İsterseniz not ekleyip güvenli ödemeye geçin.',
+    continueToShopify: 'Güvenli ödemeye geç',
+    shippingAtCheckout: 'Ödeme adımında hesaplanır',
+    shopifyHandoff:
+      'E-posta, adres, kargo yöntemi ve kart bilgileri güvenli Shopify ödeme sayfasında toplanır.',
     loading: 'Ödeme hazırlanıyor…',
     emptyTitle: 'Ödenecek bir şey yok.',
     emptyBody: 'Çantanız boş. Bir formül ekleyip buraya dönün.',

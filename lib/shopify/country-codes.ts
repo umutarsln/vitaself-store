@@ -1,3 +1,12 @@
+import type { Lang } from '@/lib/i18n/types'
+
+/** Vitrin dilinden Shopify buyer countryCode üretir. Mağaza TR odaklıdır. */
+export function langToCountryCode(lang: Lang): 'TR' | 'DE' | 'RU' {
+  if (lang === 'de') return 'DE'
+  if (lang === 'ru') return 'RU'
+  return 'TR'
+}
+
 /** Ülke adından ISO 3166-1 alpha-2 kodu çözümler. */
 export function countryNameToCode(country: string): string | null {
   const normalized = country.trim().toLowerCase()

@@ -1,15 +1,12 @@
 import { NextResponse } from 'next/server'
 import { getCatalogProducts } from '@/lib/catalog'
+import { isValidCheckoutPayload } from '@/lib/checkout-payload'
 import { isLang } from '@/lib/i18n/config'
+import { iyzicoNotificationUrl } from '@/lib/iyzico/webhook'
 import type { CheckoutOrder, CheckoutPayload } from '@/lib/orders'
-import {
-  addMoney,
-  cartSubtotal,
-  copy,
-  lineTotal,
-  shippingForSubtotal,
-} from '@/lib/products'
+import { addMoney, copy, lineTotal, shippingForSubtotal } from '@/lib/products'
 import { createShopifyCheckout, isShopifyConfigured } from '@/lib/shopify'
+import { langToCountryCode } from '@/lib/shopify/country-codes'
 
 /** Sipariş kimliği üretir. */
 function createOrderId() {
@@ -18,22 +15,14 @@ function createOrderId() {
   return `VS-${stamp}-${rand}`
 }
 
-/** Checkout payload’ını doğrular. */
-function validatePayload(body: unknown): body is CheckoutPayload {
-  if (!body || typeof body !== 'object') return false
-  const payload = body as CheckoutPayload
-  return (
-    Array.isArray(payload.lines) &&
-    payload.lines.length > 0 &&
-    Boolean(payload.customer?.email) &&
-    Boolean(payload.customer?.firstName) &&
-    Boolean(payload.customer?.lastName) &&
-    Boolean(payload.shippingAddress?.line1) &&
-    Boolean(payload.shippingAddress?.city) &&
-    Boolean(payload.shippingAddress?.postalCode) &&
-    Boolean(payload.shippingAddress?.country) &&
-    (payload.paymentMethod === 'card' || payload.paymentMethod === 'transfer')
-  )
+/** Shopify yokken kullanılan boş müşteri kaydı. */
+function emptyCustomer(): CheckoutOrder['customer'] {
+  return { email: '', firstName: '', lastName: '', phone: '' }
+}
+
+/** Shopify yokken kullanılan boş adres kaydı. */
+function emptyAddress(): CheckoutOrder['shippingAddress'] {
+  return { line1: '', city: '', state: '', postalCode: '', country: '' }
 }
 
 /**
@@ -49,7 +38,8 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: 'Invalid JSON body' }, { status: 400 })
   }
 
-  if (!validatePayload(body)) {
+  const shopifyEnabled = isShopifyConfigured()
+  if (!isValidCheckoutPayload(body, shopifyEnabled)) {
     return NextResponse.json({ error: 'Invalid checkout payload' }, { status: 400 })
   }
 
@@ -90,7 +80,7 @@ export async function POST(request: Request) {
     })
   }
 
-  const linesWithHandles = body.lines.map((line, index) => ({
+  const linesWithHandles = body.lines.map((line) => ({
     ...line,
     handle:
       line.handle ??
@@ -103,25 +93,24 @@ export async function POST(request: Request) {
     (sum, line) => addMoney(sum, line.lineTotal),
     { usd: 0, try: 0 },
   )
-  const shipping = shippingForSubtotal(subtotal)
+  const shipping = shopifyEnabled ? { usd: 0, try: 0 } : shippingForSubtotal(subtotal)
   const total = addMoney(subtotal, shipping)
 
-  if (isShopifyConfigured()) {
+  if (shopifyEnabled) {
     try {
       const shopifyCheckout = await createShopifyCheckout({
         lines: linesWithHandles,
-        customer: body.customer,
-        shippingAddress: body.shippingAddress,
         notes: body.notes,
+        countryCode: langToCountryCode(lang),
       })
 
       const order: CheckoutOrder = {
         id: createOrderId(),
         createdAt: new Date().toISOString(),
         status: 'pending',
-        paymentMethod: body.paymentMethod,
-        customer: body.customer,
-        shippingAddress: body.shippingAddress,
+        paymentMethod: body.paymentMethod ?? 'card',
+        customer: body.customer ?? emptyCustomer(),
+        shippingAddress: body.shippingAddress ?? emptyAddress(),
         lines: resolvedLines,
         subtotal,
         shipping,
@@ -139,19 +128,20 @@ export async function POST(request: Request) {
     }
   }
 
+  const payload = body as CheckoutPayload
   const order: CheckoutOrder = {
     id: createOrderId(),
     createdAt: new Date().toISOString(),
-    status: body.paymentMethod === 'card' ? 'paid' : 'pending',
-    paymentMethod: body.paymentMethod,
-    customer: body.customer,
-    shippingAddress: body.shippingAddress,
+    status: payload.paymentMethod === 'card' ? 'paid' : 'pending',
+    paymentMethod: payload.paymentMethod ?? 'card',
+    customer: payload.customer ?? emptyCustomer(),
+    shippingAddress: payload.shippingAddress ?? emptyAddress(),
     lines: resolvedLines,
     subtotal,
     shipping,
     total,
     currency: lang === 'tr' ? 'TRY' : 'USD',
-    notes: body.notes,
+    notes: payload.notes,
     shopifyCheckoutUrl: null,
     mode: 'mock',
   }
@@ -159,7 +149,10 @@ export async function POST(request: Request) {
   return NextResponse.json({ order })
 }
 
-/** Shopify bağlantı durumunu döner. */
+/** Shopify bağlantı durumunu ve iyzico bildirim URL’sini döner. */
 export async function GET() {
-  return NextResponse.json({ shopify: isShopifyConfigured() })
+  return NextResponse.json({
+    shopify: isShopifyConfigured(),
+    iyzicoNotificationUrl: iyzicoNotificationUrl(),
+  })
 }

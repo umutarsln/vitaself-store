@@ -27,9 +27,10 @@ export type CheckoutPaymentMethod = 'card' | 'transfer'
 
 export type CheckoutPayload = {
   lines: CartLine[]
-  customer: CheckoutCustomer
-  shippingAddress: CheckoutAddress
-  paymentMethod: CheckoutPaymentMethod
+  /** Mock checkout’ta zorunlu; Shopify hosted checkout’ta toplanmaz. */
+  customer?: CheckoutCustomer
+  shippingAddress?: CheckoutAddress
+  paymentMethod?: CheckoutPaymentMethod
   lang: Lang
   notes?: string
 }

@@ -352,6 +352,12 @@ export const en = {
     eyebrow: 'Checkout',
     title: 'Complete your order.',
     body: 'Secure mock checkout for now. When Shopify credentials are connected, this flow hands off to hosted payment automatically.',
+    bodyShopify:
+      'Contact, delivery and payment are collected on the next, Shopify-hosted page. Add a note if you like, then continue.',
+    continueToShopify: 'Continue to payment',
+    shippingAtCheckout: 'Calculated at checkout',
+    shopifyHandoff:
+      'You’ll enter email, address, shipping method and payment on the secure Shopify checkout.',
     loading: 'Preparing checkout…',
     emptyTitle: 'Nothing to check out.',
     emptyBody: 'Your bag is empty. Add a formula, then return here.',

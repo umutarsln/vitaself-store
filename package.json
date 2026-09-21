@@ -7,7 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint .",
-    "test": "tsx --test lib/pricing.test.ts"
+    "test": "tsx --test lib/pricing.test.ts lib/iyzico/webhook.test.ts lib/checkout-payload.test.ts lib/shopify/country-codes.test.ts"
   },
   "dependencies": {
     "@base-ui/react": "^1.5.0",
