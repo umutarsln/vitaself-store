@@ -24,7 +24,16 @@ export function CartDrawer() {
     useCart()
   const panelRef = useRef<HTMLElement>(null)
   const [highlightVariantId, setHighlightVariantId] = useState<string | null>(null)
+  const [shopifyEnabled, setShopifyEnabled] = useState(false)
   useFocusTrap(isOpen, panelRef)
+
+  /** Shopify hosted checkout açık mı — kargo vitrinde uydurulmaz. */
+  useEffect(() => {
+    fetch('/api/checkout')
+      .then((response) => response.json())
+      .then((data: { shopify?: boolean }) => setShopifyEnabled(Boolean(data.shopify)))
+      .catch(() => setShopifyEnabled(false))
+  }, [])
 
   /** Yeni eklenen satırı kısa süre vurgular. */
   useEffect(() => {
@@ -34,7 +43,7 @@ export function CartDrawer() {
     return () => window.clearTimeout(timer)
   }, [lastAddedVariantId])
 
-  const shipping = shippingForSubtotal(subtotal)
+  const shipping = shopifyEnabled ? { usd: 0, try: 0 } : shippingForSubtotal(subtotal)
   const total = addMoney(subtotal, shipping)
   const remaining = {
     usd: Math.max(0, FREE_SHIPPING_THRESHOLD.usd - subtotal.usd),
@@ -203,28 +212,38 @@ export function CartDrawer() {
 
             {hydrated && count > 0 && (
               <div className="border-border/60 border-t px-5 py-5">
-                <p
-                  className={`text-xs tracking-wide ${
-                    freeUnlocked ? 'text-positive-foreground' : 'text-muted-foreground'
-                  }`}
-                >
-                  {freeUnlocked
-                    ? d.cart.shippingUnlocked
-                    : `${price(remaining)} ${d.cart.shippingRemaining}`}
-                </p>
+                {!shopifyEnabled && (
+                  <p
+                    className={`text-xs tracking-wide ${
+                      freeUnlocked ? 'text-positive-foreground' : 'text-muted-foreground'
+                    }`}
+                  >
+                    {freeUnlocked
+                      ? d.cart.shippingUnlocked
+                      : `${price(remaining)} ${d.cart.shippingRemaining}`}
+                  </p>
+                )}
 
-                <dl className="mt-4 space-y-2 text-sm">
+                <dl className={`${shopifyEnabled ? '' : 'mt-4'} space-y-2 text-sm`}>
                   <div className="flex justify-between gap-4">
                     <dt className="text-muted-foreground">{d.cart.subtotal}</dt>
                     <dd>{price(subtotal)}</dd>
                   </div>
                   <div className="flex justify-between gap-4">
                     <dt className="text-muted-foreground">{d.cart.shipping}</dt>
-                    <dd>{shipping.usd === 0 && shipping.try === 0 ? d.cart.shippingFree : price(shipping)}</dd>
+                    <dd>
+                      {shopifyEnabled
+                        ? d.checkout.shippingAtCheckout
+                        : shipping.usd === 0 && shipping.try === 0
+                          ? d.cart.shippingFree
+                          : price(shipping)}
+                    </dd>
                   </div>
                   <div className="flex justify-between gap-4 border-t border-border/60 pt-3 text-base">
                     <dt>{d.cart.total}</dt>
-                    <dd className="text-display text-xl">{price(total)}</dd>
+                    <dd className="text-display text-xl">
+                      {shopifyEnabled ? price(subtotal) : price(total)}
+                    </dd>
                   </div>
                 </dl>
 
