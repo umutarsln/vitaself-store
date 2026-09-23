@@ -1,7 +1,5 @@
 import type { CartLine } from '@/lib/cart'
-import type { CheckoutAddress, CheckoutCustomer } from '@/lib/orders'
 import { storefrontFetch } from '@/lib/shopify/client'
-import { countryNameToCode } from '@/lib/shopify/country-codes'
 import { resolveShopifyVariantId } from '@/lib/shopify/products'
 
 type CartCreateResult = {
@@ -13,9 +11,8 @@ type CartCreateResult = {
 
 export type ShopifyCheckoutInput = {
   lines: CartLine[]
-  customer: CheckoutCustomer
-  shippingAddress: CheckoutAddress
   notes?: string
+  countryCode?: string
 }
 
 export type ShopifyCheckoutResult = {
@@ -25,6 +22,7 @@ export type ShopifyCheckoutResult = {
 
 /**
  * Sepet satırlarından Shopify Cart oluşturur ve hosted checkout URL döner.
+ * İletişim, teslimat ve ödeme Shopify checkout’ta toplanır.
  * @see https://shopify.dev/docs/api/storefront/latest/mutations/cartCreate
  */
 export async function createShopifyCheckout(
@@ -44,7 +42,6 @@ export async function createShopifyCheckout(
     })
   }
 
-  const countryCode = countryNameToCode(input.shippingAddress.country)
   const noteAttributes = input.notes?.trim()
     ? [{ key: 'order_notes', value: input.notes.trim() }]
     : undefined
@@ -67,11 +64,7 @@ export async function createShopifyCheckout(
         lines: merchandiseLines,
         note: input.notes?.trim() || undefined,
         attributes: noteAttributes,
-        buyerIdentity: {
-          email: input.customer.email,
-          phone: input.customer.phone || undefined,
-          countryCode: countryCode ?? undefined,
-        },
+        buyerIdentity: input.countryCode ? { countryCode: input.countryCode } : undefined,
       },
     },
   )

@@ -25,7 +25,7 @@ const DEFAULT_COUNTRY: Record<Lang, string> = {
   ru: 'Россия',
 }
 
-/** Checkout formu — müşteri, adres, ödeme, sipariş özeti. */
+/** Checkout formu — Shopify’de hosted ödeme; aksi halde mock form. */
 export function CheckoutForm() {
   const router = useRouter()
   const { d, lang, price } = useLanguage()
@@ -49,15 +49,17 @@ export function CheckoutForm() {
   const [submitting, setSubmitting] = useState(false)
   const [error, setError] = useState<string | null>(null)
   const [shopifyEnabled, setShopifyEnabled] = useState(false)
+  const [shopifyReady, setShopifyReady] = useState(false)
 
   useEffect(() => {
     fetch('/api/checkout')
       .then((response) => response.json())
       .then((data: { shopify?: boolean }) => setShopifyEnabled(Boolean(data.shopify)))
       .catch(() => setShopifyEnabled(false))
+      .finally(() => setShopifyReady(true))
   }, [])
 
-  const shipping = shippingForSubtotal(subtotal)
+  const shipping = shopifyEnabled ? { usd: 0, try: 0 } : shippingForSubtotal(subtotal)
   const total = addMoney(subtotal, shipping)
 
   const resolvedLines = useMemo(
@@ -72,7 +74,7 @@ export function CheckoutForm() {
     [lines],
   )
 
-  /** Checkout API’ye sipariş gönderir ve başarı sayfasına yönlendirir. */
+  /** Checkout API’ye sipariş gönderir ve Shopify veya başarı sayfasına yönlendirir. */
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault()
     if (count === 0 || submitting) return
@@ -92,14 +94,22 @@ export function CheckoutForm() {
       const response = await fetch('/api/checkout', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          lines,
-          customer: { email, firstName, lastName, phone },
-          shippingAddress: { line1, line2, city, state, postalCode, country },
-          paymentMethod,
-          lang,
-          notes: notes.trim() || undefined,
-        }),
+        body: JSON.stringify(
+          shopifyEnabled
+            ? {
+                lines,
+                lang,
+                notes: notes.trim() || undefined,
+              }
+            : {
+                lines,
+                customer: { email, firstName, lastName, phone },
+                shippingAddress: { line1, line2, city, state, postalCode, country },
+                paymentMethod,
+                lang,
+                notes: notes.trim() || undefined,
+              },
+        ),
       })
 
       const data = (await response.json()) as { order?: CheckoutOrder; error?: string }
@@ -132,7 +142,7 @@ export function CheckoutForm() {
     }
   }
 
-  if (!hydrated) {
+  if (!hydrated || !shopifyReady) {
     return (
       <div className="mx-auto max-w-6xl px-6 py-32 md:px-10">
         <p className="text-muted-foreground text-sm">{d.checkout.loading}</p>
@@ -170,178 +180,184 @@ export function CheckoutForm() {
       <div>
         <p className="text-eyebrow text-muted-foreground">{d.checkout.eyebrow}</p>
         <h1 className="text-display mt-4 text-[clamp(2.4rem,6vw,3.75rem)]">{d.checkout.title}</h1>
-        <p className="text-muted-foreground mt-4 max-w-lg text-sm leading-relaxed">{d.checkout.body}</p>
+        <p className="text-muted-foreground mt-4 max-w-lg text-sm leading-relaxed">
+          {shopifyEnabled ? d.checkout.bodyShopify : d.checkout.body}
+        </p>
 
-        <fieldset className="mt-12">
-          <legend className="text-eyebrow text-muted-foreground">{d.checkout.contact}</legend>
-          <div className="mt-5 grid gap-4 sm:grid-cols-2">
-            <Field label={d.checkout.fields.email} className="sm:col-span-2">
-              <input
-                required
-                type="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                autoComplete="email"
-                className={inputClass}
-              />
-            </Field>
-            <Field label={d.checkout.fields.firstName}>
-              <input
-                required
-                value={firstName}
-                onChange={(e) => setFirstName(e.target.value)}
-                autoComplete="given-name"
-                className={inputClass}
-              />
-            </Field>
-            <Field label={d.checkout.fields.lastName}>
-              <input
-                required
-                value={lastName}
-                onChange={(e) => setLastName(e.target.value)}
-                autoComplete="family-name"
-                className={inputClass}
-              />
-            </Field>
-            <Field label={d.checkout.fields.phone} className="sm:col-span-2">
-              <input
-                required
-                type="tel"
-                value={phone}
-                onChange={(e) => setPhone(e.target.value)}
-                autoComplete="tel"
-                className={inputClass}
-              />
-            </Field>
-          </div>
-        </fieldset>
+        {!shopifyEnabled && (
+          <>
+            <fieldset className="mt-12">
+              <legend className="text-eyebrow text-muted-foreground">{d.checkout.contact}</legend>
+              <div className="mt-5 grid gap-4 sm:grid-cols-2">
+                <Field label={d.checkout.fields.email} className="sm:col-span-2">
+                  <input
+                    required
+                    type="email"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    autoComplete="email"
+                    className={inputClass}
+                  />
+                </Field>
+                <Field label={d.checkout.fields.firstName}>
+                  <input
+                    required
+                    value={firstName}
+                    onChange={(e) => setFirstName(e.target.value)}
+                    autoComplete="given-name"
+                    className={inputClass}
+                  />
+                </Field>
+                <Field label={d.checkout.fields.lastName}>
+                  <input
+                    required
+                    value={lastName}
+                    onChange={(e) => setLastName(e.target.value)}
+                    autoComplete="family-name"
+                    className={inputClass}
+                  />
+                </Field>
+                <Field label={d.checkout.fields.phone} className="sm:col-span-2">
+                  <input
+                    required
+                    type="tel"
+                    value={phone}
+                    onChange={(e) => setPhone(e.target.value)}
+                    autoComplete="tel"
+                    className={inputClass}
+                  />
+                </Field>
+              </div>
+            </fieldset>
 
-        <fieldset className="mt-12">
-          <legend className="text-eyebrow text-muted-foreground">{d.checkout.shipping}</legend>
-          <div className="mt-5 grid gap-4 sm:grid-cols-2">
-            <Field label={d.checkout.fields.line1} className="sm:col-span-2">
-              <input
-                required
-                value={line1}
-                onChange={(e) => setLine1(e.target.value)}
-                autoComplete="address-line1"
-                className={inputClass}
-              />
-            </Field>
-            <Field label={d.checkout.fields.line2} className="sm:col-span-2">
-              <input
-                value={line2}
-                onChange={(e) => setLine2(e.target.value)}
-                autoComplete="address-line2"
-                className={inputClass}
-              />
-            </Field>
-            <Field label={d.checkout.fields.city}>
-              <input
-                required
-                value={city}
-                onChange={(e) => setCity(e.target.value)}
-                autoComplete="address-level2"
-                className={inputClass}
-              />
-            </Field>
-            <Field label={d.checkout.fields.state}>
-              <input
-                value={state}
-                onChange={(e) => setState(e.target.value)}
-                autoComplete="address-level1"
-                className={inputClass}
-              />
-            </Field>
-            <Field label={d.checkout.fields.postalCode}>
-              <input
-                required
-                value={postalCode}
-                onChange={(e) => setPostalCode(e.target.value)}
-                autoComplete="postal-code"
-                className={inputClass}
-              />
-            </Field>
-            <Field label={d.checkout.fields.country}>
-              <input
-                required
-                value={country}
-                onChange={(e) => setCountry(e.target.value)}
-                autoComplete="country-name"
-                className={inputClass}
-              />
-            </Field>
-          </div>
-        </fieldset>
+            <fieldset className="mt-12">
+              <legend className="text-eyebrow text-muted-foreground">{d.checkout.shipping}</legend>
+              <div className="mt-5 grid gap-4 sm:grid-cols-2">
+                <Field label={d.checkout.fields.line1} className="sm:col-span-2">
+                  <input
+                    required
+                    value={line1}
+                    onChange={(e) => setLine1(e.target.value)}
+                    autoComplete="address-line1"
+                    className={inputClass}
+                  />
+                </Field>
+                <Field label={d.checkout.fields.line2} className="sm:col-span-2">
+                  <input
+                    value={line2}
+                    onChange={(e) => setLine2(e.target.value)}
+                    autoComplete="address-line2"
+                    className={inputClass}
+                  />
+                </Field>
+                <Field label={d.checkout.fields.city}>
+                  <input
+                    required
+                    value={city}
+                    onChange={(e) => setCity(e.target.value)}
+                    autoComplete="address-level2"
+                    className={inputClass}
+                  />
+                </Field>
+                <Field label={d.checkout.fields.state}>
+                  <input
+                    value={state}
+                    onChange={(e) => setState(e.target.value)}
+                    autoComplete="address-level1"
+                    className={inputClass}
+                  />
+                </Field>
+                <Field label={d.checkout.fields.postalCode}>
+                  <input
+                    required
+                    value={postalCode}
+                    onChange={(e) => setPostalCode(e.target.value)}
+                    autoComplete="postal-code"
+                    className={inputClass}
+                  />
+                </Field>
+                <Field label={d.checkout.fields.country}>
+                  <input
+                    required
+                    value={country}
+                    onChange={(e) => setCountry(e.target.value)}
+                    autoComplete="country-name"
+                    className={inputClass}
+                  />
+                </Field>
+              </div>
+            </fieldset>
 
-        <fieldset className="mt-12">
-          <legend className="text-eyebrow text-muted-foreground">{d.checkout.payment}</legend>
-          <div className="mt-5 flex flex-col gap-3">
-            {(
-              [
-                { id: 'card', label: d.checkout.payCard, note: d.checkout.payCardNote },
-                { id: 'transfer', label: d.checkout.payTransfer, note: d.checkout.payTransferNote },
-              ] as const
-            ).map((method) => (
-              <label
-                key={method.id}
-                className={`flex cursor-pointer items-start gap-3 rounded-2xl border px-4 py-4 transition-all ${
-                  paymentMethod === method.id
-                    ? 'border-primary/40 bg-card shadow-soft'
-                    : 'border-border hover:border-foreground/25'
-                }`}
-              >
-                <input
-                  type="radio"
-                  name="payment"
-                  checked={paymentMethod === method.id}
-                  onChange={() => setPaymentMethod(method.id)}
-                  className="mt-1"
-                />
-                <span>
-                  <span className="block text-sm tracking-tight">{method.label}</span>
-                  <span className="text-muted-foreground mt-1 block text-xs leading-relaxed">
-                    {method.note}
-                  </span>
-                </span>
-              </label>
-            ))}
-          </div>
+            <fieldset className="mt-12">
+              <legend className="text-eyebrow text-muted-foreground">{d.checkout.payment}</legend>
+              <div className="mt-5 flex flex-col gap-3">
+                {(
+                  [
+                    { id: 'card', label: d.checkout.payCard, note: d.checkout.payCardNote },
+                    { id: 'transfer', label: d.checkout.payTransfer, note: d.checkout.payTransferNote },
+                  ] as const
+                ).map((method) => (
+                  <label
+                    key={method.id}
+                    className={`flex cursor-pointer items-start gap-3 rounded-2xl border px-4 py-4 transition-all ${
+                      paymentMethod === method.id
+                        ? 'border-primary/40 bg-card shadow-soft'
+                        : 'border-border hover:border-foreground/25'
+                    }`}
+                  >
+                    <input
+                      type="radio"
+                      name="payment"
+                      checked={paymentMethod === method.id}
+                      onChange={() => setPaymentMethod(method.id)}
+                      className="mt-1"
+                    />
+                    <span>
+                      <span className="block text-sm tracking-tight">{method.label}</span>
+                      <span className="text-muted-foreground mt-1 block text-xs leading-relaxed">
+                        {method.note}
+                      </span>
+                    </span>
+                  </label>
+                ))}
+              </div>
 
-          {paymentMethod === 'card' && !shopifyEnabled && (
-            <div className="mt-5 grid gap-4 sm:grid-cols-2">
-              <Field label={d.checkout.fields.cardNumber} className="sm:col-span-2">
-                <input
-                  value={cardNumber}
-                  onChange={(e) => setCardNumber(e.target.value)}
-                  inputMode="numeric"
-                  autoComplete="cc-number"
-                  placeholder="4242 4242 4242 4242"
-                  className={inputClass}
-                />
-              </Field>
-              <Field label={d.checkout.fields.cardExpiry}>
-                <input
-                  value={cardExpiry}
-                  onChange={(e) => setCardExpiry(e.target.value)}
-                  autoComplete="cc-exp"
-                  placeholder="MM/YY"
-                  className={inputClass}
-                />
-              </Field>
-              <Field label={d.checkout.fields.cardCvc}>
-                <input
-                  value={cardCvc}
-                  onChange={(e) => setCardCvc(e.target.value)}
-                  inputMode="numeric"
-                  autoComplete="cc-csc"
-                  placeholder="123"
-                  className={inputClass}
-                />
-              </Field>
-            </div>
-          )}
-        </fieldset>
+              {paymentMethod === 'card' && (
+                <div className="mt-5 grid gap-4 sm:grid-cols-2">
+                  <Field label={d.checkout.fields.cardNumber} className="sm:col-span-2">
+                    <input
+                      value={cardNumber}
+                      onChange={(e) => setCardNumber(e.target.value)}
+                      inputMode="numeric"
+                      autoComplete="cc-number"
+                      placeholder="4242 4242 4242 4242"
+                      className={inputClass}
+                    />
+                  </Field>
+                  <Field label={d.checkout.fields.cardExpiry}>
+                    <input
+                      value={cardExpiry}
+                      onChange={(e) => setCardExpiry(e.target.value)}
+                      autoComplete="cc-exp"
+                      placeholder="MM/YY"
+                      className={inputClass}
+                    />
+                  </Field>
+                  <Field label={d.checkout.fields.cardCvc}>
+                    <input
+                      value={cardCvc}
+                      onChange={(e) => setCardCvc(e.target.value)}
+                      inputMode="numeric"
+                      autoComplete="cc-csc"
+                      placeholder="123"
+                      className={inputClass}
+                    />
+                  </Field>
+                </div>
+              )}
+            </fieldset>
+          </>
+        )}
 
         <fieldset className="mt-12">
           <legend className="text-eyebrow text-muted-foreground">{d.checkout.notes}</legend>
@@ -368,10 +384,14 @@ export function CheckoutForm() {
             'bg-primary text-primary-foreground shadow-soft hover:shadow-float mt-8 h-13 min-w-52 rounded-full px-8 text-sm tracking-wide transition-all duration-500 hover:-translate-y-0.5',
           )}
         >
-          {submitting ? d.checkout.submitting : `${d.checkout.placeOrder} · ${price(total)}`}
+          {submitting
+            ? d.checkout.submitting
+            : shopifyEnabled
+              ? `${d.checkout.continueToShopify} · ${price(subtotal)}`
+              : `${d.checkout.placeOrder} · ${price(total)}`}
         </button>
         <p className="text-muted-foreground mt-4 max-w-md text-xs leading-relaxed">
-          {shopifyEnabled ? d.checkout.success.shopifyNote : d.checkout.demoNote}
+          {shopifyEnabled ? d.checkout.shopifyHandoff : d.checkout.demoNote}
         </p>
       </div>
 
@@ -415,12 +435,18 @@ export function CheckoutForm() {
             <div className="flex justify-between gap-4">
               <dt className="text-muted-foreground">{d.cart.shipping}</dt>
               <dd>
-                {shipping.usd === 0 && shipping.try === 0 ? d.cart.shippingFree : price(shipping)}
+                {shopifyEnabled
+                  ? d.checkout.shippingAtCheckout
+                  : shipping.usd === 0 && shipping.try === 0
+                    ? d.cart.shippingFree
+                    : price(shipping)}
               </dd>
             </div>
             <div className="flex justify-between gap-4 pt-2 text-base">
               <dt>{d.cart.total}</dt>
-              <dd className="text-display text-2xl">{price(total)}</dd>
+              <dd className="text-display text-2xl">
+                {shopifyEnabled ? price(subtotal) : price(total)}
+              </dd>
             </div>
           </dl>
         </div>

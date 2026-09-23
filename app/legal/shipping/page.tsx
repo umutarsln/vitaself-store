@@ -1,7 +1,6 @@
 import type { Metadata } from 'next'
 import { ContentPageShell } from '@/components/content/content-page-shell'
 import { LegalContent, LegalSection } from '@/components/legal/legal-content'
-import { FLAT_SHIPPING, FREE_SHIPPING_THRESHOLD, formatTryAmount } from '@/lib/products'
 import { seller } from '@/lib/site'
 
 export const metadata: Metadata = {
@@ -40,10 +39,12 @@ export default function ShippingPage() {
 
             <LegalSection title="Kargo ücretleri">
               <ul className="list-disc space-y-2 pl-5">
-                <li>{formatTryAmount(FREE_SHIPPING_THRESHOLD.try)} ve üzeri siparişlerde kargo ücretsizdir.</li>
                 <li>
-                  Bu eşiğin altındaki siparişlerde sabit kargo ücreti {formatTryAmount(FLAT_SHIPPING.try)}{' '}
-                  uygulanır.
+                  Kargo ücreti Shopify ödeme sayfasında, seçtiğiniz kargo yöntemine göre hesaplanır.
+                </li>
+                <li>
+                  Güncel tarife Shopify yönetiminde tutulur; kargo anlaşması netleşince sitede de
+                  özetlenecektir.
                 </li>
                 <li>Uluslararası siparişler şu an kabul edilmemektedir.</li>
               </ul>
@@ -121,10 +122,10 @@ export default function ShippingPage() {
 
             <LegalSection title="Shipping fees">
               <ul className="list-disc space-y-2 pl-5">
-                <li>Free shipping on orders of {formatTryAmount(FREE_SHIPPING_THRESHOLD.try)} or more.</li>
+                <li>Shipping is calculated on the Shopify checkout page for the method you select.</li>
                 <li>
-                  Orders below that threshold incur a flat {formatTryAmount(FLAT_SHIPPING.try)} shipping
-                  fee.
+                  Live rates are managed in Shopify admin and will be summarised on this site once
+                  the carrier contract is final.
                 </li>
                 <li>International orders are not accepted at this time.</li>
               </ul>

@@ -1,7 +1,7 @@
 export const en = {
   locale: 'en-US',
   currency: 'usd',
-  announce: 'Third-party tested · Free shipping over 1.500 ₺ · GMP facility',
+  announce: 'Third-party tested · Food supplement · Not a medicine',
   nav: {
     shop: 'Shop',
     science: 'Science',
@@ -31,7 +31,7 @@ export const en = {
     eyebrow: 'Vitaself · Clinical formulas',
     title: 'The daily one.',
     titleAccent: 'Nothing hidden.',
-    body: 'Clinically dosed, transparent formulas. Developed in our Istanbul laboratory, tested by three independent labs.',
+    body: 'Clinically dosed, transparent formulas. Made in Türkiye, independently tested. Not a medicine.',
     cta: 'Browse formulas',
     ctaSecondary: 'See the formula',
     marks: ['Clinically dosed', 'Third-party tested', 'No fillers', 'Made in Türkiye'],
@@ -44,7 +44,7 @@ export const en = {
     add: 'Add to cart',
     perDay: 'per day',
     supply: '30-day supply',
-    trust: ['Free shipping', 'Independent testing', 'Ships in 24h'],
+    trust: ['Ships in Türkiye', 'Independent testing', 'Ships in 24h'],
   },
   benefits: {
     eyebrow: 'Why Vitaself',
@@ -132,8 +132,8 @@ export const en = {
   },
   science: {
     eyebrow: 'The Science',
-    title: 'Formulated in a pharmaceutical facility, not a warehouse.',
-    body: 'Vitaself is developed inside a GMP-certified pharmaceutical plant in Istanbul. The same room, the same tolerances, and the same documentation used for prescription medicine.',
+    title: 'Food supplement. Not a medicine.',
+    body: 'Vitaself products are made in a registered food facility. The labelled operator is in Aksu / Antalya. They are not intended to diagnose or treat disease.',
     stats: [
       { value: '32', label: 'Active compounds' },
       { value: '3', label: 'Independent labs per batch' },
@@ -173,7 +173,7 @@ export const en = {
       { label: 'Third-party testing', us: 'Every batch, published', them: 'Occasional, private' },
       { label: 'Heavy metal screening', us: 'Four metals, per batch', them: 'Not disclosed' },
       { label: 'Artificial additives', us: 'None', them: 'Colours & coatings' },
-      { label: 'Facility', us: 'GMP pharmaceutical', them: 'Contract manufacturer' },
+      { label: 'Facility', us: 'Registered food facility', them: 'Unclear contract plant' },
     ],
   },
   reviews: {
@@ -237,18 +237,9 @@ export const en = {
       },
       {
         q: 'Where is it made?',
-        a: 'In our GMP-certified pharmaceutical facility in Istanbul, Türkiye. Raw material origin is listed for each active in the enclosed panel.',
+        a: 'In Türkiye, at the registered food facility named on the pack (Aksu / Antalya). Products are food supplements, not medicines. Raw-material origin is listed on the enclosed panel.',
       },
     ],
-  },
-  newsletter: {
-    eyebrow: 'The Dispatch',
-    title: 'One considered letter each month.',
-    body: 'New research summaries, formulation notes, and early access to releases. No discount countdowns.',
-    placeholder: 'Email address',
-    cta: 'Subscribe',
-    success: 'Thank you. Please confirm the link in your inbox.',
-    note: 'Unsubscribe in one click. We never share your address.',
   },
   shop: {
     eyebrow: 'The Collection',
@@ -260,7 +251,7 @@ export const en = {
     from: 'From',
     actives: 'actives',
     reviews: 'reviews',
-    trust: ['Third-party tested', 'GMP pharmaceutical', 'Transparent doses'],
+    trust: ['Third-party tested', 'Registered food facility', 'Transparent doses'],
   },
   pdp: {
     back: 'All formulas',
@@ -270,7 +261,7 @@ export const en = {
     perDose: 'per dose',
     supply: '30-day supply',
     saved: 'saved',
-    trust: ['Free shipping over 1.500 ₺', 'Ships in 24h', 'Independent testing'],
+    trust: ['Shipping calculated at checkout', 'Ships in 24h', 'Independent testing'],
     focus: 'What it does',
     highlights: 'Why this formula',
     composition: 'What’s inside',
@@ -282,10 +273,7 @@ export const en = {
       saveTwo: 'Save 8%',
       saveThree: 'Save 12%',
     },
-    shippingBar: {
-      unlocked: 'Free shipping unlocked 🎉',
-      remaining: 'away from free shipping',
-    },
+    shippingNote: 'Shipping is calculated at checkout based on the method you choose.',
     shippingDeadline: {
       todayCutoff: 'Order by {time} →',
       todayShips: 'Ships today',
@@ -352,6 +340,12 @@ export const en = {
     eyebrow: 'Checkout',
     title: 'Complete your order.',
     body: 'Secure mock checkout for now. When Shopify credentials are connected, this flow hands off to hosted payment automatically.',
+    bodyShopify:
+      'Contact, delivery and payment are collected on the next, Shopify-hosted page. Add a note if you like, then continue.',
+    continueToShopify: 'Continue to payment',
+    shippingAtCheckout: 'Calculated at checkout',
+    shopifyHandoff:
+      'You’ll enter email, address, shipping method and payment on the secure Shopify checkout.',
     loading: 'Preparing checkout…',
     emptyTitle: 'Nothing to check out.',
     emptyBody: 'Your bag is empty. Add a formula, then return here.',
@@ -410,7 +404,7 @@ export const en = {
     batchResults: 'Batch results',
   },
   footer: {
-    tagline: 'Clinically formulated daily essentials. Istanbul, Türkiye.',
+    tagline: 'Clinically formulated daily food supplements. Antalya, Türkiye.',
     columns: [
       {
         title: 'Shop',
@@ -453,6 +447,6 @@ export const en = {
     ],
     rights: 'All rights reserved.',
     disclaimer:
-      'Food supplements are not a substitute for a balanced diet. Consult your physician before use if you are pregnant, nursing, or taking medication.',
+      'Food supplements are not a substitute for a balanced diet and are not medicines. Consult your physician before use if you are pregnant, nursing, or taking medication.',
   },
 }

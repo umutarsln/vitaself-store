@@ -5,7 +5,6 @@ import { Faq } from '@/components/sections/faq'
 import { Hero } from '@/components/sections/hero'
 import { Ingredients } from '@/components/sections/ingredients'
 import { Lifestyle } from '@/components/sections/lifestyle'
-import { Newsletter } from '@/components/sections/newsletter'
 import { Science } from '@/components/sections/science'
 import { HomeJsonLd } from '@/components/seo/json-ld'
 import { SiteFooter } from '@/components/site-footer'
@@ -26,7 +25,6 @@ export default function HomePage() {
         <Comparison />
         <Certificates />
         <Faq />
-        <Newsletter />
       </main>
       <SiteFooter />
     </>

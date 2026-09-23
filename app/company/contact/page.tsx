@@ -1,7 +1,7 @@
 import type { Metadata } from 'next'
 import { VitaselfLogo } from '@/components/brand/vitaself-logo'
 import { ContentPageShell } from '@/components/content/content-page-shell'
-import { seller } from '@/lib/site'
+import { manufacturer, seller } from '@/lib/site'
 
 export const metadata: Metadata = { title: 'Contact', alternates: { canonical: '/company/contact' } }
 
@@ -13,7 +13,7 @@ export default function ContactPage() {
       <p>
         {seller.brand} · {seller.legalName}
       </p>
-      <p>{seller.addressLine}</p>
+      <p>Satıcı adresi: {seller.addressLine}</p>
       <p>
         <a href={`mailto:${seller.emails.hello}`} className="text-foreground underline-offset-4 hover:underline">
           {seller.emails.hello}
@@ -31,6 +31,10 @@ export default function ContactPage() {
       </p>
       <p>
         {seller.supportHoursEn} / {seller.supportHoursTr}
+      </p>
+      <p>
+        Gıda işletmecisi (ambalaj): {manufacturer.tradeName}, {manufacturer.addressLine}. Kayıt no:{' '}
+        {manufacturer.facilityRegNo}.
       </p>
     </ContentPageShell>
   )

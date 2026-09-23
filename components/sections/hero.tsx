@@ -62,7 +62,7 @@ export function Hero() {
         <div className="shadow-float relative aspect-4/5 w-full overflow-hidden rounded-[2rem] lg:aspect-3/4">
           <Image
             src="/images/hero-product.png"
-            alt="Vitaself Pharma ürün koleksiyonu — Magnezyum, Omega-3, Multivitamin ve Glukozamin"
+            alt="Vitaself ürün koleksiyonu — Magnezyum, Omega-3, Multivitamin ve Glukozamin"
             fill
             priority
             sizes="(max-width: 1024px) 100vw, 50vw"
