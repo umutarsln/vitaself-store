@@ -1,8 +1,7 @@
 import type { Metadata } from 'next'
 import { ContentPageShell } from '@/components/content/content-page-shell'
 import { LegalContent, LegalSection } from '@/components/legal/legal-content'
-import { FLAT_SHIPPING, FREE_SHIPPING_THRESHOLD, formatTryAmount } from '@/lib/products'
-import { seller, sellerLegalLabel } from '@/lib/site'
+import { manufacturer, seller, sellerLegalLabel } from '@/lib/site'
 
 export const metadata: Metadata = {
   title: 'Distance sales agreement',
@@ -30,8 +29,8 @@ export default function DistanceSalesPage() {
 
             <LegalSection title="Satıcı">
               <ul className="list-disc space-y-2 pl-5">
-                <li>Satıcı: {seller.legalName} (şahıs)</li>
-                <li>Ticari unvan / marka: {seller.brand}</li>
+                <li>Satıcı: {seller.legalName} (Kepez / Antalya’da yerleşik şirket)</li>
+                <li>Marka: {seller.brand}</li>
                 <li>Açık adres: {seller.addressLine}</li>
                 <li>
                   Telefon:{' '}
@@ -56,6 +55,20 @@ export default function DistanceSalesPage() {
                   </a>{' '}
                   (genel)
                 </li>
+              </ul>
+            </LegalSection>
+
+            <LegalSection title="Gıda işletmecisi">
+              <p>
+                Ürünler takviye edici gıdadır; ilaç değildir. Ambalajdaki gıda işletmecisi satıcıdan
+                ayrıdır:
+              </p>
+              <ul className="list-disc space-y-2 pl-5">
+                <li>Gıda işletmecisi: {manufacturer.tradeName}</li>
+                <li>Adres: {manufacturer.addressLine}</li>
+                <li>Menşei ülke: {manufacturer.originCountry}</li>
+                <li>İşletme kayıt no: {manufacturer.facilityRegNo}</li>
+                <li>TEG onay no: {manufacturer.tegApprovalNo}</li>
               </ul>
             </LegalSection>
 
@@ -86,10 +99,10 @@ export default function DistanceSalesPage() {
             <LegalSection title="Bedel ve ödeme">
               <p>
                 Satış bedeli, sipariş onayında gösterilen ürün tutarı ile varsa kargo ücretinden
-                oluşur. {formatTryAmount(FREE_SHIPPING_THRESHOLD.try)} ve üzeri siparişlerde kargo
-                ücretsizdir; altındaki siparişlerde sabit kargo ücreti{' '}
-                {formatTryAmount(FLAT_SHIPPING.try)}’dir. Ödeme, bağlanan ödeme sağlayıcısının
-                sayfasında tamamlanır. Kart bilgileri satıcı sunucularında saklanmaz.
+                oluşur. Kargo ücreti, Shopify ödeme sayfasında seçilen kargo yöntemine göre
+                hesaplanır; güncel tarife ödeme sağlayıcısının sayfasında gösterilir. Ödeme, bağlanan
+                ödeme sağlayıcısının sayfasında tamamlanır. Kart bilgileri satıcı sunucularında
+                saklanmaz.
               </p>
             </LegalSection>
 
@@ -156,7 +169,7 @@ export default function DistanceSalesPage() {
 
             <LegalSection title="Seller">
               <ul className="list-disc space-y-2 pl-5">
-                <li>Seller: {seller.legalName} (sole proprietor)</li>
+                <li>Seller: {seller.legalName} (company based in Kepez / Antalya)</li>
                 <li>Brand: {seller.brand}</li>
                 <li>Address: {seller.addressLine}</li>
                 <li>
@@ -182,6 +195,20 @@ export default function DistanceSalesPage() {
                   </a>{' '}
                   (general)
                 </li>
+              </ul>
+            </LegalSection>
+
+            <LegalSection title="Food business operator">
+              <p>
+                Products are food supplements, not medicines. The labelled operator is separate from
+                the online seller:
+              </p>
+              <ul className="list-disc space-y-2 pl-5">
+                <li>Operator: {manufacturer.tradeName}</li>
+                <li>Address: {manufacturer.addressLine}</li>
+                <li>Country of origin: {manufacturer.originCountry}</li>
+                <li>Facility registration no.: {manufacturer.facilityRegNo}</li>
+                <li>TEG approval no.: {manufacturer.tegApprovalNo}</li>
               </ul>
             </LegalSection>
 
@@ -211,11 +238,10 @@ export default function DistanceSalesPage() {
 
             <LegalSection title="Price and payment">
               <p>
-                The price is the product total shown at confirmation plus any shipping fee. Orders
-                of {formatTryAmount(FREE_SHIPPING_THRESHOLD.try)} or more ship free; below that a
-                flat {formatTryAmount(FLAT_SHIPPING.try)} shipping fee applies. Payment is completed
-                on the connected payment provider’s page. Card details are not stored on the
-                seller’s servers.
+                The price is the product total shown at confirmation plus any shipping fee. Shipping
+                is calculated on the Shopify checkout page according to the method you select;
+                current rates are shown there. Payment is completed on the connected payment
+                provider’s page. Card details are not stored on the seller’s servers.
               </p>
             </LegalSection>
 

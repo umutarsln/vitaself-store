@@ -1,7 +1,7 @@
 export const de = {
   locale: 'de-DE',
   currency: 'usd',
-  announce: 'Unabhängig geprüft · Kostenloser Versand ab 1.500 ₺ · GMP-Anlage',
+  announce: 'Unabhängig geprüft · Nahrungsergänzung · Kein Arzneimittel',
   nav: {
     shop: 'Shop',
     science: 'Wissenschaft',
@@ -31,7 +31,7 @@ export const de = {
     eyebrow: 'Vitaself · Klinische Formeln',
     title: 'Das tägliche All-in-One.',
     titleAccent: 'Nichts verborgen.',
-    body: 'Klinisch dosierte, transparente Formeln. In unserem Labor in Istanbul entwickelt, von drei unabhängigen Laboren geprüft.',
+    body: 'Klinisch dosierte, transparente Formeln. Hergestellt in der Türkei, unabhängig geprüft. Kein Arzneimittel.',
     cta: 'Formeln entdecken',
     ctaSecondary: 'Formel ansehen',
     marks: ['Klinisch dosiert', 'Unabhängig geprüft', 'Keine Füllstoffe', 'Hergestellt in der Türkei'],
@@ -44,7 +44,7 @@ export const de = {
     add: 'In den Warenkorb',
     perDay: 'pro Tag',
     supply: '30-Tage-Vorrat',
-    trust: ['Kostenloser Versand', 'Unabhängig geprüft', 'Versand innerhalb von 24 Std.'],
+    trust: ['Versand in die Türkei', 'Unabhängig geprüft', 'Versand innerhalb von 24 Std.'],
   },
   benefits: {
     eyebrow: 'Warum Vitaself',
@@ -132,8 +132,8 @@ export const de = {
   },
   science: {
     eyebrow: 'Die Wissenschaft',
-    title: 'Formuliert in einer pharmazeutischen Anlage, nicht in einem Lager.',
-    body: 'Vitaself wird in einer GMP-zertifizierten pharmazeutischen Anlage in Istanbul entwickelt. Derselbe Raum, dieselben Toleranzen und dieselbe Dokumentation wie bei verschreibungspflichtigen Arzneimitteln.',
+    title: 'Nahrungsergänzung. Kein Arzneimittel.',
+    body: 'Vitaself-Produkte werden in einem registrierten Lebensmittelbetrieb hergestellt. Der gekennzeichnete Betreiber sitzt in Aksu / Antalya. Sie dienen nicht der Diagnose oder Behandlung von Krankheiten.',
     stats: [
       { value: '32', label: 'Aktive Wirkstoffe' },
       { value: '3', label: 'Unabhängige Labore pro Charge' },
@@ -173,7 +173,7 @@ export const de = {
       { label: 'Unabhängige Prüfung', us: 'Jede Charge, veröffentlicht', them: 'Gelegentlich, nicht öffentlich' },
       { label: 'Schwermetall-Screening', us: 'Vier Metalle, pro Charge', them: 'Nicht offengelegt' },
       { label: 'Künstliche Zusatzstoffe', us: 'Keine', them: 'Farb- und Überzugsstoffe' },
-      { label: 'Anlage', us: 'GMP-pharmazeutisch', them: 'Lohnhersteller' },
+      { label: 'Anlage', us: 'Registrierter Lebensmittelbetrieb', them: 'Unklarer Lohnhersteller' },
     ],
   },
   reviews: {
@@ -237,18 +237,9 @@ export const de = {
       },
       {
         q: 'Wo wird es hergestellt?',
-        a: 'In unserer GMP-zertifizierten pharmazeutischen Anlage in Istanbul, Türkei. Die Herkunft der Rohstoffe ist für jeden Wirkstoff im beiliegenden Panel aufgeführt.',
+        a: 'In der Türkei, im auf der Packung genannten registrierten Lebensmittelbetrieb (Aksu / Antalya). Die Produkte sind Nahrungsergänzungsmittel, keine Arzneimittel. Die Rohstoffherkunft steht im beiliegenden Panel.',
       },
     ],
-  },
-  newsletter: {
-    eyebrow: 'Der Dispatch',
-    title: 'Ein durchdachter Brief pro Monat.',
-    body: 'Neue Forschungszusammenfassungen, Formulierungshinweise und früher Zugang zu Neuerscheinungen. Keine Rabatt-Countdowns.',
-    placeholder: 'E-Mail-Adresse',
-    cta: 'Abonnieren',
-    success: 'Vielen Dank. Bitte bestätigen Sie den Link in Ihrem Posteingang.',
-    note: 'Abmeldung mit einem Klick. Wir geben Ihre Adresse niemals weiter.',
   },
   shop: {
     eyebrow: 'Die Kollektion',
@@ -260,7 +251,7 @@ export const de = {
     from: 'Ab',
     actives: 'Wirkstoffe',
     reviews: 'Bewertungen',
-    trust: ['Unabhängig geprüft', 'GMP-pharmazeutisch', 'Transparente Dosierungen'],
+    trust: ['Unabhängig geprüft', 'Registrierter Lebensmittelbetrieb', 'Transparente Dosierungen'],
   },
   pdp: {
     back: 'Alle Formeln',
@@ -270,7 +261,7 @@ export const de = {
     perDose: 'pro Dosis',
     supply: '30-Tage-Vorrat',
     saved: 'gespart',
-    trust: ['Kostenloser Versand ab 1.500 ₺', 'Versand innerhalb von 24 Std.', 'Unabhängig geprüft'],
+    trust: ['Versandkosten an der Kasse', 'Versand innerhalb von 24 Std.', 'Unabhängig geprüft'],
     focus: 'Wofür es da ist',
     highlights: 'Warum diese Formel',
     composition: 'Was drin ist',
@@ -282,10 +273,7 @@ export const de = {
       saveTwo: '8 % sparen',
       saveThree: '12 % sparen',
     },
-    shippingBar: {
-      unlocked: 'Kostenloser Versand freigeschaltet 🎉',
-      remaining: 'bis zum kostenlosen Versand',
-    },
+    shippingNote: 'Die Versandkosten werden an der Kasse je nach gewählter Methode berechnet.',
     shippingDeadline: {
       todayCutoff: 'Bestellen bis {time} →',
       todayShips: 'Versand heute',
@@ -416,7 +404,7 @@ export const de = {
     batchResults: 'Chargenergebnisse',
   },
   footer: {
-    tagline: 'Klinisch formulierte tägliche Essentials. Istanbul, Türkei.',
+    tagline: 'Klinisch formulierte tägliche Nahrungsergänzung. Antalya, Türkei.',
     columns: [
       {
         title: 'Shop',
@@ -459,6 +447,6 @@ export const de = {
     ],
     rights: 'Alle Rechte vorbehalten.',
     disclaimer:
-      'Nahrungsergänzungsmittel sind kein Ersatz für eine ausgewogene Ernährung. Konsultieren Sie vor der Einnahme Ihren Arzt, wenn Sie schwanger sind, stillen oder Medikamente einnehmen.',
+      'Nahrungsergänzungsmittel sind kein Ersatz für eine ausgewogene Ernährung und keine Arzneimittel. Konsultieren Sie vor der Einnahme Ihren Arzt, wenn Sie schwanger sind, stillen oder Medikamente einnehmen.',
   },
 }

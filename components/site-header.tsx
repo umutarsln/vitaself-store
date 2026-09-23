@@ -62,9 +62,6 @@ export function SiteHeader() {
         <div className="mx-auto hidden h-20 w-full max-w-6xl items-center justify-between gap-6 px-10 lg:flex">
           <Link href="/" className="flex shrink-0 items-baseline gap-2">
             <span className="text-display text-2xl">Vitaself</span>
-            <span className="text-[9px] tracking-[0.28em] text-muted-foreground hidden uppercase sm:block">
-              Pharma
-            </span>
           </Link>
 
           <nav aria-label="Primary" className="flex items-center gap-9">

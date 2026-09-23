@@ -33,7 +33,7 @@ describe('isValidCheckoutPayload', () => {
           shippingAddress: {
             line1: 'Sokak 1',
             city: 'Antalya',
-            state: 'Manavgat',
+            state: 'Kepez',
             postalCode: '07600',
             country: 'Türkiye',
           },

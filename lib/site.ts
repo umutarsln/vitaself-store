@@ -1,18 +1,19 @@
 /**
  * Site-level SEO / URL yardımcıları.
+ * Satıcı (e-ticaret, Kepez) ile gıda işletmecisi (ambalaj, Aksu) ayrı tutulur.
  */
 
 import type { Lang } from '@/lib/i18n/types'
 
-/** Mesafeli satış satıcısı ve iletişim — tek kaynak. */
+/** Mesafeli satış satıcısı ve iletişim — Kepez şirketi; unvan detayı sonra güncellenecek. */
 export const seller = {
-  brand: 'Vitaself Pharma',
+  brand: 'Vitaself',
   legalName: 'Umut Arslan',
-  addressLine: 'Manavgat / Antalya, Türkiye',
-  city: 'Manavgat',
+  addressLine: 'Kepez / Antalya, Türkiye',
+  city: 'Kepez',
   province: 'Antalya',
   country: 'Türkiye',
-  jurisdiction: 'Manavgat / Antalya',
+  jurisdiction: 'Kepez / Antalya',
   phoneDisplay: '+90 535 799 74 83',
   phoneHref: 'tel:+905357997483',
   emails: {
@@ -24,6 +25,21 @@ export const seller = {
   supportHoursEn: 'Weekdays 09:00–18:00 TRT',
 } as const
 
+/**
+ * Ambalajdaki gıda işletmecisi — ürün “ilaç değildir”.
+ * Kaynak: kutu arkası (Kemerağzı / Aksu).
+ */
+export const manufacturer = {
+  tradeName: 'VITALSELF',
+  addressLine: 'Kemerağzı Mah. 32001 Sok. No:5A/8 Aksu / Antalya, Türkiye',
+  city: 'Aksu',
+  province: 'Antalya',
+  country: 'Türkiye',
+  facilityRegNo: 'TR-16-K-031149',
+  tegApprovalNo: '015664-22.12.2022',
+  originCountry: 'TÜRKİYE',
+} as const
+
 /** Telif / footer satırı: marka ve satıcı adı. */
 export function sellerCopyrightLine(year: number): string {
   return `© ${year} ${seller.brand} · ${seller.legalName}`
@@ -32,6 +48,11 @@ export function sellerCopyrightLine(year: number): string {
 /** Veri sorumlusu / sözleşme satıcısı kısa tanımı. */
 export function sellerLegalLabel(): string {
   return `${seller.legalName} (${seller.brand}), ${seller.addressLine}`
+}
+
+/** Ambalajdaki gıda işletmecisi kısa tanımı. */
+export function manufacturerLegalLabel(): string {
+  return `${manufacturer.tradeName}, ${manufacturer.addressLine}`
 }
 
 export const siteConfig = {
@@ -52,10 +73,10 @@ export const siteConfig = {
     ru: 'Vitaself — Клинически разработанные ежедневные добавки',
   } satisfies Record<Lang, string>,
   descriptions: {
-    tr: 'Vitaself, klinik dozlu ve bağımsız laboratuvar testli günlük takviyeler üreten bir Türk ilaç markasıdır. Şeffaf dozlar. Gizli hiçbir şey yok.',
-    en: 'Vitaself is a Turkish pharmaceutical brand creating clinically formulated, third-party tested daily supplements. Transparent doses. Nothing hidden.',
-    de: 'Vitaself ist eine türkische Pharmamarke für klinisch formulierte, unabhängig getestete Nahrungsergänzungsmittel. Transparente Dosierungen. Nichts verborgen.',
-    ru: 'Vitaself — турецкий фармацевтический бренд клинически разработанных добавок с независимым тестированием. Прозрачные дозировки. Ничего скрытого.',
+    tr: 'Vitaself, klinik dozlu ve bağımsız laboratuvar testli günlük takviye edici gıdalar sunar. İlaç değildir. Şeffaf dozlar. Gizli hiçbir şey yok.',
+    en: 'Vitaself offers clinically formulated, third-party tested daily food supplements. Not a medicine. Transparent doses. Nothing hidden.',
+    de: 'Vitaself bietet klinisch formulierte, unabhängig getestete Nahrungsergänzungsmittel. Kein Arzneimittel. Transparente Dosierungen. Nichts verborgen.',
+    ru: 'Vitaself — клинически разработанные ежедневные пищевые добавки с независимым тестированием. Не лекарство. Прозрачные дозировки. Ничего скрытого.',
   } satisfies Record<Lang, string>,
 }
 

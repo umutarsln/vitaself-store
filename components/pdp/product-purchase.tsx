@@ -1,7 +1,7 @@
 'use client'
 
 import { Check, Repeat, ShieldCheck, Truck } from 'lucide-react'
-import { useEffect, useMemo, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { CrossSellOptions } from '@/components/pdp/cross-sell-options'
 import { CrossSellPrompt } from '@/components/pdp/cross-sell-prompt'
 import { ShippingDeadline } from '@/components/pdp/shipping-deadline'
@@ -9,7 +9,6 @@ import { Eyebrow, Reveal } from '@/components/reveal'
 import { useCart } from '@/lib/cart'
 import { useLanguage } from '@/lib/i18n'
 import {
-  FREE_SHIPPING_THRESHOLD,
   copy,
   defaultVariant,
   getComposition,
@@ -53,18 +52,6 @@ export function ProductPurchase({ product }: ProductPurchaseProps) {
   const hasSavings = d.currency === 'try' ? savings.try > 0 : savings.usd > 0
 
   const daily = perDayPrice(variant.price, product.servingsPerContainer)
-
-  const shippingGap = useMemo(() => {
-    const threshold = FREE_SHIPPING_THRESHOLD
-    const remainingUsd = Math.max(0, threshold.usd - payable.usd)
-    const remainingTry = Math.max(0, threshold.try - payable.try)
-    return { usd: remainingUsd, try: remainingTry }
-  }, [payable])
-
-  const shippingUnlocked = d.currency === 'try' ? shippingGap.try <= 0 : shippingGap.usd <= 0
-  const shippingProgress = d.currency === 'try'
-    ? Math.min(1, payable.try / FREE_SHIPPING_THRESHOLD.try)
-    : Math.min(1, payable.usd / FREE_SHIPPING_THRESHOLD.usd)
 
   /** Ana ürün + seçili cross-sell'leri sepete ekler ve prompt açar. */
   function handleAdd() {
@@ -167,25 +154,8 @@ export function ProductPurchase({ product }: ProductPurchaseProps) {
           </button>
         </div>
 
-        {/* Ücretsiz kargo ilerleme barı */}
-        <div className="mt-5">
-          <div className="mb-1.5 flex items-center justify-between text-xs">
-            <span className={shippingUnlocked ? 'text-positive-foreground font-medium' : 'text-muted-foreground'}>
-              {shippingUnlocked
-                ? d.pdp.shippingBar.unlocked
-                : `${price(shippingGap)} ${d.pdp.shippingBar.remaining}`}
-            </span>
-            {shippingUnlocked && (
-              <span className="text-positive-foreground text-[10px] tracking-wide uppercase">✓ Ücretsiz kargo</span>
-            )}
-          </div>
-          <div className="bg-border/60 h-1.5 w-full overflow-hidden rounded-full">
-            <div
-              className={`h-full rounded-full transition-[width] duration-200 ${shippingUnlocked ? 'bg-positive-foreground' : 'bg-foreground/40'}`}
-              style={{ width: `${shippingProgress * 100}%` }}
-            />
-          </div>
-        </div>
+        {/* Kargo tutarı Shopify checkout’ta hesaplanır */}
+        <p className="text-muted-foreground mt-5 text-xs leading-relaxed">{d.pdp.shippingNote}</p>
 
         {/* Kargo deadline */}
         <div className="mt-4">

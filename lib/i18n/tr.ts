@@ -1,7 +1,7 @@
 export const tr = {
   locale: 'tr-TR',
   currency: 'try',
-  announce: 'Bağımsız laboratuvar onaylı · 1.500 ₺ üzeri ücretsiz kargo · GMP ilaç tesisi',
+  announce: 'Bağımsız laboratuvar onaylı · Takviye edici gıda · İlaç değildir',
   nav: {
     shop: 'Ürünler',
     science: 'Bilim',
@@ -31,7 +31,7 @@ export const tr = {
     eyebrow: 'Vitaself · Klinik formüller',
     title: 'Günde tek adım.',
     titleAccent: 'Gizli hiçbir şey yok.',
-    body: 'Klinik dozlu, şeffaf formüller. İstanbul laboratuvarımızda geliştirildi, üç bağımsız laboratuvarda test edildi.',
+    body: 'Klinik dozlu, şeffaf formüller. Türkiye’de üretilir, bağımsız laboratuvarda test edilir. İlaç değildir.',
     cta: 'Ürünleri incele',
     ctaSecondary: 'Formülü gör',
     marks: ['Klinik doz', 'Bağımsız test', 'Dolgu maddesi yok', 'Türkiye’de üretildi'],
@@ -44,7 +44,7 @@ export const tr = {
     add: 'Sepete ekle',
     perDay: 'günlük',
     supply: '30 günlük kullanım',
-    trust: ['Ücretsiz kargo', 'Bağımsız test', '24 saatte kargo'],
+    trust: ['Türkiye’ye kargo', 'Bağımsız test', '24 saatte kargo'],
   },
   benefits: {
     eyebrow: 'Neden Vitaself',
@@ -132,8 +132,8 @@ export const tr = {
   },
   science: {
     eyebrow: 'Bilim',
-    title: 'Bir depoda değil, ilaç tesisinde formüle edildi.',
-    body: 'Vitaself, İstanbul’daki GMP sertifikalı ilaç tesisimizde geliştirilir. Reçeteli ilaçla aynı oda, aynı toleranslar, aynı dokümantasyon.',
+    title: 'Takviye edici gıda. İlaç değildir.',
+    body: 'Vitaself ürünleri kayıtlı bir gıda işletmesinde üretilir. Ambalajdaki gıda işletmecisi Aksu / Antalya’dadır; teşhis veya tedavi iddiası yoktur.',
     stats: [
       { value: '32', label: 'Aktif bileşen' },
       { value: '3', label: 'Parti başına bağımsız laboratuvar' },
@@ -173,7 +173,7 @@ export const tr = {
       { label: 'Bağımsız test', us: 'Her parti, yayımlanır', them: 'Ara ara, gizli' },
       { label: 'Ağır metal taraması', us: 'Dört metal, her parti', them: 'Açıklanmıyor' },
       { label: 'Yapay katkı', us: 'Yok', them: 'Renklendirici ve kaplama' },
-      { label: 'Tesis', us: 'GMP ilaç tesisi', them: 'Fason üretici' },
+      { label: 'Tesis', us: 'Kayıtlı gıda işletmesi', them: 'Belirsiz fason' },
     ],
   },
   reviews: {
@@ -237,18 +237,9 @@ export const tr = {
       },
       {
         q: 'Nerede üretiliyor?',
-        a: 'İstanbul’daki GMP sertifikalı ilaç tesisimizde. Her aktifin hammadde kaynağı kutudaki panelde belirtilir.',
+        a: 'Türkiye’de, ambalajda belirtilen kayıtlı gıda işletmesinde (Aksu / Antalya). Ürün takviye edici gıdadır; ilaç değildir. Hammadde kaynağı kutudaki panelde yer alır.',
       },
     ],
-  },
-  newsletter: {
-    eyebrow: 'Bülten',
-    title: 'Ayda bir, özenle yazılmış tek mektup.',
-    body: 'Yeni araştırma özetleri, formülasyon notları ve lansmanlara erken erişim. İndirim sayacı yok.',
-    placeholder: 'E-posta adresi',
-    cta: 'Abone ol',
-    success: 'Teşekkürler. Lütfen e-postanızdaki bağlantıyı onaylayın.',
-    note: 'Tek tıkla çıkabilirsiniz. Adresinizi asla paylaşmıyoruz.',
   },
   shop: {
     eyebrow: 'Koleksiyon',
@@ -260,7 +251,7 @@ export const tr = {
     from: 'Başlangıç',
     actives: 'aktif',
     reviews: 'yorum',
-    trust: ['Bağımsız laboratuvar', 'GMP ilaç tesisi', 'Şeffaf dozlar'],
+    trust: ['Bağımsız laboratuvar', 'Kayıtlı gıda işletmesi', 'Şeffaf dozlar'],
   },
   pdp: {
     back: 'Tüm formüller',
@@ -270,7 +261,7 @@ export const tr = {
     perDose: 'doz başına',
     supply: '30 günlük kullanım',
     saved: 'tasarruf',
-    trust: ['1.500 ₺ üzeri ücretsiz kargo', '24 saatte kargo', 'Bağımsız test'],
+    trust: ['Kargo ücreti ödemede hesaplanır', '24 saatte kargo', 'Bağımsız test'],
     focus: 'Ne işe yarar',
     highlights: 'Neden bu formül',
     composition: 'İçindekiler',
@@ -282,10 +273,7 @@ export const tr = {
       saveTwo: '%8 kazanın',
       saveThree: '%12 kazanın',
     },
-    shippingBar: {
-      unlocked: 'Ücretsiz kargo açıldı 🎉',
-      remaining: 'ücretsiz kargoya kaldı',
-    },
+    shippingNote: 'Kargo ücreti ödeme adımında, seçtiğiniz yönteme göre hesaplanır.',
     shippingDeadline: {
       todayCutoff: 'Saat {time}\'ye kadar sipariş ver →',
       todayShips: 'Bugün kargoya verilir',
@@ -416,7 +404,7 @@ export const tr = {
     batchResults: 'Parti sonuçları',
   },
   footer: {
-    tagline: 'Klinik formüllü günlük temel takviyeler. İstanbul, Türkiye.',
+    tagline: 'Klinik formüllü günlük takviye edici gıdalar. Antalya, Türkiye.',
     columns: [
       {
         title: 'Ürünler',
@@ -459,6 +447,6 @@ export const tr = {
     ],
     rights: 'Tüm hakları saklıdır.',
     disclaimer:
-      'Takviye edici gıdalar dengeli beslenmenin yerini tutmaz. Hamilelik, emzirme veya ilaç kullanımı durumunda hekiminize danışın.',
+      'Takviye edici gıdalar dengeli beslenmenin yerini tutmaz; ilaç değildir. Hamilelik, emzirme veya ilaç kullanımı durumunda hekiminize danışın.',
   },
 }

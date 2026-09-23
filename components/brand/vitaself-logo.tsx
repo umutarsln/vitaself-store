@@ -29,19 +29,11 @@ export function VitaselfLogo({
   const content = isInverse ? (
     <div className={cn('flex flex-col items-start leading-none', className)}>
       <span className={cn('text-display text-background', dimensions.wordmark)}>Vitaself</span>
-      <span
-        className={cn(
-          'text-background/55 mt-1.5 uppercase tracking-[0.28em]',
-          dimensions.tag,
-        )}
-      >
-        Pharma
-      </span>
     </div>
   ) : (
     <Image
       src="/brand/vitaself-logo.png"
-      alt="Vitaself Pharma"
+      alt="Vitaself"
       width={dimensions.width}
       height={dimensions.height}
       className={cn('h-auto w-auto max-w-none', className)}

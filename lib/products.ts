@@ -1957,13 +1957,13 @@ export function resolveCartLine(line: {
   return { product, variant: defaultVariant(product) }
 }
 
-/** Flat shipping ücreti (eşik altı). */
+/** Mock checkout için düz kargo (Shopify açıkken vitrinde kullanılmaz). */
 export const FLAT_SHIPPING: Money = { usd: 8, try: 149 }
 
-/** Ücretsiz kargo eşiği (dil bağımsız Money). */
+/** Mock ücretsiz kargo eşiği (Shopify açıkken vitrinde kullanılmaz). */
 export const FREE_SHIPPING_THRESHOLD: Money = { usd: 60, try: 1500 }
 
-/** Yasal ve pazarlama metinlerinde TRY tutarı: 1.500 ₺ / 149 ₺. */
+/** TRY tutarını yasal metin için biçimler. */
 export function formatTryAmount(amount: number): string {
   return `${amount.toLocaleString('tr-TR')} ₺`
 }
@@ -2011,7 +2011,7 @@ export function cartSubtotal(
   )
 }
 
-/** Ara toplama göre kargo tutarını hesaplar. */
+/** Ara toplama göre mock kargo tutarını hesaplar. Shopify checkout bu değeri kullanmaz. */
 export function shippingForSubtotal(subtotal: Money): Money {
   if (subtotal.usd >= FREE_SHIPPING_THRESHOLD.usd || subtotal.try >= FREE_SHIPPING_THRESHOLD.try) {
     return { usd: 0, try: 0 }
